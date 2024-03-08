@@ -53,13 +53,14 @@ const Register = ({ navigation: { navigate } }) => {
         >
           <AppTextInput placeholder="First Name" />
           <AppTextInput placeholder="Last Name" />
-          <AppTextInput placeholder="Email" />
+          <AppTextInput placeholder="Personal Email-Id" />
+          <AppTextInput placeholder="College Email-Id" />
           <AppTextInput placeholder="Password" secureTextEntry={true}/>
           <AppTextInput placeholder="Confirm Password" secureTextEntry={true}/>
         </View>
 
         <TouchableOpacity
-        //   onPress={() => navigate("")}
+          onPress={() => navigate("Login")}
           style={{
             padding: Spacing * 2,
             backgroundColor: Colors.primary,
@@ -103,62 +104,6 @@ const Register = ({ navigation: { navigate } }) => {
           </Text>
         </TouchableOpacity>
 
-        <View
-          style={{
-            marginVertical: Spacing * 2,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: Font["poppins-semiBold"],
-              color: Colors.primary,
-              textAlign: "center",
-              fontSize: FontSize.small,
-            }}
-          >
-            Or continue with
-          </Text>
-
-          <View
-            style={{
-              marginTop: Spacing,
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-             { <TouchableOpacity
-               style={{
-                 padding: Spacing * 1.8,
-                 backgroundColor: Colors.gray,
-                 borderRadius: Spacing / 2,
-                 marginHorizontal: Spacing * 0.6,
-               }}
-               >
-               {/* <Ionicons
-                 name="logo-google"
-                 color={Colors.text}
-                 size={Spacing * 2}
-               /> */}
-             </TouchableOpacity> }
-
-             { <TouchableOpacity
-               style={{
-                 padding: Spacing * 1.8,
-                 backgroundColor: Colors.gray,
-                 borderRadius: Spacing / 2,
-                 marginHorizontal: Spacing * 0.6,
-               }}
-               >
-               {/* <Ionicons
-                 name="logo-google"
-                 color={Colors.text}
-                 size={Spacing * 2}
-               /> */}
-             </TouchableOpacity> }
-            
-          </View>
-          
-        </View>
       </View>
     </SafeAreaView>
     );
@@ -167,4 +112,3 @@ const Register = ({ navigation: { navigate } }) => {
 const styles = StyleSheet.create({})
 
 export default Register;
-
