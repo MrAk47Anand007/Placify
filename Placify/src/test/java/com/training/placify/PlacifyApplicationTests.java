@@ -1,4 +1,4 @@
-package com.placify.placify;
+package com.training.placify;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

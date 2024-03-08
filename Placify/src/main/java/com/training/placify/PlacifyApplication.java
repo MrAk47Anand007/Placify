@@ -1,4 +1,4 @@
-package com.placify.placify;
+package com.training.placify;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
