@@ -2,10 +2,7 @@ package com.training.placify.service.Implementation;
 
 import com.training.placify.dto.UserDTO;
 import com.training.placify.model.*;
-import com.training.placify.repository.AdminRepository;
-import com.training.placify.repository.RoleRepository;
-import com.training.placify.repository.StudentRepository;
-import com.training.placify.repository.UserRepository;
+import com.training.placify.repository.*;
 import com.training.placify.service.UserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
@@ -16,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -54,26 +54,23 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User saveUser(UserDTO userDTO) {
         Role role = determineRoleByEmail(userDTO.getCollegeEmail());
-        User user; // Keep User as the abstract type
+        User user;
 
         if (role.getName() == RoleType.ADMIN) {
             user = mapToAdmin(userDTO);
-            // Merge back - Assuming department exists
-            //user.setDepartment(admin.getDepartment());
-            //user.setRole(role);
-            adminRepository.save((Admin) user); // Save through AdminRepository
         } else if (role.getName() == RoleType.STUDENT) {
             user = mapToStudent(userDTO);
-            // Merge back (Example)
-            //user.setPassoutYear(student.getPassoutYear());
-            //user.setDepartment(student.getDepartment());
-            //user.setRole(role);
-            studentRepository.save((Student) user); // Save through StudentRepository
         } else {
             throw new IllegalArgumentException("Invalid email domain");
         }
 
-        return user;
+        // Pre-fetch Department (Assuming you have the department name in the DTO)
+        Department department = departmentRepository.findByName(userDTO.getDeptName())
+                .orElseThrow(() -> new IllegalArgumentException("Department not found"));
+        user.setDepartment(department);
+        user.setRole(role); // Set the role before saving
+
+        return userRepository.save(user); // Save through userRepository
     }
 
     private Role determineRoleByEmail(String email) {
@@ -101,32 +98,15 @@ public class UserServiceImpl implements UserService {
     }
 
     private Admin mapToAdmin(UserDTO userDTO) {
-        Admin admin = new Admin();
-        admin.setId(userDTO.getId());
-        admin.setFirstName(userDTO.getFirstName());
-        admin.setLastName(userDTO.getLastName());
-        admin.setCollegeEmail(userDTO.getCollegeEmail());
-        admin.setPersonalEmail(userDTO.getPersonalEmail());
-        admin.setPassword(userDTO.getPassword());
+        Admin admin = modelMapper.map(userDTO,Admin.class);
+        System.out.println(admin);
 
-//        admin.setFirstName(userDTO.getFirstName());
-//        admin.setLastName(userDTO.getLastName());
-        // Handle department and other specific mappings if needed
         return admin;
     }
 
     private Student mapToStudent(UserDTO userDTO) {
-        //Student student = modelMapper.map(userDTO, Student.class);
-        // ... (Similar to mapToAdmin)
-        Student student= new Student();
-        student.setId(userDTO.getId());
-        student.setFirstName(userDTO.getFirstName());
-        student.setLastName(userDTO.getLastName());
-        student.setCollegeEmail(userDTO.getCollegeEmail());
-        student.setPersonalEmail(userDTO.getPersonalEmail());
-        student.setPassword(userDTO.getPassword());
-//        student.setFirstName(userDTO.getFirstName());
-//        student.setLastName(userDTO.getLastName());
+        Student student = modelMapper.map(userDTO, Student.class);
+        System.out.println(student);
         return student;
     }
 }

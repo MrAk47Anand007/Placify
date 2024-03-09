@@ -19,10 +19,10 @@ public class PlacifyApplication {
 
 		// Test User Data
 		UserDTO testUserDTO = new UserDTO();
-		testUserDTO.setFirstName("anand");
+		testUserDTO.setFirstName("vivek");
 		testUserDTO.setLastName("kale");
-		testUserDTO.setPersonalEmail("mansi@example.com");
-		testUserDTO.setCollegeEmail("96573838.dypit@dypvp.edu.in");
+		testUserDTO.setPersonalEmail("onkar@example.com");
+		testUserDTO.setCollegeEmail("kale.ananddypit@dypvp.edu.in");
 		testUserDTO.setPassword(passwordEncoder.encode("testpassword"));
 
 		// Save the User

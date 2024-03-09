@@ -40,6 +40,10 @@ public abstract class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     private String profilePic; // Consider storing the image path/URL
 }
 

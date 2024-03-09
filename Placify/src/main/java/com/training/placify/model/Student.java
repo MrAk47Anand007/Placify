@@ -16,9 +16,6 @@ public class Student extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name=super.getFirstName()+" "+super.getLastName();
-
-
     private String personalEmail=super.getPersonalEmail();
 
     private String collegeEmail=super.getCollegeEmail();

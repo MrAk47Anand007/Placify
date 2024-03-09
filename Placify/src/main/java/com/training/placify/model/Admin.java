@@ -16,7 +16,6 @@ public class Admin extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name=super.getFirstName()+" "+super.getLastName();
 
     private String personalEmail=super.getPersonalEmail();
 
