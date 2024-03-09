@@ -23,7 +23,7 @@ public class UserDTO {
     private String collegeEmail;
 
     @NotBlank
-    private String DeptName;
+    private DepartmentDTO department;
 
     private String password;
 

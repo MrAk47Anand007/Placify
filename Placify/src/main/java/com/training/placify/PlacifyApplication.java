@@ -1,5 +1,6 @@
 package com.training.placify;
 
+import com.training.placify.dto.DepartmentDTO;
 import com.training.placify.dto.UserDTO;
 import com.training.placify.model.User;
 import com.training.placify.service.UserService;
@@ -19,10 +20,14 @@ public class PlacifyApplication {
 
 		// Test User Data
 		UserDTO testUserDTO = new UserDTO();
-		testUserDTO.setFirstName("vivek");
-		testUserDTO.setLastName("kale");
-		testUserDTO.setPersonalEmail("onkar@example.com");
-		testUserDTO.setCollegeEmail("kale.ananddypit@dypvp.edu.in");
+		DepartmentDTO departmentDTO = new DepartmentDTO();
+		departmentDTO.setDeptName("Computer"); // Set the department name
+		testUserDTO.setDepartment(departmentDTO);
+		testUserDTO.setFirstName("Sample");
+		testUserDTO.setLastName("Test");
+		testUserDTO.setPersonalEmail("test1@example.com");
+		testUserDTO.setCollegeEmail("teast.dypit@dypvp.edu.in");
+
 		testUserDTO.setPassword(passwordEncoder.encode("testpassword"));
 
 		// Save the User

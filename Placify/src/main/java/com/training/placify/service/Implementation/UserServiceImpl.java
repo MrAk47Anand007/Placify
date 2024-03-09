@@ -64,14 +64,12 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Invalid email domain");
         }
 
-        // Pre-fetch Department (Assuming you have the department name in the DTO)
-        Department department = departmentRepository.findByName(userDTO.getDeptName())
-                .orElseThrow(() -> new IllegalArgumentException("Department not found"));
-        user.setDepartment(department);
-        user.setRole(role); // Set the role before saving
+        associateDepartment(user, userDTO.getDepartment().getDeptName());
+        user.setRole(role);
 
-        return userRepository.save(user); // Save through userRepository
+        return userRepository.save(user);
     }
+
 
     private Role determineRoleByEmail(String email) {
         if (email.endsWith("@dypvp.edu.in")) {
@@ -99,6 +97,13 @@ public class UserServiceImpl implements UserService {
 
     private Admin mapToAdmin(UserDTO userDTO) {
         Admin admin = modelMapper.map(userDTO,Admin.class);
+//        Department department = departmentRepository.findByName(userDTO.getDepartment().getDeptName())
+//                .orElseGet(() -> departmentRepository.save(new Department(userDTO.getDepartment().getDeptName())));
+//        admin.setDepartment(department);
+        admin.setPersonalEmail(userDTO.getPersonalEmail());
+        admin.setCollegeEmail(userDTO.getCollegeEmail());
+        //associateDepartment(admin, userDTO.getDepartment().getDeptName());
+
         System.out.println(admin);
 
         return admin;
@@ -106,7 +111,22 @@ public class UserServiceImpl implements UserService {
 
     private Student mapToStudent(UserDTO userDTO) {
         Student student = modelMapper.map(userDTO, Student.class);
+//        Department department = departmentRepository.findByName(userDTO.getDepartment().getDeptName())
+//                .orElseGet(() -> departmentRepository.save(new Department(userDTO.getDepartment().getDeptName())));
+//        student.setDepartment(department);
+        student.setPersonalEmail(userDTO.getPersonalEmail());
+        student.setCollegeEmail(userDTO.getCollegeEmail());
+        //associateDepartment(student, userDTO.getDepartment().getDeptName());
         System.out.println(student);
         return student;
+    }
+
+    private void associateDepartment(User user, String departmentName) {
+        // Fetch or create Department
+        Department department = departmentRepository.findByName(departmentName)
+                .orElseGet(() -> departmentRepository.save(new Department(departmentName)));
+
+        // Associate Department AFTER saving it
+        user.setDepartment(department);
     }
 }
