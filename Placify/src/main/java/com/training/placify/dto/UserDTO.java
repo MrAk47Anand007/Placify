@@ -22,6 +22,9 @@ public class UserDTO {
     @Email
     private String collegeEmail;
 
+    @NotBlank
+    private String DeptName;
+
     private String password;
 
 }

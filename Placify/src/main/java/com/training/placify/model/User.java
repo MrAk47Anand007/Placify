@@ -12,8 +12,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor // A no-argument constructor
 @AllArgsConstructor // A constructor with all arguments
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-public class User {
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,6 +39,10 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 
     private String profilePic; // Consider storing the image path/URL
 }
