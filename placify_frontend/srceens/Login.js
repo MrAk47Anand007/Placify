@@ -1,6 +1,7 @@
+
 // Login file
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import AppTextInput from "../components/AppTextInput";
@@ -8,7 +9,7 @@ import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
 import Colors from "../constants/Colors";
 import Font from "../constants/Font";
-import Popup from "../components/Popup";
+
 
 const Login = ({ navigation: { navigate } }) => {
   const [email, setEmail] = useState("");
@@ -32,7 +33,7 @@ const Login = ({ navigation: { navigate } }) => {
     }
 
     if (!passwordRegex.test(password)) {
-      setPasswordError("Password must have at least 6 characters, including one uppercase letter, one lowercase letter, and one digit");
+      setPasswordError("Password must have at least 8 characters, including one uppercase letter, one lowercase letter, and one digit");
     } else {
       setPasswordError("");
     }
@@ -42,10 +43,17 @@ const Login = ({ navigation: { navigate } }) => {
     } else {
       setLoginSuccess(false);
     }
+
+    if (emailRegex.test(email) && passwordRegex.test(password)) {
+      ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
+      // Redirect to another screen if needed
+      // navigate("Home");
+    }
   };
 
   return (
     <SafeAreaView>
+      <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={{ padding: Spacing * 2 }}>
         <View style={{ alignItems: "center" }}>
           <Text
@@ -185,11 +193,16 @@ const Login = ({ navigation: { navigate } }) => {
           </View>
         </View>
       </View>
-      <Popup visible={loginSuccess} onClose={() => setLoginSuccess(false)} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
+});
 
 export default Login;

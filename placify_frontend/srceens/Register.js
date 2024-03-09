@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView } from "react-native";
 import AppTextInput from "../components/RegisterTextInuput";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
@@ -60,134 +60,98 @@ const Register = ({ navigation: { navigate } }) => {
 
     return(
         <SafeAreaView>
-          <View
-            style={{
-              padding: Spacing * 2,
-            }}
-          >
-            <View
-              style={{
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: FontSize.xxLarge,
-                  color: Colors.primary,
-                  fontFamily: Font["poppins-bold"],
-                  marginTop: Spacing * 2,
-                  marginBottom: Spacing * 1.2,
-                  fontWeight: 'bold',
-                }}
-              >
-                Create Account
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Font["poppins-semiBold"],
-                  fontSize: FontSize.medium,
-                  maxWidth: "85%",
-                  textAlign: "center",
-                  fontWeight: 'bold',
-                }}
-              >
-                Create an account so you can explore all the existing jobs !!
-              </Text>
-            </View>
-            <View
-              style={{
-                marginVertical: Spacing * 3,
-              }}
-            >
-              <AppTextInput 
-                placeholder="First Name"
-                onChangeText={text => setFirstName(text.replace(/[^a-zA-Z]/g, ''))}
-                value={firstName}
-              />
-              <AppTextInput 
-                placeholder="Last Name"
-                onChangeText={text => setLastName(text.replace(/[^a-zA-Z]/g, ''))}
-                value={lastName}
-              />
-              <AppTextInput 
-                placeholder="Personal Email-Id"
-                onChangeText={text => setPersonalEmail(text)}
-                value={personalEmail}
-              />
-              {!validateEmail(personalEmail) && personalEmail && <Text style={styles.validationText}>Invalid Email</Text>}
-              <AppTextInput 
-                placeholder="College Email-Id"
-                onChangeText={text => setCollegeEmail(text)}
-                value={collegeEmail}
-              />
-              {!validateEmail(collegeEmail) && collegeEmail && <Text style={styles.validationText}>Invalid Email</Text>}
-              <AppTextInput 
-                placeholder="Password"
-                onChangeText={handlePasswordChange}
-                value={password}
-                secureTextEntry={true}
-              />
-              {passwordError !== '' && <Text style={styles.validationText}>{passwordError}</Text>}
-              <AppTextInput 
-                placeholder="Confirm Password"
-                onChangeText={handleConfirmPasswordChange}
-                value={confirmPassword}
-                secureTextEntry={true}
-              />
-              {!passwordMatch && confirmPassword && <Text style={styles.noMatchText}>Passwords do not match</Text>}
-            </View>
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Create Account</Text>
+                <Text style={styles.subHeaderText}>Create an account so you can explore all the existing jobs !!</Text>
+              </View>
+              <View style={styles.form}>
+                <AppTextInput 
+                  placeholder="First Name"
+                  onChangeText={text => setFirstName(text.replace(/[^a-zA-Z]/g, ''))}
+                  value={firstName}
+                />
+                <AppTextInput 
+                  placeholder="Last Name"
+                  onChangeText={text => setLastName(text.replace(/[^a-zA-Z]/g, ''))}
+                  value={lastName}
+                />
+                <AppTextInput 
+                  placeholder="Personal Email-Id"
+                  onChangeText={text => setPersonalEmail(text)}
+                  value={personalEmail}
+                />
+                {!validateEmail(personalEmail) && personalEmail && <Text style={styles.validationText}>Invalid Email</Text>}
+                <AppTextInput 
+                  placeholder="College Email-Id"
+                  onChangeText={text => setCollegeEmail(text)}
+                  value={collegeEmail}
+                />
+                {!validateEmail(collegeEmail) && collegeEmail && <Text style={styles.validationText}>Invalid Email</Text>}
+                <AppTextInput 
+                  placeholder="Password"
+                  onChangeText={handlePasswordChange}
+                  value={password}
+                  secureTextEntry={true}
+                />
+                {passwordError !== '' && <Text style={styles.validationText}>{passwordError}</Text>}
+                <AppTextInput 
+                  placeholder="Confirm Password"
+                  onChangeText={handleConfirmPasswordChange}
+                  value={confirmPassword}
+                  secureTextEntry={true}
+                />
+                {!passwordMatch && confirmPassword && <Text style={styles.noMatchText}>Passwords do not match</Text>}
+              </View>
 
-            <TouchableOpacity
-              onPress={handleSignUp}
-              style={{
-                padding: Spacing * 2,
-                backgroundColor: Colors.primary,
-                marginVertical: Spacing * 0.5,
-                borderRadius: Spacing,
-                shadowColor: Colors.primary,
-                shadowOffset: {
-                  width: 0,
-                  height: Spacing,
-                },
-                shadowOpacity: 0.3,
-                shadowRadius: Spacing,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: Font["poppins-bold"],
-                  color: Colors.onPrimary,
-                  textAlign: "center",
-                  fontSize: FontSize.large,
-                }}
+              <TouchableOpacity
+                onPress={handleSignUp}
+                style={styles.signUpButton}
               >
-                Sign Up
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigate("Login")}
-              style={{
-                padding: Spacing,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: Font["poppins-semiBold"],
-                  color: Colors.text,
-                  textAlign: "center",
-                  fontSize: FontSize.small,
-                }}
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigate("Login")}
+                style={styles.loginLink}
               >
-                Already have an account
-              </Text>
-            </TouchableOpacity>
-
-          </View>
+                <Text style={styles.loginText}>Already have an account</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
+  container: {
+    padding: Spacing * 2,
+  },
+  header: {
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: FontSize.xxLarge,
+    color: Colors.primary,
+    fontFamily: Font["poppins-bold"],
+    marginTop: Spacing * 2,
+    marginBottom: Spacing * 1.2,
+    fontWeight: 'bold',
+  },
+  subHeaderText: {
+    fontFamily: Font["poppins-semiBold"],
+    fontSize: FontSize.medium,
+    maxWidth: "85%",
+    textAlign: "center",
+    fontWeight: 'bold',
+  },
+  form: {
+    marginVertical: Spacing * 3,
+  },
   validationText: {
     fontSize: Spacing * 1.21,
     color: 'red',
@@ -200,140 +164,35 @@ const styles = StyleSheet.create({
     marginTop: Spacing * -0.8 ,
     marginBottom: Spacing * 0.75,
   },
+  signUpButton: {
+    padding: Spacing * 2,
+    backgroundColor: Colors.primary,
+    marginVertical: Spacing * 0.5,
+    borderRadius: Spacing,
+    shadowColor: Colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: Spacing,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: Spacing,
+  },
+  buttonText: {
+    fontFamily: Font["poppins-bold"],
+    color: Colors.onPrimary,
+    textAlign: "center",
+    fontSize: FontSize.large,
+  },
+  loginLink: {
+    padding: Spacing,
+  },
+  loginText: {
+    fontFamily: Font["poppins-semiBold"],
+    color: Colors.text,
+    textAlign: "center",
+    fontSize: FontSize.small,
+  },
 });
 
 export default Register;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-// import { NativeStackScreenProps } from "@react-navigation/native-stack";
-// import { RootStackParamList } from "../types";
-// import AppTextInput from "../components/RegisterTextInuput";
-// import Spacing from "../constants/Spacing";
-// import FontSize from "../constants/FontSize";
-// import Colors from "../constants/Colors";
-// import Font from "../constants/Font";
-
-
-// const Register = ({ navigation: { navigate } }) => {
-//     return(
-//         <SafeAreaView>
-//       <View
-//         style={{
-//           padding: Spacing * 2,
-//         }}
-//       >
-//         <View
-//           style={{
-//             alignItems: "center",
-//           }}
-//         >
-//           <Text
-//             style={{
-//               fontSize: FontSize.xxLarge,
-//               color: Colors.primary,
-//               fontFamily: Font["poppins-bold"],
-//               marginTop: Spacing * 2,
-//               marginBottom: Spacing * 2,
-//               fontWeight: 'bold',
-//             }}
-//           >
-//             Create account
-//           </Text>
-//           <Text
-//             style={{
-//               fontFamily: Font["poppins-semiBold"],
-//               fontSize: FontSize.medium,
-//               maxWidth: "85%",
-//               textAlign: "center",
-//               fontWeight: 'bold',
-//             }}
-//           >
-//             Create an account so you can explore all the existing jobs
-//           </Text>
-//         </View>
-//         <View
-//           style={{
-//             marginVertical: Spacing * 3,
-//           }}
-//         >
-//           <AppTextInput placeholder="First Name" />
-//           <AppTextInput placeholder="Last Name" />
-//           <AppTextInput placeholder="Personal Email-Id" />
-//           <AppTextInput placeholder="College Email-Id" />
-//           <AppTextInput placeholder="Password" secureTextEntry={true}/>
-//           <AppTextInput placeholder="Confirm Password" secureTextEntry={true}/>
-//         </View>
-
-//         <TouchableOpacity
-//           onPress={() => navigate("Login")}
-//           style={{
-//             padding: Spacing * 2,
-//             backgroundColor: Colors.primary,
-//             marginVertical: Spacing * 2,
-//             borderRadius: Spacing,
-//             shadowColor: Colors.primary,
-//             shadowOffset: {
-//               width: 0,
-//               height: Spacing,
-//             },
-//             shadowOpacity: 0.3,
-//             shadowRadius: Spacing,
-//           }}
-//         >
-//           <Text
-//             style={{
-//               fontFamily: Font["poppins-bold"],
-//               color: Colors.onPrimary,
-//               textAlign: "center",
-//               fontSize: FontSize.large,
-//             }}
-//           >
-//             Sign Up
-//           </Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity
-//           onPress={() => navigate("Login")}
-//           style={{
-//             padding: Spacing,
-//           }}
-//         >
-//           <Text
-//             style={{
-//               fontFamily: Font["poppins-semiBold"],
-//               color: Colors.text,
-//               textAlign: "center",
-//               fontSize: FontSize.small,
-//             }}
-//           >
-//             Already have an account
-//           </Text>
-//         </TouchableOpacity>
-
-//       </View>
-//     </SafeAreaView>
-//     );
-// }
-
-// const styles = StyleSheet.create({})
-
-// export default Register;
