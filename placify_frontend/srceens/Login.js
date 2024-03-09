@@ -23,7 +23,7 @@ const Login = ({ navigation: { navigate } }) => {
 
   const validateInputs = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
     if (!emailRegex.test(email)) {
       setEmailError("Invalid email");
@@ -32,7 +32,7 @@ const Login = ({ navigation: { navigate } }) => {
     }
 
     if (!passwordRegex.test(password)) {
-      setPasswordError("Password should have at least 6 characters, including one uppercase letter, one lowercase letter, and one digit");
+      setPasswordError("Password must have at least 6 characters, including one uppercase letter, one lowercase letter, and one digit");
     } else {
       setPasswordError("");
     }

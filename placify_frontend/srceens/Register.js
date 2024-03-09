@@ -13,9 +13,8 @@ const Register = ({ navigation: { navigate } }) => {
     const [collegeEmail, setCollegeEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [requiredFields, setRequiredFields] = useState([]);
     const [passwordMatch, setPasswordMatch] = useState(false);
-    const [passwordValid, setPasswordValid] = useState(true);
+    const [passwordError, setPasswordError] = useState('');
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -30,11 +29,10 @@ const Register = ({ navigation: { navigate } }) => {
 
     const handlePasswordChange = (text) => {
         setPassword(text);
-        setPasswordValid(validatePassword(text));
         if (!validatePassword(text)) {
-            setPasswordValid(true);
+            setPasswordError('Password must have at least 8 characters, including one uppercase letter, one lowercase letter, and one digit');
         } else {
-            setPasswordValid(true);
+            setPasswordError('');
         }
     };
 
@@ -48,22 +46,10 @@ const Register = ({ navigation: { navigate } }) => {
     };
 
     const handleSignUp = () => {
-        const requiredFieldsList = [];
-        if (!firstName) requiredFieldsList.push('First Name');
-        if (!lastName) requiredFieldsList.push('Last Name');
-        if (!personalEmail) requiredFieldsList.push('Personal Email-Id');
-        if (!collegeEmail) requiredFieldsList.push('College Email-Id');
-        if (!password) requiredFieldsList.push('Password');
-        if (!confirmPassword) requiredFieldsList.push('Confirm Password');
-
-        setRequiredFields(requiredFieldsList);
-
         const isPersonalEmailValid = validateEmail(personalEmail);
         const isCollegeEmailValid = validateEmail(collegeEmail);
 
-        const isPasswordValid = validatePassword(password);
-
-        if (requiredFieldsList.length === 0 && isPersonalEmailValid && isCollegeEmailValid && isPasswordValid && password === confirmPassword) {
+        if (isPersonalEmailValid && isCollegeEmailValid && passwordMatch) {
             // Perform signup action
             ToastAndroid.show("Sign Up Successful", ToastAndroid.SHORT);
             setTimeout(() => {
@@ -90,11 +76,11 @@ const Register = ({ navigation: { navigate } }) => {
                   color: Colors.primary,
                   fontFamily: Font["poppins-bold"],
                   marginTop: Spacing * 2,
-                  marginBottom: Spacing * 2,
+                  marginBottom: Spacing * 1.2,
                   fontWeight: 'bold',
                 }}
               >
-                Create account
+                Create Account
               </Text>
               <Text
                 style={{
@@ -105,7 +91,7 @@ const Register = ({ navigation: { navigate } }) => {
                   fontWeight: 'bold',
                 }}
               >
-                Create an account so you can explore all the existing jobs
+                Create an account so you can explore all the existing jobs !!
               </Text>
             </View>
             <View
@@ -118,26 +104,22 @@ const Register = ({ navigation: { navigate } }) => {
                 onChangeText={text => setFirstName(text.replace(/[^a-zA-Z]/g, ''))}
                 value={firstName}
               />
-              {requiredFields.includes('First Name') && <Text style={styles.validationText}>Required</Text>}
               <AppTextInput 
                 placeholder="Last Name"
                 onChangeText={text => setLastName(text.replace(/[^a-zA-Z]/g, ''))}
                 value={lastName}
               />
-              {requiredFields.includes('Last Name') && <Text style={styles.validationText}>Required</Text>}
               <AppTextInput 
                 placeholder="Personal Email-Id"
                 onChangeText={text => setPersonalEmail(text)}
                 value={personalEmail}
               />
-              {requiredFields.includes('Personal Email-Id') && <Text style={styles.validationText}>Required</Text>}
               {!validateEmail(personalEmail) && personalEmail && <Text style={styles.validationText}>Invalid Email</Text>}
               <AppTextInput 
                 placeholder="College Email-Id"
                 onChangeText={text => setCollegeEmail(text)}
                 value={collegeEmail}
               />
-              {requiredFields.includes('College Email-Id') && <Text style={styles.validationText}>Required</Text>}
               {!validateEmail(collegeEmail) && collegeEmail && <Text style={styles.validationText}>Invalid Email</Text>}
               <AppTextInput 
                 placeholder="Password"
@@ -145,17 +127,14 @@ const Register = ({ navigation: { navigate } }) => {
                 value={password}
                 secureTextEntry={true}
               />
-              {!passwordValid && <Text style={styles.validationText}>Password should contain at least one uppercase letter, one lowercase letter, one number, and be at least 8 characters long</Text>}
-              {requiredFields.includes('Password') && <Text style={styles.validationText}>Required</Text>}
+              {passwordError !== '' && <Text style={styles.validationText}>{passwordError}</Text>}
               <AppTextInput 
                 placeholder="Confirm Password"
                 onChangeText={handleConfirmPasswordChange}
                 value={confirmPassword}
                 secureTextEntry={true}
               />
-              {requiredFields.includes('Confirm Password') && <Text style={styles.validationText}>Required</Text>}
-              {passwordMatch && <Text style={styles.matchText}>Match</Text>}
-              {!passwordMatch && confirmPassword && <Text style={styles.noMatchText}>No Match</Text>}
+              {!passwordMatch && confirmPassword && <Text style={styles.noMatchText}>Passwords do not match</Text>}
             </View>
 
             <TouchableOpacity
@@ -163,7 +142,7 @@ const Register = ({ navigation: { navigate } }) => {
               style={{
                 padding: Spacing * 2,
                 backgroundColor: Colors.primary,
-                marginVertical: Spacing * 2,
+                marginVertical: Spacing * 0.5,
                 borderRadius: Spacing,
                 shadowColor: Colors.primary,
                 shadowOffset: {
@@ -210,20 +189,21 @@ const Register = ({ navigation: { navigate } }) => {
 
 const styles = StyleSheet.create({
   validationText: {
+    fontSize: Spacing * 1.21,
     color: 'red',
-    marginBottom: Spacing * 2,
-  },
-  matchText: {
-    color: 'green',
-    marginBottom: Spacing * 2,
+    marginTop: Spacing * -0.8 ,
+    marginBottom: Spacing * 0.75,
   },
   noMatchText: {
     color: 'red',
-    marginBottom: Spacing * 2,
+    fontSize: Spacing * 1.21,
+    marginTop: Spacing * -0.8 ,
+    marginBottom: Spacing * 0.75,
   },
 });
 
 export default Register;
+
 
 
 
