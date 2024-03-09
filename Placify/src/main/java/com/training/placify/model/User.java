@@ -12,8 +12,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor // A no-argument constructor
 @AllArgsConstructor // A constructor with all arguments
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-public class User {
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

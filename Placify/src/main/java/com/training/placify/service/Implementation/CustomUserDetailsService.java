@@ -1,4 +1,4 @@
-package com.training.placify.service.Implementation;
+/*package com.training.placify.service.Implementation;
 
 import com.training.placify.model.User;
 import com.training.placify.repository.UserRepository;
@@ -37,3 +37,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 }
+*/
