@@ -36,6 +36,8 @@ public abstract class User {
     @NotBlank
     private String password;
 
+    private String profilePic; // Consider storing the image path/URL
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -44,6 +46,6 @@ public abstract class User {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    private String profilePic; // Consider storing the image path/URL
+
 }
 
