@@ -8,10 +8,10 @@ import {
     TouchableOpacity,
     View,
   } from "react-native";
-  import Spacing from "../constants/Spacing";
-  import FontSize from "../constants/FontSize";
-  import Colors from "../constants/Colors";
-  import Font from "../constants/Font";
+  import Spacing from "../../constants/Spacing";
+  import FontSize from "../../constants/FontSize";
+  import Colors from "../../constants/Colors";
+  import Font from "../../constants/Font";
 
 const { height } = Dimensions.get("window");
 
@@ -27,7 +27,7 @@ const Home = ({navigation}) => {
             height: height / 2.2,
           }}
           resizeMode="contain"
-          source={require("../assets/images/welcome-img.png")}
+          source={require("../../assets/images/welcome-img.png")}
         />
         <View
           style={{

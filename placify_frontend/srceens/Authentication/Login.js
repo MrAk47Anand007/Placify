@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
-import AppTextInput from "../components/AppTextInput";
-import Spacing from "../constants/Spacing";
-import FontSize from "../constants/FontSize";
-import Colors from "../constants/Colors";
-import Font from "../constants/Font";
+import AppTextInput from "../../components/AppTextInput";
+import Spacing from "../../constants/Spacing";
+import FontSize from "../../constants/FontSize";
+import Colors from "../../constants/Colors";
+import Font from "../../constants/Font";
 
 
 const Login = ({ navigation: { navigate } }) => {
@@ -47,7 +47,7 @@ const Login = ({ navigation: { navigate } }) => {
     if (emailRegex.test(email) && passwordRegex.test(password)) {
       ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
       // Redirect to another screen if needed
-      // navigate("Home");
+      navigate("Home");
     }
   };
 
@@ -61,7 +61,7 @@ const Login = ({ navigation: { navigate } }) => {
               fontSize: FontSize.xxLarge,
               color: Colors.primary,
               fontFamily: Font["poppins-bold"],
-              marginTop: Spacing * 5,
+              marginTop: Spacing * 8,
               marginBottom: Spacing * 3,
               fontWeight: "bold",
             }}
@@ -74,11 +74,11 @@ const Login = ({ navigation: { navigate } }) => {
               fontSize: FontSize.large,
               maxWidth: "60%",
               textAlign: "center",
-              fontWeight: "bold",
+              // fontWeight: "bold",
               marginBottom: Spacing * 1.5,
             }}
           >
-            Welcome back you've been missed!
+            Welcome back you have been missed!
           </Text>
         </View>
         <View style={{ marginVertical: Spacing * 3 }}>
@@ -96,19 +96,26 @@ const Login = ({ navigation: { navigate } }) => {
           />
           {passwordError ? <Text style={{ color: "red" }}>{passwordError}</Text> : null}
         </View>
+        <TouchableOpacity
+          onPress={() => navigate("ForgotPassword")}
+          style={{
+            padding: Spacing,
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                fontFamily: Font["poppins-semiBold"],
+                fontSize: FontSize.small,
+                color: Colors.primary,
+                alignSelf: "flex-end",
+              }}
+            >
+              Forgot your password ?
+            </Text>
+          </View>
 
-        <View>
-          <Text
-            style={{
-              fontFamily: Font["poppins-semiBold"],
-              fontSize: FontSize.small,
-              color: Colors.primary,
-              alignSelf: "flex-end",
-            }}
-          >
-            Forgot your password ?
-          </Text>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleSignup}
@@ -155,43 +162,6 @@ const Login = ({ navigation: { navigate } }) => {
           </Text>
         </TouchableOpacity>
 
-        <View style={{ marginVertical: Spacing * 3 }}>
-          <Text
-            style={{
-              fontFamily: Font["poppins-semiBold"],
-              color: Colors.primary,
-              textAlign: "center",
-              fontSize: FontSize.small,
-            }}
-          >
-            Or continue with
-          </Text>
-
-          <View
-            style={{
-              marginTop: Spacing,
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            {
-              <TouchableOpacity
-                style={{
-                  padding: Spacing * 1.8,
-                  backgroundColor: Colors.gray,
-                  borderRadius: Spacing / 2,
-                  marginHorizontal: Spacing,
-                }}
-              >
-                {/* <Ionicons
-                  name="logo-google"
-                  color={Colors.text}
-                  size={Spacing * 2}
-                /> */}
-              </TouchableOpacity>
-            }
-          </View>
-        </View>
       </View>
       </ScrollView>
     </SafeAreaView>

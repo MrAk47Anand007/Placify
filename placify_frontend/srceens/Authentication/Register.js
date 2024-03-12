@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView } from "react-native";
-import AppTextInput from "../components/RegisterTextInuput";
-import Spacing from "../constants/Spacing";
-import FontSize from "../constants/FontSize";
-import Colors from "../constants/Colors";
-import Font from "../constants/Font";
+import AppTextInput from "../../components/RegisterTextInuput";
+import Spacing from "../../constants/Spacing";
+import FontSize from "../../constants/FontSize";
+import Colors from "../../constants/Colors";
+import Font from "../../constants/Font";
 import { SelectList } from "react-native-dropdown-select-list";
 
 
