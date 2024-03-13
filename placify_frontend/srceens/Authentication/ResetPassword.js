@@ -1,4 +1,4 @@
-// Forgot Password 
+// Reset Password
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -9,7 +9,7 @@ import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
 
-const ForgotPassword = ({ navigation: { navigate } }) => {
+const ResetPassword = ({ navigation: { navigate } }) => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -43,7 +43,7 @@ const ForgotPassword = ({ navigation: { navigate } }) => {
                 fontWeight: "bold",
               }}
             >
-              Forgot Password
+              Reset Password
             </Text>
             <Text
               style={{
@@ -106,5 +106,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPassword;
+export default ResetPassword;
 

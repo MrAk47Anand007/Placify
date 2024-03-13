@@ -24,6 +24,7 @@ const Home = ({navigation}) => {
       <View>
         <ImageBackground
           style={{
+            marginTop: Spacing * 4,
             height: height / 2.2,
           }}
           resizeMode="contain"
@@ -60,7 +61,7 @@ const Home = ({navigation}) => {
 
           <Text
             style={{
-              fontSize: FontSize.small,
+              fontSize: FontSize.medium,
               color: Colors.text,
               fontFamily: Font["poppins-regular"],
               textAlign: "center",

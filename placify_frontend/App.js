@@ -9,6 +9,7 @@ import Register from './srceens/Authentication/Register';
 import Login from './srceens/Authentication/Login';
 import ForgotPassword from './srceens/Authentication/ForgotPassword';
 import EmailVerification from './srceens/Authentication/EmailVerification';
+import ResetPassword from './srceens/Authentication/ResetPassword';
 
 // function HomeScreen() {
 //   return (
@@ -29,6 +30,7 @@ function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="EmailVerification" component={EmailVerification} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
