@@ -11,13 +11,6 @@ import ForgotPassword from './srceens/Authentication/ForgotPassword';
 import EmailVerification from './srceens/Authentication/EmailVerification';
 import ResetPassword from './srceens/Authentication/ResetPassword';
 
-// function HomeScreen() {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Home Screen</Text>
-//     </View>
-//   );
-// }
 
 const Stack = createNativeStackNavigator();
 
