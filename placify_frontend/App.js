@@ -10,6 +10,7 @@ import Login from './srceens/Authentication/Login';
 import ForgotPassword from './srceens/Authentication/ForgotPassword';
 import EmailVerification from './srceens/Authentication/EmailVerification';
 import ResetPassword from './srceens/Authentication/ResetPassword';
+import S_Dashboard from './srceens/Student-Login/S_Dashboard';
 
 
 const Stack = createNativeStackNavigator();
@@ -17,13 +18,14 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown : false}}>
+      <Stack.Navigator screenOptions={{headerShown : true}}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="EmailVerification" component={EmailVerification} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="S_Dashboard" component={S_Dashboard} />
       </Stack.Navigator>
     </NavigationContainer>
   );
