@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
+
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
@@ -68,6 +68,11 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void initiatePasswordReset(String email) {
+
     }
 
 

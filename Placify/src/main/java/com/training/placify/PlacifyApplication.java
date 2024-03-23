@@ -15,23 +15,23 @@ public class PlacifyApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(PlacifyApplication.class, args);
 
-		 UserService userService = context.getBean(UserService.class);
-		BCryptPasswordEncoder passwordEncoder = context.getBean(BCryptPasswordEncoder.class);
-
-		// Test User Data
-		UserDTO testUserDTO = new UserDTO();
-		DepartmentDTO departmentDTO = new DepartmentDTO();
-		departmentDTO.setDeptName("Computer"); // Set the department name
-		testUserDTO.setDepartment(departmentDTO);
-		testUserDTO.setFirstName("Sample");
-		testUserDTO.setLastName("Test");
-		testUserDTO.setPersonalEmail("test1@example.com");
-		testUserDTO.setCollegeEmail("teast.dypit@dypvp.edu.in");
-
-		testUserDTO.setPassword(passwordEncoder.encode("testpassword"));
-
-		// Save the User
-		User savedUser = userService.saveUser(testUserDTO);
-		System.out.println("Saved User: " + savedUser);
+//		UserService userService = context.getBean(UserService.class);
+//		BCryptPasswordEncoder passwordEncoder = context.getBean(BCryptPasswordEncoder.class);
+//
+//		// Test User Data
+//		UserDTO testUserDTO = new UserDTO();
+//		DepartmentDTO departmentDTO = new DepartmentDTO();
+//		departmentDTO.setDeptName("Computer"); // Set the department name
+//		testUserDTO.setDepartment(departmentDTO);
+//		testUserDTO.setFirstName("Sample");
+//		testUserDTO.setLastName("Test");
+//		testUserDTO.setPersonalEmail("test1@example.com");
+//		testUserDTO.setCollegeEmail("teast.dypit@dypvp.edu.in");
+//
+//		testUserDTO.setPassword(passwordEncoder.encode("testpassword"));
+//
+//		// Save the User
+//		User savedUser = userService.saveUser(testUserDTO);
+//		System.out.println("Saved User: " + savedUser);
 	}
 }
