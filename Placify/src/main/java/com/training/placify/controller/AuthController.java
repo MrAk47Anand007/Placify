@@ -2,7 +2,7 @@ package com.training.placify.controller;
 
 import com.training.placify.dto.LoginRequest;
 import com.training.placify.dto.PasswordResetRequest;
-import com.training.placify.security.jwt.JwtUtil;
+import com.training.placify.security.jwtAuth.JwtUtil;
 import com.training.placify.service.Implementation.UserServiceImpl;
 import com.training.placify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
 
         // Generate the token using UserDetails
-        String jwt = jwtUtil.generateToken(userDetails);
+        String jwt = jwtUtil.generateToken(userDetails.getUsername());
 
         return ResponseEntity.ok().body(jwt);
     }

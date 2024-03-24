@@ -24,6 +24,9 @@ public class UserDTO {
     @Email
     private String collegeEmail;
 
+
+    private Boolean isEnabled;
+
     @NotNull // Ensure department is not null
     @Valid // Cascade validation to the properties of DepartmentDTO
     private DepartmentDTO department;
