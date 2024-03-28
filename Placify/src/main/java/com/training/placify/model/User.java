@@ -38,6 +38,9 @@ public abstract class User {
 
     private String profilePic; // Consider storing the image path/URL
 
+
+    private Boolean isEnabled;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

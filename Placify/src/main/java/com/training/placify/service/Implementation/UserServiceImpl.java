@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
     private StudentRepository studentRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -56,6 +57,11 @@ public class UserServiceImpl implements UserService {
         Role role = determineRoleByEmail(userDTO.getCollegeEmail());
         User user;
 
+        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+        userDTO.setPassword(encodedPassword);
+
+
+
         if (role.getName() == RoleType.ADMIN) {
             user = mapToAdmin(userDTO);
         } else if (role.getName() == RoleType.STUDENT) {
@@ -64,10 +70,18 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Invalid email domain");
         }
 
+
+
         associateDepartment(user, userDTO.getDepartment().getDeptName());
         user.setRole(role);
+        user.setIsEnabled(true);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void initiatePasswordReset(String email) {
+
     }
 
 
@@ -104,7 +118,7 @@ public class UserServiceImpl implements UserService {
         admin.setCollegeEmail(userDTO.getCollegeEmail());
         //associateDepartment(admin, userDTO.getDepartment().getDeptName());
 
-        System.out.println(admin);
+        //System.out.println(admin);
 
         return admin;
     }
@@ -117,7 +131,7 @@ public class UserServiceImpl implements UserService {
         student.setPersonalEmail(userDTO.getPersonalEmail());
         student.setCollegeEmail(userDTO.getCollegeEmail());
         //associateDepartment(student, userDTO.getDepartment().getDeptName());
-        System.out.println(student);
+        //System.out.println(student);
         return student;
     }
 
