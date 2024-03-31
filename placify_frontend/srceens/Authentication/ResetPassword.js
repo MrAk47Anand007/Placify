@@ -1,6 +1,6 @@
 // Reset Password
-import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { SafeAreaView, StyleSheet, Animated, Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import AppTextInput from "../../components/AppTextInput";
@@ -8,12 +8,25 @@ import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const ResetPassword = ({ navigation: { navigate } }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true
+      }
+    ).start();
+  }, [fadeAnim]);
 
   const handleRecoverPassword = () => {
     validateInputs();
@@ -40,11 +53,11 @@ const ResetPassword = ({ navigation: { navigate } }) => {
   return (
     <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView}>
-          <View style={{ padding: Spacing * 2 }}>
+          <Animated.View style={{ padding: Spacing * 2, opacity: fadeAnim }}>
             <View style={{ alignItems: "center" }}>
               <Text
                 style={{
-                  fontSize: FontSize.xxLarge,
+                  fontSize: responsiveFontSize(4),
                   color: Colors.primary,
                   fontFamily: Font["poppins-bold"],
                   marginBottom: Spacing * 3,
@@ -57,12 +70,13 @@ const ResetPassword = ({ navigation: { navigate } }) => {
                 style={{
                   fontFamily: Font["poppins-semiBold"],
                   fontSize: FontSize.medium,
-                  maxWidth: "70%",
+                  maxWidth: "65%",
                   textAlign: "center",
                   marginBottom: Spacing * 2,
+                  fontWeight: "bold",
                 }}
               >
-                Enter your new password and confirm it...
+                Enter your new password and confirm it once...
               </Text>
             </View>
             <View>
@@ -109,7 +123,7 @@ const ResetPassword = ({ navigation: { navigate } }) => {
                 Continue
               </Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </ScrollView>
     </SafeAreaView>
   );
@@ -119,6 +133,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: Colors.background,
   },
   scrollView: {
     flexGrow: 1,
