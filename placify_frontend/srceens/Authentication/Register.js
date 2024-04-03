@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, Animated, TouchableOpacity, View, ToastAndroid, ScrollView } from "react-native";
+import { SafeAreaView, StyleSheet, Text, Animated, TouchableOpacity, View, ToastAndroid, ScrollView, Alert } from "react-native";
 import AppTextInput from "../../components/RegisterTextInuput";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
@@ -7,6 +7,7 @@ import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
 import { SelectList } from "react-native-dropdown-select-list";
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import axios from 'axios';
 
 const Register = ({ navigation: { navigate } }) => {
     const [firstName, setFirstName] = useState('');
@@ -67,16 +68,32 @@ const Register = ({ navigation: { navigate } }) => {
         setBranchError(false); // Clear branch error when branch is selected
     };
 
-    const handleSignUp = () => {
+    const handleSignUp = async() => {
         const isPersonalEmailValid = validateEmail(personalEmail);
         const isCollegeEmailValid = validateEmail(collegeEmail);
 
         if (isPersonalEmailValid && isCollegeEmailValid && passwordMatch && selectedBranch) {
-            // Perform signup action
+          try{
+            const response = await axios.post('http://192.168.29.209:8080/user/register',{
+              firstName,
+              lastName,
+              personalEmail,
+              collegeEmail,
+              password,
+              isEnabled: true,
+              department: {
+                deptName:selectedBranch // Assuming you always send the department info
+              },
+            });
             ToastAndroid.show("Sign Up Successful", ToastAndroid.SHORT);
             setTimeout(() => {
                 navigate("Login");
             }, 2000);
+          }catch(error){
+            Alert.alert("Error", error.message);
+          }
+          
+          
         } else {
             if (!selectedBranch) {
                 setBranchError(true); // Show branch selection error
@@ -85,13 +102,15 @@ const Register = ({ navigation: { navigate } }) => {
     };
 
     const data = [
-      {key:'1', value:'A'},
-      {key:'2', value:'B'},
-      {key:'3', value:'C'},
-      {key:'4', value:'D'},
-      {key:'5', value:'E'},
-      {key:'6', value:'F'},
-      {key:'7', value:'G'},
+      {key:'1', value:'Computer Engineering'},
+      {key:'2', value:'Artificial Intelligence and Data Science'},
+      {key:'3', value:'Civil Engineering'},
+      {key:'4', value:'Mechanical Engineering'},
+      {key:'5', value:'Electronics and Telecommunication Engineering'},
+      {key:'6', value:'Automation and Robotics'},
+      {key:'7', value:'Instrumentation Engineering'},
+      {key:'8', value:'Electrical Engineering'},
+      {key:'9', value:'Information Technology'},
     ];
 
     return(
@@ -249,6 +268,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveWidth(0.3)
   }
 });
+
+
 
 export default Register;
 

@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
                 >
                     <Text
                         style={{
-                            fontSize: FontSize.xxLarge,
+                            fontSize: FontSize.xxxLarge,
                             color: Colors.primary,
                             fontFamily: Font["poppins-bold"],
                             textAlign: "center",
@@ -52,7 +52,7 @@ const Home = ({ navigation }) => {
                     </Text>
                     <Text
                         style={{
-                            fontSize: FontSize.xxLarge,
+                            fontSize: FontSize.xxxLarge,
                             color: Colors.primary,
                             fontFamily: Font["poppins-bold"],
                             textAlign: "center",
@@ -71,12 +71,13 @@ const Home = ({ navigation }) => {
                             marginTop: Spacing * 2,
                         }}
                     >
-                        Explore all the existing job roles based or your interest and study
+                        Explore all the existing job roles based on your interest and study
                         major
                     </Text>
                 </View>
                 <View
                     style={{
+                        marginTop: Spacing * 2.5,
                         paddingHorizontal: Spacing * 2,
                         paddingTop: Spacing * 6,
                         flexDirection: "row",
@@ -86,7 +87,7 @@ const Home = ({ navigation }) => {
                         onPress={() => navigate("Login")}
                         style={{
                             backgroundColor: Colors.primary,
-                            paddingVertical: Spacing * 1.5,
+                            paddingVertical: Spacing * 1.8,
                             paddingHorizontal: Spacing * 2,
                             width: "48%",
                             borderRadius: Spacing,
@@ -113,7 +114,7 @@ const Home = ({ navigation }) => {
                     <TouchableOpacity
                         onPress={() => navigate("Register")}
                         style={{
-                            paddingVertical: Spacing * 1.5,
+                            paddingVertical: Spacing * 1.8,
                             paddingHorizontal: Spacing * 2,
                             width: "48%",
                             borderRadius: Spacing,

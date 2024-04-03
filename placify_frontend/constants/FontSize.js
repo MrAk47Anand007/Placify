@@ -5,6 +5,7 @@ const medium = responsiveFontSize(1.8); // Adjust this multiplier as needed
 const large = responsiveFontSize(2.2); // Adjust this multiplier as needed
 const xLarge = responsiveFontSize(3.3); // Adjust this multiplier as needed
 const xxLarge = responsiveFontSize(4.5); // Adjust this multiplier as needed
+const xxxLarge = responsiveFontSize(4.8); // Adjust this multiplier as needed
 
 export default {
   small,
@@ -12,6 +13,7 @@ export default {
   large,
   xLarge,
   xxLarge,
+  xxxLarge,
 };
 
 

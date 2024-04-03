@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, View } from "react-native";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
 
-const S_Jobs = ({}) => {
+
+const S_Resume = ({}) => {
   return (
     <SafeAreaView style={styles.container}>
       
@@ -21,4 +22,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default S_Jobs;
+export default S_Resume;

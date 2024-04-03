@@ -3,17 +3,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native'
 import Colors from './constants/TabColors';
-import ColorScreen from './srceens/TabColorScreen';
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from '@react-navigation/native';
 import Icon, { Icons } from './components/Icons';
+import S_Dashboard from './srceens/Student-Login/S_Dashboard';
+import S_Jobs from './srceens/Student-Login/S_Jobs';
+import S_Groups from './srceens/Student-Login/S_Groups';
+import S_More from './srceens/Student-Login/S_More';
+import S_Resume from './srceens/Student-Login/S_Resume';
+
 
 const TabArr = [
-  { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: ColorScreen },
-  { route: 'Search', label: 'Search', type: Icons.Feather, icon: 'search', component: ColorScreen },
-  { route: 'Add', label: 'Add', type: Icons.Feather, icon: 'plus-square', component: ColorScreen },
-  { route: 'Like', label: 'Like', type: Icons.Feather, icon: 'heart', component: ColorScreen },
-  { route: 'Account', label: 'Account', type: Icons.FontAwesome, icon: 'user-circle-o', component: ColorScreen },
+  { route: 'Groups', label: 'Groups', type: Icons.MaterialIcons, icon: 'groups', component: S_Groups },
+  { route: 'Resume', label: 'Resume', type: Icons.FontAwesome, icon: 'file-text-o', component: S_Resume },
+  { route: 'Profile', label: 'Profile', type: Icons.Feather, icon: 'home', component: S_Dashboard },
+  { route: 'Jobs', label: 'Jobs', type: Icons.Entypo, icon: 'suitcase', component: S_Jobs },
+  { route: 'More', label: 'More', type: Icons.Ionicons, icon: 'grid-outline', component: S_More },
 ];
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const animate1 = { 0: { scale: .5, translateY: 7 }, .92: { translateY: -34 }, 1: { scale: 1.2, translateY: -24 } }
 const animate2 = { 0: { scale: 1.2, translateY: -24 }, 1: { scale: 1, translateY: 7 } }
 
-const circle1 = { 0: { scale: 0 }, 0.3: { scale: .9 }, 0.5: { scale: .2 }, 0.8: { scale: .7 }, 1: { scale: 1 } }
+const circle1 = { 0: { scale: 0 }, 0.5: { scale: .9 }, 0.5: { scale: .2 }, 0.8: { scale: .7 }, 1: { scale: 1 } }
 const circle2 = { 0: { scale: 1 }, 1: { scale: 0 } }
 
 const StuAppTabs = (props) => {
@@ -35,6 +40,7 @@ const StuAppTabs = (props) => {
   const { colors } = useTheme()
   const color = isDarkMode ? Colors.white : Colors.black;
   const bgColor = colors.background;
+  // const bgColor = colors.background;
 
   useEffect(() => {
     if (focused) {
@@ -55,7 +61,7 @@ const StuAppTabs = (props) => {
       style={styles.container}>
       <Animatable.View
         ref={viewRef}
-        duration={1000}
+        duration={550}
         style={styles.container}>
         <View style={[styles.btn, { borderColor: bgColor, backgroundColor: bgColor }]}>
           <Animatable.View
@@ -75,12 +81,13 @@ const StuAppTabs = (props) => {
 
 export default function AnimTab1() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1}}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
           tabBarStyle: styles.tabBar,
         }}
+        initialRouteName="Profile" // Set initial route name to "Profile"
       >
         {TabArr.map((item, index) => {
           return (
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
     height: 70,
     position: 'absolute',
     margin: 16,
-    borderRadius: 16,
+    borderRadius: 60,
   },
   btn: {
     width: 50,

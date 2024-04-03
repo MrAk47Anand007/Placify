@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
@@ -7,14 +7,18 @@ import Font from "../../constants/Font";
 
 const S_More = ({}) => {
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: Colors.background,
+  }
 });
 
 export default S_More;
