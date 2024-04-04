@@ -1,3 +1,4 @@
+
 import React from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import Spacing from "../../constants/Spacing";
@@ -22,3 +23,15 @@ const styles = StyleSheet.create({
 });
 
 export default S_Jobs;
+
+
+
+
+
+
+
+
+
+
+
+

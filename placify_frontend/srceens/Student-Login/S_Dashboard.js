@@ -21,16 +21,16 @@ const S_Dashboard = ({ navigation }) => {
      <View style = {styles.container}>
         <View style={styles.circle}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/300' }}
+            source={require("../../assets/images/boy.png")}
             style={styles.profileImage}
           />
         </View>
         <View style={styles.boxContainer}>
           <TouchableOpacity onPress={handleLeftBoxPress} style={styles.box}>
-            <Text style={styles.boxText}>Left Box</Text>
+            <Text style={styles.boxText}>Notifications</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleRightBoxPress} style={styles.box}>
-            <Text style={styles.boxText}>Right Box</Text>
+            <Text style={styles.boxText}>Profile Details</Text>
           </TouchableOpacity>
         </View>
      </View>
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing * 4,
   },
   profileImage: {
-    width: '93%',
-    height: '93%',
+    width: '92%',
+    height: '92%',
     borderRadius: 180,
   },
   boxContainer: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     height: Spacing * 31,
     backgroundColor: Colors.shadePrimary,
     borderRadius: Spacing * 4,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     shadowColor: Colors.primary,
     shadowOffset: { width: 0, height: 2 },
@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     marginRight: Spacing, // Add some margin to the right of the box
   },
   boxText: {
-    color: Colors.white,
+    marginTop: Spacing * 2,
+    color: Colors.onPrimary,
     fontSize: FontSize.medium,
     fontFamily: Font.bold,
   },

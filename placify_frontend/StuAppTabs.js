@@ -16,7 +16,7 @@ import S_Resume from './srceens/Student-Login/S_Resume';
 const TabArr = [
   { route: 'Groups', label: 'Groups', type: Icons.MaterialIcons, icon: 'groups', component: S_Groups },
   { route: 'Resume', label: 'Resume', type: Icons.FontAwesome, icon: 'file-text-o', component: S_Resume },
-  { route: 'Profile', label: 'Profile', type: Icons.Feather, icon: 'home', component: S_Dashboard },
+  { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: S_Dashboard },
   { route: 'Jobs', label: 'Jobs', type: Icons.Entypo, icon: 'suitcase', component: S_Jobs },
   { route: 'More', label: 'More', type: Icons.Ionicons, icon: 'grid-outline', component: S_More },
 ];
@@ -87,7 +87,7 @@ export default function AnimTab1() {
           headerShown: false,
           tabBarStyle: styles.tabBar,
         }}
-        initialRouteName="Profile" // Set initial route name to "Profile"
+        initialRouteName="Home" // Set initial route name to "Home"
       >
         {TabArr.map((item, index) => {
           return (
