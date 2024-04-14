@@ -15,4 +15,6 @@ public class Admin extends User{
 
     private String phone_no;
 
+    private String erpId;
+
 }
