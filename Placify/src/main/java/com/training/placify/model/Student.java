@@ -17,5 +17,10 @@ public class Student extends User{
 
     private int passoutYear;
 
+    private String roll_no;
+
+    private String prnNo;
+
+    private String erpId;
 
 }

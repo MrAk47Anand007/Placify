@@ -7,6 +7,8 @@ import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+
 
 const ForgotPassword = ({ navigation: { navigate } }) => {
   const [email, setEmail] = useState("");
@@ -47,10 +49,9 @@ const ForgotPassword = ({ navigation: { navigate } }) => {
           <Animated.View style={{ alignItems: "center", opacity: fadeAnim }}>
             <Text
               style={{
-                fontSize: FontSize.xxLarge,
+                fontSize: responsiveFontSize(4),
                 color: Colors.primary,
                 fontFamily: Font["poppins-bold"],
-                // marginTop: Spacing * 21,
                 marginBottom: Spacing * 3,
                 fontWeight: "bold",
               }}
@@ -64,6 +65,7 @@ const ForgotPassword = ({ navigation: { navigate } }) => {
                 maxWidth: "70%",
                 textAlign: "center",
                 marginBottom: Spacing * 2,
+                fontWeight: "bold",
               }}
             >
               Enter the email address associated with your account...
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: Colors.background,
   }
 });
 

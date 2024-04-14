@@ -17,8 +17,10 @@ configurations {
 	}
 }
 
+
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -30,6 +32,13 @@ dependencies {
 	implementation 'org.modelmapper:modelmapper:3.0.0'
 	implementation 'io.jsonwebtoken:jjwt:0.2'
 	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+	implementation 'net.sourceforge.tess4j:tess4j:4.5.1'
+	implementation 'org.ghost4j:ghost4j:1.0.1'
+	implementation 'com.github.jai-imageio:jai-imageio-core:1.4.0'
+	implementation 'com.itextpdf:itextpdf:5.0.6'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.2.4'
+	implementation 'com.itextpdf.tool:xmlworker:5.5.13.3'
+	implementation 'org.apache.commons:commons-exec:1.4.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

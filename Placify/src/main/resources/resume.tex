@@ -1,0 +1,79 @@
+\documentclass{resume} % Use the custom resume.cls style
+
+\usepackage[left=0.4 in,top=0.4in,right=0.4 in,bottom=0.4in]{geometry} % Document margins
+\newcommand{\tab}[1]{\hspace{.2667\textwidth}\rlap{#1}}
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+\name{%NAME%} % Your name
+% You can merge both of these into a single line, if you do not have a website.
+\address{%PHONE_NUMBER% \\ %ADDRESS%}
+\address{\href{mailto:%EMAIL%}{%EMAIL%} \\ \href{%LINKEDIN%}{%LINKEDIN%} \\ \href{%WEBSITE%}{%WEBSITE%}}  %
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	OBJECTIVE
+%----------------------------------------------------------------------------------------
+
+    \begin{rSection}{OBJECTIVE}
+
+    {%OBJECTIVE%}
+
+
+    \end{rSection}
+%----------------------------------------------------------------------------------------
+%	EDUCATION SECTION
+%----------------------------------------------------------------------------------------
+
+    \begin{rSection}{Education}
+
+%EDUCATION%
+
+
+    \end{rSection}
+
+%----------------------------------------------------------------------------------------
+% TECHINICAL STRENGTHS
+%----------------------------------------------------------------------------------------
+    \begin{rSection}{SKILLS}
+
+        \begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
+            Technical Skills & %TECHNICAL_SKILLS%
+            \\
+            Soft Skills & %SOFT_SKILLS%\\
+        \end{tabular}\\
+    \end{rSection}
+
+    \begin{rSection}{EXPERIENCE}
+
+%EXPERIENCE%
+
+    \end{rSection}
+
+%----------------------------------------------------------------------------------------
+%	WORK EXPERIENCE SECTION
+%----------------------------------------------------------------------------------------
+
+    \begin{rSection}{PROJECTS}
+%PROJECTS%
+    \end{rSection}
+
+%----------------------------------------------------------------------------------------
+    \begin{rSection}{Extra-Curricular Activities}
+        \begin{itemize}
+            %EXTRA_CURRICULAR%
+        \end{itemize}
+
+
+    \end{rSection}
+
+%----------------------------------------------------------------------------------------
+    \begin{rSection}{Leadership}
+        \begin{itemize}
+            %LEADERSHIP%
+        \end{itemize}
+
+
+    \end{rSection}
+
+
+\end{document}

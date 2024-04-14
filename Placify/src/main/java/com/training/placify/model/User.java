@@ -41,6 +41,9 @@ public abstract class User {
 
     private Boolean isEnabled;
 
+    @NotBlank
+    private String gender;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
