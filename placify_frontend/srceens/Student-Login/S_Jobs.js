@@ -66,7 +66,7 @@ const JobListingsScreen = ({ navigation: { navigate } }) => {
           <Text>{item.location}</Text>
           <TouchableOpacity 
           style={styles.applyButton}
-          onPress={() => navigate("ApplicationFormScreen")}
+          onPress={() => navigate("CompanyDetails")}
           >
             <Text style={styles.applyButtonText}>View Deatails</Text>
           </TouchableOpacity>

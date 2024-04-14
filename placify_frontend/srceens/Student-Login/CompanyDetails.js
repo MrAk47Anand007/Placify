@@ -1,78 +1,10 @@
-// import React from "react";
-// import { StyleSheet, SafeAreaView, View, Image, Text } from "react-native";
-// import Colors from "../../constants/Colors";
-// import Spacing from "../../constants/Spacing";
-// import FontSize from "../../constants/FontSize";
-
-// const MA_JobDetails = ({}) => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.header}>
-//         <View style={styles.imageContainer}>
-//           <Image
-//             source={require("../../assets/images/female.png")}
-//             style={styles.image}
-//             resizeMode="cover"
-//           />
-//         </View>
-//         <Text style={styles.text}>Alpha Level</Text>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: Colors.background,
-//     position: "relative",
-//   },
-//   header: {
-//     position: "absolute",
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     flexDirection: "row",
-//     alignItems: "center",
-//     paddingHorizontal: Spacing.large,
-//     paddingVertical: Spacing.medium,
-//     borderBottomWidth: 1,
-//     borderBottomColor: Colors.borderWithOpacity,
-//     backgroundColor: Colors.background,
-//   },
-//   imageContainer: {
-//     width: 50, // Adjust the width of the square box as needed
-//     height: 50, // Adjust the height of the square box as needed
-//     marginRight: Spacing.medium,
-//     borderRadius: 5,
-//     overflow: "hidden",
-//   },
-//   image: {
-//     width: "100%",
-//     height: "100%",
-//   },
-//   text: {
-//     fontSize: FontSize.medium,
-//     color: Colors.text,
-//   },
-// });
-
-// export default MA_JobDetails;
-
-
-
-
-
-
-
-
 import React from "react";
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from "react-native";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 
-const MA_JobDetails = ({}) => {
+const CompanyDetails = ({}) => {
   const descriptionText = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.";
 
   const selectionProcessText = "1. HR round\n2. Online Assessment\n3. Interview I\n4. Interview II";
@@ -124,7 +56,7 @@ const MA_JobDetails = ({}) => {
         </View>
 
         <TouchableOpacity style={styles.applyButton}>
-          <Text style={styles.applyButtonText}>Edit</Text>
+          <Text style={styles.applyButtonText}>Apply Now</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -210,5 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MA_JobDetails;
-
+export default CompanyDetails;

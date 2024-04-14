@@ -9,9 +9,10 @@ import EmailVerification from './srceens/Authentication/EmailVerification';
 import ResetPassword from './srceens/Authentication/ResetPassword';
 import StuAppTabs from './StuAppTabs';
 import MATabs from './MATabs';
-import ApplicationFormScreen from './srceens/Student-Login/ApplicationFormScreen';
+import CompanyDetails from './srceens/Student-Login/CompanyDetails';
 import NotificationPage from './srceens/Student-Login/NotificationPage';
 import JobDetails from './srceens/Master-Admin/JobDetails';
+import AddJob from './srceens/Master-Admin/AddJob';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,10 +27,11 @@ function App() {
         <Stack.Screen name="EmailVerification" component={EmailVerification} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="StuAppTabs" component={StuAppTabs} /> 
-        <Stack.Screen name="ApplicationFormScreen" component={ApplicationFormScreen} /> 
+        <Stack.Screen name="CompanyDetails" component={CompanyDetails} /> 
         <Stack.Screen name="NotificationPage" component={NotificationPage} /> 
         <Stack.Screen name="MATabs" component={MATabs} /> 
         <Stack.Screen name="JobDetails" component={JobDetails} /> 
+        <Stack.Screen name="AddJob" component={AddJob} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -156,7 +156,7 @@ const JobListingsScreen = ({ navigation: { navigate } }) => {
       />
       <TouchableOpacity 
         style={styles.addButton}
-        onPress={() => navigate("JobDetails")}
+        onPress={() => navigate("AddJob")}
       >
         {/* Empty TouchableOpacity to act as a blue circle */}
         <Icon name="plus" size={45} color="white" />
