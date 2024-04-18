@@ -4,12 +4,12 @@ import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
+import NotificationPage from "./NotificationPage";
 
-const S_Dashboard = ({ navigation }) => {
+const S_Dashboard = ({ navigation: { navigate } }) => {
 
   const handleLeftBoxPress = () => {
-    // Navigate to the left box's screen
-    // navigation.navigate('LeftBoxScreen');
+    navigate("NotificationPage");
   };
 
   const handleRightBoxPress = () => {
@@ -97,3 +97,7 @@ const styles = StyleSheet.create({
 });
 
 export default S_Dashboard;
+
+
+
+

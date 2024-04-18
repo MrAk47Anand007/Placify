@@ -61,7 +61,8 @@ const Login = ({ navigation: { navigate } }) => {
     if (emailRegex.test(email) && passwordRegex.test(password)) {
       ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
       // Redirect to another screen if needed
-      navigate("StuAppTabs");
+      navigate("MATabs");
+      // navigate("StuAppTabs");
     }
   };
 

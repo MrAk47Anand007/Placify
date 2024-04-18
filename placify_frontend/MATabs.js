@@ -6,19 +6,19 @@ import Colors from './constants/TabColors';
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from '@react-navigation/native';
 import Icon, { Icons } from './components/Icons';
-import S_Dashboard from './srceens/Student-Login/S_Dashboard';
-import S_Jobs from './srceens/Student-Login/S_Jobs';
-import S_Groups from './srceens/Student-Login/S_Groups';
-import S_More from './srceens/Student-Login/S_More';
-import S_Resume from './srceens/Student-Login/S_Resume';
+import MA_Dashboard from './srceens/Master-Admin/MA_Dashboard';
+import MA_Groups from './srceens/Master-Admin/MA_Groups';
+import MA_Jobs from './srceens/Master-Admin/MA_Jobs';
+import MA_More from './srceens/Master-Admin/MA_More';
+import MA_StuDetails from './srceens/Master-Admin/MA_StuDetails';
 
 
 const TabArr = [
-  { route: 'Groups', label: 'Groups', type: Icons.MaterialIcons, icon: 'groups', component: S_Groups },
-  { route: 'Resume', label: 'Resume', type: Icons.FontAwesome, icon: 'file-text-o', component: S_Resume },
-  { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: S_Dashboard },
-  { route: 'Jobs', label: 'Jobs', type: Icons.Entypo, icon: 'suitcase', component: S_Jobs },
-  { route: 'More', label: 'More', type: Icons.Ionicons, icon: 'grid-outline', component: S_More },
+  { route: 'Groups', label: 'Groups', type: Icons.MaterialIcons, icon: 'groups', component: MA_Groups },
+  { route: 'Students', label: 'Students', type: Icons.AntDesign, icon: 'idcard', component: MA_StuDetails },
+  { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: MA_Dashboard },
+  { route: 'Jobs', label: 'Jobs', type: Icons.Entypo, icon: 'suitcase', component: MA_Jobs },
+  { route: 'More', label: 'More', type: Icons.Ionicons, icon: 'grid-outline', component: MA_More },
 ];
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,7 @@ const animate2 = { 0: { scale: 1.2, translateY: -24 }, 1: { scale: 1, translateY
 const circle1 = { 0: { scale: 0 }, 0.5: { scale: .9 }, 0.5: { scale: .2 }, 0.8: { scale: .7 }, 1: { scale: 1 } }
 const circle2 = { 0: { scale: 1 }, 1: { scale: 0 } }
 
-const StuAppTabs = (props) => {
+const MATabs = (props) => {
   const { item, onPress, accessibilityState } = props;
   const focused = accessibilityState.selected;
   const viewRef = useRef(null);
@@ -94,7 +94,7 @@ export default function AnimTab1() {
             <Tab.Screen key={index} name={item.route} component={item.component}
               options={{
                 tabBarShowLabel: false,
-                tabBarButton: (props) => <StuAppTabs {...props} item={item} />
+                tabBarButton: (props) => <MATabs {...props} item={item} />
               }}
             />
           )
