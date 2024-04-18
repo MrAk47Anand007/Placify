@@ -20,6 +20,9 @@ public class TesseractExample {
             // Regex pattern
             String pattern = "(\\d+\\.\\d+)";
 
+
+
+
             // Creating a Pattern object
             Pattern p = Pattern.compile(pattern);
 

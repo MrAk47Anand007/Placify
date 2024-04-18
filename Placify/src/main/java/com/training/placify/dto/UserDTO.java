@@ -24,14 +24,13 @@ public class UserDTO {
     @Email
     private String collegeEmail;
 
+    private String gender;
 
     private Boolean isEnabled;
 
     @NotNull // Ensure department is not null
     @Valid // Cascade validation to the properties of DepartmentDTO
     private DepartmentDTO department;
-
-
 
     private String password;
 
