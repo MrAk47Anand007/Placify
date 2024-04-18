@@ -15,7 +15,7 @@ public class Student extends User{
 
     private String phone_no;
 
-    private int passoutYear;
+    private Integer passoutYear;
 
     private String roll_no;
 

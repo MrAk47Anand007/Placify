@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Updated CORS Handling
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login","/user/register","/auth/forgotPassword","/api/resume/generate").permitAll()
+                        .requestMatchers("/auth/login","/user/register","/auth/forgotPassword","/api/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN") // Prefix with 'ROLE_'
                         .requestMatchers("/student/**").hasAuthority("ROLE_STUDENT")
                         .requestMatchers("/masterAdmin/**").hasAuthority("ROLE_MASTER_ADMIN")

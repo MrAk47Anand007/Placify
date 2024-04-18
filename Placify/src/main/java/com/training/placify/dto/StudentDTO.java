@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StudentDTO extends UserDTO {
     private String phoneNo;
-    private int passoutYear;
+    private Integer passoutYear;
     private String rollNo;
     private String prnNo;
     private String erpId;

@@ -111,27 +111,15 @@ public class UserServiceImpl implements UserService {
 
     private Admin mapToAdmin(UserDTO userDTO) {
         Admin admin = modelMapper.map(userDTO,Admin.class);
-//        Department department = departmentRepository.findByName(userDTO.getDepartment().getDeptName())
-//                .orElseGet(() -> departmentRepository.save(new Department(userDTO.getDepartment().getDeptName())));
-//        admin.setDepartment(department);
         admin.setPersonalEmail(userDTO.getPersonalEmail());
         admin.setCollegeEmail(userDTO.getCollegeEmail());
-        //associateDepartment(admin, userDTO.getDepartment().getDeptName());
-
-        //System.out.println(admin);
-
         return admin;
     }
 
     private Student mapToStudent(UserDTO userDTO) {
         Student student = modelMapper.map(userDTO, Student.class);
-//        Department department = departmentRepository.findByName(userDTO.getDepartment().getDeptName())
-//                .orElseGet(() -> departmentRepository.save(new Department(userDTO.getDepartment().getDeptName())));
-//        student.setDepartment(department);
         student.setPersonalEmail(userDTO.getPersonalEmail());
         student.setCollegeEmail(userDTO.getCollegeEmail());
-        //associateDepartment(student, userDTO.getDepartment().getDeptName());
-        //System.out.println(student);
         return student;
     }
 

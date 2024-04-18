@@ -5,6 +5,7 @@ import com.training.placify.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
@@ -16,6 +17,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Override
     void deleteById(@NonNull Long id);
+
+    List<Student> findByGender(String gender);
+
+    List<Student> findByGenderAndDepartment_Id(String gender, Long departmentId);
 
 
 
