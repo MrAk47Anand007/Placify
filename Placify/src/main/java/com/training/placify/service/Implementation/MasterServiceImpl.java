@@ -10,16 +10,20 @@ import com.training.placify.repository.DepartmentRepository;
 import com.training.placify.repository.StudentRepository;
 import com.training.placify.service.MasterAdminService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class MasterServiceImpl implements MasterAdminService {
 
     @Autowired
@@ -42,26 +46,58 @@ public class MasterServiceImpl implements MasterAdminService {
     }
 
     @Override
+    @Transactional
     public StudentDTO updateStudent(Long id, Map<String, Object> updates) {
         // Find the existing student
         Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + id));
 
-        // Use reflection to update fields dynamically
-        updates.forEach((fieldName, fieldValue) -> {
-            try {
-                Field field = Student.class.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                field.set(existingStudent, fieldValue);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                // Handle exceptions for invalid field names or access issues
-                throw new RuntimeException("Error updating field: " + fieldName, e);
-            }
-        });
+        // Iterate over the map to update fields dynamically using reflection
+        for (Map.Entry<String, Object> entry : updates.entrySet()) {
+            String fieldName = entry.getKey();
+            Object fieldValue = entry.getValue();
 
+            // Use reflection to update fields both in Student and User classes
+            try {
+                // First, try setting the field on the Student class
+                Field field = trySetField(existingStudent.getClass(), existingStudent, fieldName, fieldValue);
+
+                // If the field is not found in Student, try setting it on the User class
+                if (field == null) {
+                    field = trySetField(existingStudent.getClass().getSuperclass(), existingStudent, fieldName, fieldValue);
+                }
+
+                // If the field is still not found, log or handle accordingly
+                if (field == null) {
+                    System.out.println("Field not found: " + fieldName);
+                }
+            } catch (Exception e) {
+                // Handle exceptions, possibly logging them or throwing a custom exception
+                e.printStackTrace();
+            }
+        }
+
+        // Save the updated student entity
         Student updatedStudent = studentRepository.save(existingStudent);
+
+
+        // Assuming convertToDto also needs a DepartmentRepository to convert Department entity to DTO
+        System.out.println(updatedStudent);
         return convertToDto(updatedStudent, departmentRepository);
     }
+
+    private Field trySetField(Class<?> clazz, Object object, String fieldName, Object fieldValue) throws Exception {
+        try {
+            Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(object, fieldValue);
+            return field;
+        } catch (NoSuchFieldException e) {
+            // Field not found in the current class, return null to indicate this
+            return null;
+        }
+    }
+
 
     @Override
     public void deleteStudent(Long id) {
@@ -104,6 +140,7 @@ public class MasterServiceImpl implements MasterAdminService {
     }
 
     // Utility method to convert Student entity to StudentDTO
+
     private StudentDTO convertToDto(Student student, DepartmentRepository departmentRepository) {
         if (student == null) {
             return null;
@@ -126,12 +163,12 @@ public class MasterServiceImpl implements MasterAdminService {
         }
 
         // Mapping Student specific fields
-        studentDTO.setPhoneNo(student.getPhone_no());
+        studentDTO.setPhone_No(student.getPhone_no());
         studentDTO.setPassoutYear(student.getPassoutYear());
-        studentDTO.setRollNo(student.getRoll_no());
+        studentDTO.setRoll_No(student.getRoll_no());
         studentDTO.setPrnNo(student.getPrnNo());
         studentDTO.setErpId(student.getErpId());
-
+        System.out.println("Converted DTO: " + studentDTO);
         return studentDTO;
     }
 
@@ -143,6 +180,8 @@ public class MasterServiceImpl implements MasterAdminService {
         // Add other fields as necessary
         return departmentDTO;
     }
+
+
 
 //    @Override
 //    public List<StudentDTO> getAllFemaleStudents() {
