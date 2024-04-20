@@ -1,6 +1,6 @@
 package com.training.placify.service;
 
-import com.training.placify.model.ResumeData;
+import com.training.placify.model.resumeModel.ResumeData;
 import java.io.IOException;
 
 public interface ResumeService {
@@ -13,4 +13,7 @@ public interface ResumeService {
      * @throws IOException If an error occurs during PDF generation.
      */
     byte[] generateResume(ResumeData resumeData) throws IOException, InterruptedException;
+
+    ResumeData saveResumeDataAndVersion(ResumeData resumeData, Long studentId);
+
 }

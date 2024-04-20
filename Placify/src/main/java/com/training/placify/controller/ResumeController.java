@@ -1,15 +1,12 @@
 package com.training.placify.controller;
 
-import com.training.placify.model.ResumeData;
+import com.training.placify.model.resumeModel.ResumeData;
 import com.training.placify.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 
@@ -21,8 +18,12 @@ public class ResumeController {
     private ResumeService resumeService;
 
     @PostMapping("/generate")
-    public ResponseEntity<byte[]> generateResume(@RequestBody ResumeData resumeData) {
+    public ResponseEntity<byte[]> generateResume(@RequestBody ResumeData resumeData, @RequestParam Long studentId) {
         try {
+            // Save resume data and version
+            resumeService.saveResumeDataAndVersion(resumeData, studentId);
+
+            // Generate resume PDF
             byte[] pdfData = resumeService.generateResume(resumeData);
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=resume.pdf")

@@ -1,6 +1,6 @@
 package com.training.placify.service.Implementation;
 
-import com.training.placify.model.ResumeData;
+import com.training.placify.model.resumeModel.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.exec.*;
@@ -42,6 +42,7 @@ public class PdfGenerationTask implements Runnable {
             cmdLine.addArgument("-output-directory");
             cmdLine.addArgument(tempDir.toString());
             cmdLine.addArgument(tempTexFile.getAbsolutePath());
+
 
             DefaultExecutor executor = new DefaultExecutor();
             executor.setExitValue(0); // Set expected exit value for success
@@ -86,7 +87,7 @@ public class PdfGenerationTask implements Runnable {
                 .replace("%SOFT_SKILLS%", generateSimpleList(resumeData.getSkills().getSoftSkills()))
                 .replace("%EXPERIENCE%", generateExperienceSection(resumeData.getExperience()))
                 .replace("%PROJECTS%", generateProjectSection(resumeData.getProjects()))
-                .replace("%EXTRA_CURRICULAR%", generateList(resumeData.getExtraCurricularActivities()));
+                .replace("%EXTRA_CURRICULAR%", generateExtraCurricularActivities(resumeData.getExtraCurricularActivities()));
 
 
         return template;
@@ -105,6 +106,16 @@ public class PdfGenerationTask implements Runnable {
 
     }
 
+    private CharSequence generateExtraCurricularActivities(List<ExtraCurricularActivity> extraCurricularActivities) {
+        StringBuilder ExActSection = new StringBuilder();
+        ExActSection.append("\\begin{itemize}\n");
+        for(ExtraCurricularActivity extraCurricularActivity: extraCurricularActivities){
+            ExActSection.append("\\item ").append(extraCurricularActivity.getActivityName()).append("\n");
+        }
+        ExActSection.append("\\end{itemize}\n");
+        return ExActSection.toString();
+    }
+
     private CharSequence generateList(List<String> items) {
         StringBuilder list = new StringBuilder();
         list.append("\\begin{itemize}\n");
@@ -115,10 +126,10 @@ public class PdfGenerationTask implements Runnable {
         return list.toString();
     }
 
-    private CharSequence generateProjectSection(List<ResumeData.Project> projects) {
+    private CharSequence generateProjectSection(List<Project> projects) {
         StringBuilder projectSection = new StringBuilder();
         projectSection.append("\\begin{itemize}\n");
-        for (ResumeData.Project project : projects) {
+        for (Project project : projects) {
             projectSection.append("\\item \\textbf{").append(project.getTitle()).append(".} \\\\ \n");
             projectSection.append("{").append(project.getDescription()).append("}\n");
             if (project.getLink() != null) {
@@ -129,9 +140,9 @@ public class PdfGenerationTask implements Runnable {
         return projectSection.toString();
     }
 
-    private CharSequence generateExperienceSection(List<ResumeData.Experience> experience) {
+    private CharSequence generateExperienceSection(List<Experience> experience) {
         StringBuilder experienceSection = new StringBuilder();
-        for (ResumeData.Experience exp : experience) {
+        for (Experience exp : experience) {
             experienceSection.append("\\textbf{").append(exp.getRole()).append("} \\hfill ")
                     .append(exp.getDates()).append("\\\\ \\hfill {").append(exp.getCompany()).append("}\\\n");
             if (exp.getResponsibilities() != null) {
@@ -156,10 +167,10 @@ public class PdfGenerationTask implements Runnable {
         return list.toString();
     }
 
-    private CharSequence generateEducationSection(List<ResumeData.Education> education) {
+    private CharSequence generateEducationSection(List<Education> education) {
         StringBuilder educationSection = new StringBuilder();
         educationSection.append("\\begin{itemize}");
-        for(ResumeData.Education entry: education){
+        for(Education entry: education){
             educationSection.append("\\item").append("\\textbf{").append(entry.getDegree()).append("}, ")
                     .append(entry.getInstitution()).append("\\hfill {").append(entry.getDates()).append("}");
 
