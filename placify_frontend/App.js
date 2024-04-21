@@ -13,6 +13,8 @@ import CompanyDetails from './srceens/Student-Login/CompanyDetails';
 import NotificationPage from './srceens/Student-Login/NotificationPage';
 import JobDetails from './srceens/Master-Admin/JobDetails';
 import AddJob from './srceens/Master-Admin/AddJob';
+import MA_studentProfile from './srceens/Master-Admin/MA_studentProfile';
+import Student_Offer from './srceens/Master-Admin/Student_Offer';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +34,8 @@ function App() {
         <Stack.Screen name="MATabs" component={MATabs} /> 
         <Stack.Screen name="JobDetails" component={JobDetails} /> 
         <Stack.Screen name="AddJob" component={AddJob} /> 
+        <Stack.Screen name="MA_studentProfile" component={MA_studentProfile} /> 
+        <Stack.Screen name="Student_Offer" component={Student_Offer} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
