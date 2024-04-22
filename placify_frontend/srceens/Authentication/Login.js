@@ -11,6 +11,9 @@ import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
+
 
 
 const Login = ({ navigation: { navigate } }) => {
@@ -34,7 +37,44 @@ const Login = ({ navigation: { navigate } }) => {
 
   const handleSignup = () => {
     validateInputs();
+  
+    
+      // Perform the login API call
+      axios.post('http://192.168.29.209:8080/auth/login', {
+        username: email,
+        password: password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        const data = response.data;
+        if (data.jwt) {
+          // Store the JWT token in AsyncStorage
+          AsyncStorage.setItem('jwtToken', data.jwt)
+            .then(() => {
+              // Login was successful
+              ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
+              // Navigate to another screen
+              navigate("MATabs");
+            })
+            .catch(error => {
+              console.error('Error storing JWT token:', error);
+              ToastAndroid.show("An error occurred", ToastAndroid.SHORT);
+            });
+        } else {
+          // Handle login failure
+          ToastAndroid.show("Login failed", ToastAndroid.SHORT);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        ToastAndroid.show("An error occurred", ToastAndroid.SHORT);
+      });
+    
   };
+  
 
   const validateInputs = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
