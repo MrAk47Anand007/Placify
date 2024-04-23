@@ -5,27 +5,26 @@ import * as Animatable from 'react-native-animatable';
 import FileViewer from 'react-native-file-viewer';
 // import RNFS from 'react-native-fs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import StudentProfileStore from '../../store/student/StudentProfileStore'
 
 const MA_studentProfile = () => {
-  const [isBlocked, setIsBlocked] = useState(false);
-  const [showMore, setShowMore] = useState(false);
+  // Use Pullstate to manage state
+  const { isBlocked, showMore, studentInfo } = StudentProfileStore.useState(s => ({
+    isBlocked: s.isBlocked,
+    showMore: s.showMore,
+    studentInfo: s.studentInfo
+  }));
 
-  // Placeholder data
-  const studentInfo = {
-    name: 'John Doe',
-    dob: '01/01/2000',
-    course: 'BE',
-    department: 'Computer Engineering',
-    email: 'john.doe@example.com',
-    linkedin: 'linkedin.com/in/johndoe',
-    portfolio: 'johndoe.com',
-    talent: 'Software Development',
-    resume: 'path/to/resume.pdf', // Update with actual path or URL
-    appliedCompanies: [
-      { name: 'Company A', role: 'Software Engineer', ctc: '10 LPA', url: 'https://companya.com' },
-      { name: 'Company B', role: 'Data Analyst', ctc: '8 LPA', url: 'https://companyb.com' },
-      // Add more companies as needed
-    ],
+  const toggleBlock = () => {
+    StudentProfileStore.update(s => {
+      s.isBlocked = !s.isBlocked;
+    });
+  };
+
+  const toggleShowMore = () => {
+    StudentProfileStore.update(s => {
+      s.showMore = !s.showMore;
+    });
   };
 
   const viewResume = async () => {
@@ -61,7 +60,7 @@ const MA_studentProfile = () => {
         <Button
           icon={isBlocked ? "lock-open" : "block-helper"}
           mode="contained"
-          onPress={() => setIsBlocked(!isBlocked)}
+          onPress={() => toggleBlock(!isBlocked)}
           style={[styles.blockButton, isBlocked ? styles.unblockButton : {}]}
           labelStyle={styles.buttonText}
         >
@@ -109,7 +108,7 @@ const MA_studentProfile = () => {
                 </View>
               </>
             )}
-            <Button onPress={() => setShowMore(!showMore)}>
+            <Button onPress={() => toggleShowMore(!showMore)}>
               {showMore ? 'Show Less' : 'Show More'}
             </Button>
           </Card.Content>

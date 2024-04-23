@@ -21,7 +21,7 @@ const CompanyDetailsPage = () => {
   const handleOfferGiven = () => {
     setOfferGiven(true);
     // Reset after animation
-    setTimeout(() => setOfferGiven(false), 3000); // Adjust time as needed
+    setTimeout(() => setOfferGiven(true), 1000); // Adjust time as needed
   };
 
   const handleRevokeOffer = () => {

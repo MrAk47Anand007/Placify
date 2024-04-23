@@ -118,7 +118,8 @@ const MA_StuDetails = ({ navigation: { navigate } }) =>{
   return (
     
       <View style={styles.container}>
-        <TextInput
+      <View style={styles.search}>
+      <TextInput
           placeholder="Search Students"
           style={styles.searchBar}
           value={searchQuery}
@@ -127,6 +128,9 @@ const MA_StuDetails = ({ navigation: { navigate } }) =>{
         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.iconButton}>
           <Text><Ionicons name="filter" size={24} color="black" /> Filter</Text>
         </TouchableOpacity>
+
+      </View>
+       
         <Modal
           animationType="slide"
           transparent={true}
@@ -161,15 +165,19 @@ const styles = StyleSheet.create({
   searchBar: {
     marginHorizontal: 10,
     marginBottom: 10,
-    padding: 8,
-    backgroundColor: '#f1f1f1',
+    flexDirection:'row-reverse',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
+    borderColor:'#000000',
+    borderWidth:1,
     fontSize: 16,
+    paddingHorizontal:100
+
   },
   iconButton: {
     alignSelf: 'flex-end',
-    marginRight: 10,
-    padding: 10,
+    
+    padding: 17,
   },
   modalView: {
     marginTop: '50%',
@@ -207,6 +215,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 10,
   },
+  search:{
+  
+    flexDirection:'row'  }
+  
 });
 
 

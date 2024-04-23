@@ -228,9 +228,11 @@
 
 
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome for icons
 import { useNavigation } from '@react-navigation/native';
+import { Card } from 'react-native-paper';
+import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 // Dummy data for students
 const eligibleStudentsData = [
@@ -299,37 +301,11 @@ const MainPage = () => {
   
   
   return (
-    <View style={styles.container}>
-      <View style={styles.companyOverview}>
-        <Text style={styles.header}>Company Overview</Text>
-        <View style={styles.overviewDetail}>
-          <Text style={styles.detailTitle}>Company Name:</Text>
-          <Text style={styles.detailText}>XYZ Corp</Text>
-        </View>
-        <View style={styles.overviewDetail}>
-          <Text style={styles.detailTitle}>Role:</Text>
-          <Text style={styles.detailText}>Software Developer</Text>
-        </View>
-        <View style={styles.overviewDetail}>
-          <Text style={styles.detailTitle}>Job Description:</Text>
-          <Text style={styles.detailText}>Developing awesome apps</Text>
-        </View>
-        <View style={styles.overviewDetail}>
-          <Text style={styles.detailTitle}>Location:</Text>
-          <Text style={styles.detailText}>New York</Text>
-        </View>
-        <View style={styles.overviewDetail}>
-          <Text style={styles.detailTitle}>CTC:</Text>
-          <Text style={styles.detailText}>$120k</Text>
-        </View>
-        <View style={styles.overviewDetail}>
-          <Text style={styles.detailTitle}>Required Documents:</Text>
-          <Text style={styles.detailText}>Resume, Cover Letter</Text>
-        </View>
-        <Button title="Edit Details" onPress={() => console.log('Edit Details')} />
-      </View>
-    
-      <View style={styles.companyOverview}>
+    <ScrollView>
+<View style={styles.container}>
+
+<Card style={styles.card}>
+    <View style={styles.companyOverview}>
   <Text style={styles.header}>Create & Send Notification</Text>
 
   <View style={styles.notificationButtonContainer}>
@@ -343,8 +319,70 @@ const MainPage = () => {
     </TouchableOpacity>
   </View>
 </View>
+    </Card>
 
       
+      <Card style={styles.card}>
+      <View style={styles.companyOverview}>
+        <Text style={styles.header}>Company Overview</Text>
+        
+        
+        <Card style={styles.card}>
+        <View style={styles.overviewDetail}>
+          <Text style={styles.detailTitle}>Company Name:</Text>
+          <Text style={styles.detailText}>XYZ Corp</Text>
+        </View>
+        </Card>
+        
+        <Card style={styles.card}>
+        <View style={styles.overviewDetail}>
+          <Text style={styles.detailTitle}>Role:</Text>
+          <Text style={styles.detailText}>Software Developer</Text>
+        </View>
+        </Card>
+        
+        <Card style={styles.card}>
+        <View style={styles.overviewDetail}>
+          <Text style={styles.detailTitle}>Job Description:</Text>
+          <Text style={styles.detailText}>Developing awesome apps</Text>
+        </View>
+        </Card>
+        
+        <Card style={styles.card}>
+        <View style={styles.overviewDetail}>
+          <Text style={styles.detailTitle}>Location:</Text>
+          <Text style={styles.detailText}>New York</Text>
+        </View>
+        </Card>
+        
+        <Card style={styles.card}>
+        <View style={styles.overviewDetail}>
+          <Text style={styles.detailTitle}>CTC:</Text>
+          <Text style={styles.detailText}>$120k</Text>
+        </View>
+        </Card>
+        
+        <Card style={styles.card}>
+        <View style={styles.overviewDetail}>
+          <Text style={styles.detailTitle}>Required Documents:</Text>
+          <Text style={styles.detailText}>Resume, Cover Letter</Text>
+        </View>
+        </Card>
+        
+
+        <Card style={styles.card}>
+        <Button title="Edit Details" onPress={() => console.log('Edit Details')} />
+
+        </Card>
+      </View>
+      </Card>
+    
+      
+
+      
+      
+
+      <Card style={styles.card}>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -353,7 +391,9 @@ const MainPage = () => {
           value={searchText}
         />
       </View>
+      </Card>
       
+      <Card style={styles.card}>
       <View style={styles.tabsContainer}>
         <TouchableOpacity style={[styles.tab, currentTab === 'Eligible' && styles.activeTab]} onPress={() => setCurrentTab('Eligible')}>
           <Text style={[styles.tabText, currentTab === 'Eligible' && styles.activeTabText]}>Eligible Students</Text>
@@ -368,19 +408,24 @@ const MainPage = () => {
         renderItem={renderStudent}
         keyExtractor={item => item.id}
       />
-    </View>
+    
+      </Card>
+      </View>
+    </ScrollView>
+    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding:6,
+    marginBottom:75
   },
   companyOverview: {
     marginBottom: 20,
     padding: 15,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
   },
   header: {
@@ -406,7 +451,7 @@ const styles = StyleSheet.create({
   searchInput: {
     height: 40,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ffffff',
     borderRadius: 5,
     paddingHorizontal: 10,
   },
@@ -469,6 +514,15 @@ const styles = StyleSheet.create({
     color: 'blue', // or any other color you prefer for clickable text
     textDecorationLine: 'underline', // to visually indicate that it's clickable
   },
+  card:{
+    margin:10,
+    padding: 10,
+    borderRadius:14,
+    shadowOpacity:20,
+    backgroundColor: '#ffffff'
+    
+  }
+  
   
 
 });
