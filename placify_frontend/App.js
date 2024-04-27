@@ -13,15 +13,18 @@ import CompanyDetails from './srceens/Student-Login/CompanyDetails';
 import NotificationPage from './srceens/Student-Login/NotificationPage';
 import JobDetails from './srceens/Master-Admin/JobDetails';
 import AddJob from './srceens/Master-Admin/AddJob';
-import MA_studentProfile from './srceens/Master-Admin/MA_studentProfile';
+import studentProfile from './srceens/Master-Admin/studentProfile';
 import Student_Offer from './srceens/Master-Admin/Student_Offer';
+import ChatPage from './srceens/Student-Login/Group Pages/ChatPage';
+import GroupProfile from './srceens/Student-Login/Group Pages/GroupProfile';
+import ResumeScreen from './srceens/Student-Login/ResumeScreen'
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='MATabs' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='StuAppTabs' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
@@ -34,8 +37,12 @@ function App() {
         <Stack.Screen name="MATabs" component={MATabs} /> 
         <Stack.Screen name="JobDetails" component={JobDetails} /> 
         <Stack.Screen name="AddJob" component={AddJob} /> 
-        <Stack.Screen name="MA_studentProfile" component={MA_studentProfile} /> 
+        <Stack.Screen name="studentProfile" component={studentProfile} /> 
         <Stack.Screen name="Student_Offer" component={Student_Offer} /> 
+        <Stack.Screen name="ChatPage" component={ChatPage} /> 
+        <Stack.Screen name="GroupProfile" component={GroupProfile} /> 
+        <Stack.Screen name="ResumeScreen" component={ResumeScreen} /> 
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

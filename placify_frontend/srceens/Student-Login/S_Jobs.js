@@ -1,92 +1,133 @@
 
-// import React from "react";
-// import { StyleSheet, SafeAreaView } from "react-native";
-// import Spacing from "../../constants/Spacing";
-// import FontSize from "../../constants/FontSize";
-// import Colors from "../../constants/Colors";
-// import Font from "../../constants/Font";
-
-// const S_Jobs = ({}) => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-      
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     backgroundColor: Colors.background,
-//   }
-// });
-
-// export default S_Jobs;
-
-
-
-
-
-
-
-
-
-
-
-
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Colors from "../../constants/Colors";
+import Spacing from '../../constants/Spacing';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 // Dummy data for job listings
 const jobListings = [
-  { id: '1', title: 'Software Engineer', company: 'Tech Corp', ctc: '10 LPA', jobType: 'Full Time', location: 'New York' },
-  { id: '2', title: 'Web Developer Intern', company: 'Web Solutions', ctc: '6 LPA', jobType: 'Internship', location: 'San Francisco' },
-  { id: '3', title: 'Tech Consultant', company: 'BY Mellon', ctc: '22 LPA', jobType: 'Full Time', location: 'San Francisco' },
-  // { id: '4', title: 'Cyber Security Intern', company: 'Cred', ctc: '18 LPA', jobType: 'Internship', location: 'San Francisco' },
+  { id: '1', title: 'Software Engineer', company: 'Amazon', ctc: '10 LPA', jobType: 'Full Time', location: 'New York', logo: require('../../assets/images/amazonlogo.png') },
+  { id: '2', title: 'Web Developer Intern', company: 'Google', ctc: '6 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/googlelogo.png') },
+  { id: '3', title: 'Tech Consultant', company: 'TATA', ctc: '22 LPA', jobType: 'Full Time', location: 'San Francisco', logo: require('../../assets/images/Tatalogo.png') },
+  { id: '4', title: 'Cyber Security Intern', company: 'Amazon', ctc: '18 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/amazonlogo.png') },
+  // Add more listings as needed
+];
+
+
+const Applications = [
+  // { id: '1', title: 'Software Engineer', company: 'Amazon', ctc: '10 LPA', jobType: 'Full Time', location: 'New York', logo: require('../../assets/images/amazonlogo.png') },
+  { id: '2', title: 'Web Developer Intern', company: 'Google', ctc: '6 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/googlelogo.png') },
+  // { id: '3', title: 'Tech Consultant', company: 'TATA', ctc: '22 LPA', jobType: 'Full Time', location: 'San Francisco', logo: require('../../assets/images/Tatalogo.png') },
+  { id: '4', title: 'Cyber Security Intern', company: 'Amazon', ctc: '18 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/amazonlogo.png') },
+  // Add more listings as needed
+];
+
+
+
+const Offers = [
+  { id: '1', title: 'Software Engineer', company: 'Amazon', ctc: '10 LPA', jobType: 'Full Time', location: 'New York', logo: require('../../assets/images/amazonlogo.png') },
+  { id: '2', title: 'Web Developer Intern', company: 'Google', ctc: '6 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/googlelogo.png') },
+  // { id: '3', title: 'Tech Consultant', company: 'TATA', ctc: '22 LPA', jobType: 'Full Time', location: 'San Francisco', logo: require('../../assets/images/Tatalogo.png') },
+  // { id: '4', title: 'Cyber Security Intern', company: 'Amazon', ctc: '18 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/amazonlogo.png') },
   // Add more listings as needed
 ];
 
 const JobListingsScreen = ({ navigation: { navigate } }) => {
   return (
-    <FlatList
-      data={jobListings}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text>{item.company}</Text>
-          <View style={styles.detailsRow}>
-            <Text>{item.ctc}</Text>
-            <Text>{item.jobType}</Text>
+    <View style={styles.container}>
+      <FlatList
+        data={jobListings}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.listingHeader}>
+              <Image source={item.logo} style={styles.logo} />
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.jobType}>{item.jobType}</Text>
+              </View>
+            </View>
+            <Text style={styles.textbelowlogo}>Company: {item.company}</Text>
+            <View style={styles.detailsRow}>
+              <Text style={styles.textbelowlogo}>CTC: {item.ctc}</Text>
+            </View>
+            <Text style={styles.textbelowlogo}>Location: {item.location}</Text>
+            <TouchableOpacity
+              style={styles.applyButton}
+              onPress={() => navigate("CompanyDetails")}
+            >
+              <Text style={styles.applyButtonText}>View Details</Text>
+            </TouchableOpacity>
           </View>
-          <Text>{item.location}</Text>
-          <TouchableOpacity 
-          style={styles.applyButton}
-          onPress={() => navigate("CompanyDetails")}
-          >
-            <Text style={styles.applyButtonText}>View Deatails</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    />
+        )}
+      />
+    </View>
   );
 };
 
-// Dummy Components for Applications, Offers, and Applied tabs
 const ApplicationsScreen = () => (
-  <View style={styles.screenContainer}>
-    <Text style={styles.screenText}>Applications Screen</Text>
-  </View>
+  <View style={styles.container}>
+      <FlatList
+        data={Applications}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.listingHeader}>
+              <Image source={item.logo} style={styles.logo} />
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.jobType}>{item.jobType}</Text>
+              </View>
+            </View>
+            <Text style={styles.textbelowlogo}>Company: {item.company}</Text>
+            <View style={styles.detailsRow}>
+              <Text style={styles.textbelowlogo}>CTC: {item.ctc}</Text>
+            </View>
+            <Text style={styles.textbelowlogo}>Location: {item.location}</Text>
+            <TouchableOpacity
+              style={styles.applyButton}
+              onPress={() => navigate("CompanyDetails")}
+            >
+              <Text style={styles.applyButtonText}>View Details</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
 );
 
 const OffersScreen = () => (
-  <View style={styles.screenContainer}>
-    <Text style={styles.screenText}>Offers Screen</Text>
-  </View>
+  <View style={styles.container}>
+      <FlatList
+        data={Offers}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.listingHeader}>
+              <Image source={item.logo} style={styles.logo} />
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.jobType}>{item.jobType}</Text>
+              </View>
+            </View>
+            <Text style={styles.textbelowlogo}>Company: {item.company}</Text>
+            <View style={styles.detailsRow}>
+              <Text style={styles.textbelowlogo}>CTC: {item.ctc}</Text>
+            </View>
+            <Text style={styles.textbelowlogo}>Location: {item.location}</Text>
+            <TouchableOpacity
+              style={styles.applyButton}
+              onPress={() => navigate("CompanyDetails")}
+            >
+              <Text style={styles.applyButtonText}>View Details</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
 );
 
 const AppliedScreen = () => (
@@ -103,8 +144,8 @@ const S_Jobs = () => {
       initialRouteName="Opportunities"
       screenOptions={{
         tabBarActiveTintColor: '#ffffff',
-        tabBarLabelStyle: { fontSize: 12, fontWeight: "bold", justifyContent: 'center', },
-        tabBarStyle: { backgroundColor: Colors.shadePrimary, paddingVertical: 6, },
+        tabBarLabelStyle: { fontSize: responsiveFontSize(1.6), fontWeight: "bold", justifyContent: 'center' },
+        tabBarStyle: { backgroundColor: Colors.primary, paddingVertical: Spacing * 0.8 },
         tabBarIndicatorStyle: { backgroundColor: '#ffffff' },
       }}
     >
@@ -118,37 +159,74 @@ const S_Jobs = () => {
 
 export default S_Jobs;
 
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+    paddingBottom: Spacing * 9,
+    backgroundColor: Colors.lightPrimary,
+  },
   card: {
-    marginTop: 18,
+    marginTop: Spacing * 2,
     backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    borderRadius: Spacing * 2,
+    paddingVertical: Spacing * 2.3,
+    paddingHorizontal: Spacing * 1.5,
+    marginHorizontal: Spacing * 2.2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: Spacing * 0.2,
     },
     shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    shadowRadius: Spacing * 0.2,
     elevation: 4,
   },
+  listingHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Align items horizontally
+    marginBottom: Spacing * 0.3,
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: Spacing,
+  },
+  titleContainer: {
+    flex: 1, // Take remaining space
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Align items horizontally
+    alignItems: 'center', // Align items vertically
+  },
   title: {
-    fontSize: 18,
+    fontSize: responsiveFontSize(2.25),
     fontWeight: 'bold',
+    color: Colors.text,
+  },
+  jobType: {
+    fontSize: responsiveFontSize(1.4),
+    color: Colors.primary,
+    fontWeight: 'bold',
+    textAlign: 'right', // Align text to the right
+  },
+  textbelowlogo: {
+    marginLeft: Spacing,
+    fontSize: responsiveFontSize(1.85),
+    color: Colors.darkText
   },
   detailsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 5,
+    marginTop: Spacing * 0.5,
   },
   applyButton: {
-    marginTop: 10,
+    marginTop: Spacing * 1.5,
     backgroundColor: Colors.primary,
-    padding: 10,
-    borderRadius: 20,
+    padding: Spacing * 1.2,
+    borderRadius: Spacing * 2,
     alignItems: 'center',
   },
   applyButtonText: {
@@ -161,9 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   screenText: {
-    fontSize: 20,
+    fontSize: responsiveFontSize(2),
     fontWeight: 'bold',
   },
 });
-
-

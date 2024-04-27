@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
-    height: Spacing * 31,
-    backgroundColor: Colors.shadePrimary,
+    height: Spacing * 34,
+    backgroundColor: Colors.primary,
     borderRadius: Spacing * 4,
     // justifyContent: 'center',
     alignItems: 'center',

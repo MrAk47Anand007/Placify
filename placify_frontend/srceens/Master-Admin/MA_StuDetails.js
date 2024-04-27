@@ -62,22 +62,23 @@ function StudentsList({ status, searchQuery, selectedDepartments }) {
   return (
     <ScrollView>
       {filteredStudents.map((student) => (
-       <TouchableOpacity
-       style={styles.card}
-       onPress={() => navigation.navigate("MA_studentProfile", { studentData: student })}
-     >
-       <Image source={{ uri: 'https://i.pravatar.cc/150?u=' + student.id }} style={styles.photo} />
-       <View>
-         <Text>{student.name}</Text>
-         <Text>{student.rollNo}</Text>
-         <Ionicons
-           name={status === 'eligible' ? 'checkmark-circle' : 'close-circle'}
-           size={24}
-           color={status === 'eligible' ? 'green' : 'red'}
-         />
-       </View>
-     </TouchableOpacity>
-      ))}
+  <TouchableOpacity
+    key={student.id} // Assign unique key here
+    style={styles.card}
+    onPress={() => navigation.navigate("studentProfile", { studentData: student })}
+  >
+    <Image source={{ uri: 'https://i.pravatar.cc/150?u=' + student.id }} style={styles.photo} />
+    <View>
+      <Text>{student.name}</Text>
+      <Text>{student.rollNo}</Text>
+      <Ionicons
+        name={status === 'eligible' ? 'checkmark-circle' : 'close-circle'}
+        size={24}
+        color={status === 'eligible' ? 'green' : 'red'}
+      />
+    </View>
+  </TouchableOpacity>
+))}
     </ScrollView>
   );
 }
@@ -213,12 +214,17 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+<<<<<<< Updated upstream
     marginRight: 10,
   },
   search:{
   
     flexDirection:'row'  }
   
+=======
+    marginRight: 10,
+  },
+>>>>>>> Stashed changes
 });
 
 

@@ -1,65 +1,70 @@
-// import * as React from 'react';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// import { NavigationContainer } from '@react-navigation/native';
-// // import ResumesScreen from './ResumesScreen'; // Import your Resumes screen component
-// // import ProfileScreen from './ProfileScreen'; // Import your Profile screen component
-// // import QueryGenerationScreen from './QueryGenerationScreen'; // Import your Query Generation screen component
-// // import LogoutScreen from './LogoutScreen'; // Import your Logout screen component
-// // import CustomerSupportScreen from './CustomerSupportScreen'; // Import your Customer Support screen component
-// import S_Resume from './S_Resume';
-// import S_Jobs from './S_Jobs';
+// DrawerPage.js
 
-// const Drawer = createDrawerNavigator();
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
-// function MyDrawer() {
-//   return (
-//     <Drawer.Navigator >
-//       <Drawer.Screen name="Resumes" component={S_Resume} />
-//       <Drawer.Screen name="Profile" component={S_Resume} />
-//       <Drawer.Screen name="Query Generation" component={S_Resume} />
-//       <Drawer.Screen name="Logout" component={S_Resume} />
-//       <Drawer.Screen name="Customer Support" component={S_Jobs} />
-//     </Drawer.Navigator>
-//   );
-// }
+const DrawerPage = () => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const navigation = useNavigation(); // Use useNavigation hook to get the navigation object
 
-// export default function App() {
-//   return (
-    
-//       <MyDrawer />
-    
-//   );
-// }
+  const options = [
+    { name: 'Resume', icon: 'file-text-o', screen: 'ResumeScreen' },
+    { name: 'Change Password', icon: 'lock', screen: 'Resume' },
+    { name: 'Query Generation', icon: 'search', screen: 'Resume' },
+    { name: 'Support', icon: 'question-circle-o', screen: 'Resume' },
+    { name: 'Logout', icon: 'sign-out', screen: 'Resume' },
+  ];
 
+  const handleOptionPress = (screenName) => {
+    navigation.navigate(screenName); // Use navigation object to navigate to the screen
+  };
 
-
-
-
-
-
-
-
-import React from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
-import Spacing from "../../constants/Spacing";
-import FontSize from "../../constants/FontSize";
-import Colors from "../../constants/Colors";
-import Font from "../../constants/Font";
-
-const S_More = ({}) => {
   return (
-    <SafeAreaView style={styles.container}>
-      
-    </SafeAreaView>
+    <View style={styles.container}>
+      {options.map((option, index) => (
+        <TouchableOpacity
+          key={index}
+          style={[
+            styles.option,
+            selectedOption === option.name && styles.selectedOption
+          ]}
+          onPress={() => handleOptionPress(option.screen)}
+          activeOpacity={0.7}
+        >
+          <FontAwesome name={option.icon} size={24} color="#555" style={styles.icon} />
+          <Text style={styles.optionText}>{option.name}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    backgroundColor: Colors.background,
-  }
+    backgroundColor: '#fff',
+    // paddingTop: 50,
+    paddingHorizontal: 20,
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  selectedOption: {
+    backgroundColor: '#e6f7ff', // Light blue background color when option is selected
+  },
+  icon: {
+    marginRight: 10,
+  },
+  optionText: {
+    fontSize: 18,
+    color: '#333',
+  },
 });
 
-export default S_More;
+export default DrawerPage;
