@@ -1,6 +1,6 @@
 {
     "name": "L",
-    "version": "0.0.1",
+    "version": "0.1",
     "private": true,
     "scripts": {
         "android": "react-native run-android",
@@ -28,11 +28,8 @@
         "react-native-animatable": "^1.4.0",
         "react-native-blob-util": "^0.19.8",
         "react-native-date-picker": "^5.0.2",
-<<<<<<< Updated upstream
-=======
         "react-native-datepicker": "^1.7.2",
         "react-native-dropdown-picker": "^5.4.6",
->>>>>>> Stashed changes
         "react-native-dropdown-select-list": "^2.0.5",
         "react-native-file-viewer": "^2.1.5",
         "react-native-fs": "^2.20.0",

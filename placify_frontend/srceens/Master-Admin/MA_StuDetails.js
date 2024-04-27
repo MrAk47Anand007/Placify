@@ -214,17 +214,13 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-<<<<<<< Updated upstream
     marginRight: 10,
   },
   search:{
   
-    flexDirection:'row'  }
+    flexDirection:'row'  
+  }
   
-=======
-    marginRight: 10,
-  },
->>>>>>> Stashed changes
 });
 
 

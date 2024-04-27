@@ -13,16 +13,17 @@ const initialResumeData = {
     {
       degree: 'Bachelor of Science in Computer Science',
       institution: 'University of Technology',
-      dates: '2018 - 2022',
+      passingyear: '2024',
       startDate: '2018-09-01', // Example start date
       endDate: '2022-06-30', // Example end date
+      percentage: '80',
+      branch: 'Computer',
       semesterCGPA:['9.55','8.55','8.55','8.55','8.55','8.55','8.55','8.55'],
-      relevantCoursework: ['Data Structures and Algorithms', 'Web Development', 'Machine Learning']
+      aggregateCGPA:'89'
     },
     {
       degree: 'High School Diploma',
       institution: 'Anytown High School',
-      dates: '2014 - 2018',
       startDate: '2014-09-01', // Example start date
       endDate: '2018-06-30' // Example end date
     }

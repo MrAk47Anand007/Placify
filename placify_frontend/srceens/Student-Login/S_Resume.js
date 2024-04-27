@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useContext } from "react";
 import { ResumeProvider } from '../Student-Login/Resume Components/ResumeContext'; 
 import { StyleSheet, SafeAreaView, TouchableOpacity, Text, Animated, ScrollView, Alert } from "react-native";
 import Colors from "../../constants/Colors";
@@ -12,7 +12,9 @@ import OtherDetailsForm from "./Resume Components/OtherDetailsForm";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontSize from '../../constants/FontSize';
 import Spacing from '../../constants/Spacing';
-import { ResumeContext } from './ResumeContext';
+import { ResumeContext } from '../Student-Login/Resume Components/ResumeContext';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { generateResume } from "./Resume Components/ResumeService";
 
 
 const S_Resume = () => {

@@ -462,7 +462,7 @@ const EducationDetailsForm = () => {
               value={form.educationType}
               onSelectionChange={(newValue) => handleDropdownSelection(index, newValue)}
             />
-            {form.educationType && <DynamicEducationInputs educationType={form.educationType} />}
+            {form.educationType && <DynamicEducationInputs educationType={form.educationType} educationIndex={index} />}
           </View>
         ))}
         

@@ -8,7 +8,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import DatePicker from 'react-native-date-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const DynamicEducationInputs = ({ educationType }) => {
+const DynamicEducationInputs = ({ educationType,educationIndex }) => {
 
   const { resumeData, updateResumeData } = useContext(ResumeContext);
   const [uploadedImages, setUploadedImages] = useState({});
@@ -34,25 +34,25 @@ const DynamicEducationInputs = ({ educationType }) => {
   };
 
 
-  useEffect(() => {
-    if (resumeData.education[0]) {
-      setFromDate(
-        resumeData.education[0].startDate
-          ? new Date(resumeData.education[0].startDate)
-          : null
-      );
-      setToDate(
-        resumeData.education[0].endDate
-          ? new Date(resumeData.education[0].endDate)
-          : null
-      );
-    }
-  }, [resumeData.education]);
+  // useEffect(() => {
+  //   if (resumeData.education[educationIndex]) {
+  //     setFromDate(
+  //       resumeData.education[educationIndex].startDate
+  //         ? new Date(resumeData.education[educationIndex].startDate)
+  //         : null
+  //     );
+  //     setToDate(
+  //       resumeData.education[educationIndex].endDate
+  //         ? new Date(resumeData.education[educationIndex].endDate)
+  //         : null
+  //     );
+  //   }
+  // }, [resumeData.education]);
 
 
   const handleChange = (value, field) => {
     const updatedEducation = [...resumeData.education];
-    updatedEducation[0][field] = value;
+    updatedEducation[educationIndex][field] = value; // Use educationIndex to update the correct object
     updateResumeData({ education: updatedEducation });
   };
 
@@ -66,11 +66,20 @@ const DynamicEducationInputs = ({ educationType }) => {
         return (
           <View>
             <Text style={styles.inputLabel}>School/Board Name:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].institution} // Access from context
+            onChangeText={(text) => handleChange(text, 'institution')}
+            />
             <Text style={styles.inputLabel}>Year of Passing:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].passingyear} // Access from context
+            onChangeText={(text) => handleChange(text, 'passingyear')}
+            />
             <Text style={styles.inputLabel}>Percentage/CGPA:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField}
+            value={resumeData.education[educationIndex].percentage} // Access from context
+            onChangeText={(text) => handleChange(text, 'percentage')}
+            />
 
 
             <View style={styles.dateRow}>
@@ -82,8 +91,8 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.startDate
-                      ? new Date(resumeData.education[0].startDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.startDate
+                      ? new Date(resumeData.education[educationIndex].startDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
@@ -96,18 +105,18 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.endDate
-                      ? new Date(resumeData.education[0].endDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.endDate
+                      ? new Date(resumeData.education[educationIndex].endDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
-            {resumeData.education[0]?.startDate && (
+            {resumeData.education[educationIndex]?.startDate && (
               <DatePicker
                 modal
                 open={openFromDatePicker}
-                date={new Date(resumeData.education[0].startDate)}
+                date={new Date(resumeData.education[educationIndex].startDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -120,11 +129,11 @@ const DynamicEducationInputs = ({ educationType }) => {
                 }}
               />
             )}
-            {resumeData.education[0]?.endDate && (
+            {resumeData.education[educationIndex]?.endDate && (
               <DatePicker
                 modal
                 open={openToDatePicker}
-                date={new Date(resumeData.education[0].endDate)}
+                date={new Date(resumeData.education[educationIndex].endDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -145,11 +154,20 @@ const DynamicEducationInputs = ({ educationType }) => {
         return (
           <View>
             <Text style={styles.inputLabel}>School/Board Name:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].institution} // Access from context
+            onChangeText={(text) => handleChange(text, 'institution')}
+            />
             <Text style={styles.inputLabel}>Year of Passing 12:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField}
+            value={resumeData.education[educationIndex].passingyear} // Access from context
+            onChangeText={(text) => handleChange(text, 'passingyear')}
+            />
             <Text style={styles.inputLabel}>Percentage/CGPA:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].percentage} // Access from context
+            onChangeText={(text) => handleChange(text, 'percentage')}
+            />
 
 
             <View style={styles.dateRow}>
@@ -161,8 +179,8 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.startDate
-                      ? new Date(resumeData.education[0].startDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.startDate
+                      ? new Date(resumeData.education[educationIndex].startDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
@@ -175,8 +193,8 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.endDate
-                      ? new Date(resumeData.education[0].endDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.endDate
+                      ? new Date(resumeData.education[educationIndex].endDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
@@ -186,7 +204,7 @@ const DynamicEducationInputs = ({ educationType }) => {
               <DatePicker
                 modal
                 open={openFromDatePicker}
-                date={new Date(resumeData.education[0].startDate)}
+                date={new Date(resumeData.education[educationIndex].startDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -199,11 +217,11 @@ const DynamicEducationInputs = ({ educationType }) => {
                 }}
               />
             )}
-            {resumeData.education[0]?.endDate && (
+            {resumeData.education[educationIndex]?.endDate && (
               <DatePicker
                 modal
                 open={openToDatePicker}
-                date={new Date(resumeData.education[0].endDate)}
+                date={new Date(resumeData.education[educationIndex].endDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -224,13 +242,25 @@ const DynamicEducationInputs = ({ educationType }) => {
         return (
           <View>
             <Text style={styles.inputLabel}>Institute Name:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].institution} // Access from context
+            onChangeText={(text) => handleChange(text, 'institution')}
+            />
             <Text style={styles.inputLabel}>Branch/Specialization:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField}
+            value={resumeData.education[educationIndex].branch} // Access from context
+            onChangeText={(text) => handleChange(text, 'branch')}
+            />
             <Text style={styles.inputLabel}>Year of Completion:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField}
+            value={resumeData.education[educationIndex].passingyear} // Access from context
+            onChangeText={(text) => handleChange(text, 'passingyear')}
+            />
             <Text style={styles.inputLabel}>Percentage/CGPA:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField}
+            value={resumeData.education[educationIndex].percentage} // Access from context
+            onChangeText={(text) => handleChange(text, 'percentage')}
+            />
 
 
             <View style={styles.dateRow}>
@@ -242,8 +272,8 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.startDate
-                      ? new Date(resumeData.education[0].startDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.startDate
+                      ? new Date(resumeData.education[educationIndex].startDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
@@ -256,18 +286,18 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.endDate
-                      ? new Date(resumeData.education[0].endDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.endDate
+                      ? new Date(resumeData.education[educationIndex].endDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
-            {resumeData.education[0]?.startDate && (
+            {resumeData.education[educationIndex]?.startDate && (
               <DatePicker
                 modal
                 open={openFromDatePicker}
-                date={new Date(resumeData.education[0].startDate)}
+                date={new Date(resumeData.education[educationIndex].startDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -280,11 +310,11 @@ const DynamicEducationInputs = ({ educationType }) => {
                 }}
               />
             )}
-            {resumeData.education[0]?.endDate && (
+            {resumeData.education[educationIndex]?.endDate && (
               <DatePicker
                 modal
                 open={openToDatePicker}
-                date={new Date(resumeData.education[0].endDate)}
+                date={new Date(resumeData.education[educationIndex].endDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -305,11 +335,20 @@ const DynamicEducationInputs = ({ educationType }) => {
         return (
           <View>
             <Text style={styles.inputLabel}>College/University Name:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].institution} // Access from context
+            onChangeText={(text) => handleChange(text, 'institution')}
+            />
             <Text style={styles.inputLabel}>Major/Degree:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].branch} // Access from context
+            onChangeText={(text) => handleChange(text, 'branch')}
+            />
             <Text style={styles.inputLabel}>Graduation Year:</Text>
-            <TextInput style={styles.inputField} />
+            <TextInput style={styles.inputField} 
+            value={resumeData.education[educationIndex].passingyear} // Access from context
+            onChangeText={(text) => handleChange(text, 'passingyear')}
+            />
 
 
             <View style={styles.dateRow}>
@@ -321,8 +360,8 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.collegeStartDate
-                      ? new Date(resumeData.education[0].collegeStartDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.startDate
+                      ? new Date(resumeData.education[educationIndex].startDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
@@ -335,18 +374,18 @@ const DynamicEducationInputs = ({ educationType }) => {
                 >
                   <FontAwesome name="calendar" size={20} color={Colors.primary} />
                   <Text style={styles.dateText}>
-                    {resumeData.education[0]?.collegeEndDate
-                      ? new Date(resumeData.education[0].collegeEndDate).toLocaleDateString()
+                    {resumeData.education[educationIndex]?.endDate
+                      ? new Date(resumeData.education[educationIndex].endDate).toLocaleDateString()
                       : 'DD-MM-YYYY'}
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
-            {resumeData.education[0]?.startDate && (
+            {resumeData.education[educationIndex]?.startDate && (
               <DatePicker
                 modal
                 open={openFromDatePicker}
-                date={new Date(resumeData.education[0].startDate)}
+                date={new Date(resumeData.education[educationIndex].startDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -359,11 +398,11 @@ const DynamicEducationInputs = ({ educationType }) => {
                 }}
               />
             )}
-            {resumeData.education[0]?.endDate && (
+            {resumeData.education[educationIndex]?.endDate && (
               <DatePicker
                 modal
                 open={openToDatePicker}
-                date={new Date(resumeData.education[0].endDate)}
+                date={new Date(resumeData.education[educationIndex].endDate)}
                 mode="date"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -378,7 +417,7 @@ const DynamicEducationInputs = ({ educationType }) => {
             )}
 
 
-            {resumeData.education[0]?.semesterCGPA?.map((cgpa, index) => (
+            {resumeData.education[educationIndex]?.semesterCGPA?.map((cgpa, index) => (
               <View key={index} style={styles.semesterContainer}>
                 <Text style={styles.semesterText}>{`Sem ${index + 1} CGPA:`}</Text>
                 <View style={styles.readOnlyInput}>
@@ -400,7 +439,7 @@ const DynamicEducationInputs = ({ educationType }) => {
               <Text style={styles.AggsemesterText}>Aggregate CGPA:</Text>
               <View style={styles.AggreadOnlyInput}>
                 <Text style={styles.AggCGPAText}>
-                  {resumeData.education[0]?.aggregateCGPA || ''}
+                  {resumeData.education[educationIndex]?.aggregateCGPA || ''}
                 </Text>
               </View>
             </View>
