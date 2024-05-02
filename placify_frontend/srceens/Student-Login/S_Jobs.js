@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing * 2.3,
     paddingHorizontal: Spacing * 1.5,
     marginHorizontal: Spacing * 2.2,
-    shadowColor: '#000',
+    shadowColor: Colors.primary,
     shadowOffset: {
       width: 0,
       height: Spacing * 0.2,

@@ -2,7 +2,7 @@
 // Login file
 
 import React, { useState, useRef, useEffect } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, Animated, ScrollView} from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, Animated, ScrollView,Alert} from "react-native";
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -12,6 +12,7 @@ import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import Font from "../../constants/Font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
 
@@ -35,45 +36,54 @@ const Login = ({ navigation: { navigate } }) => {
     ).start();
   }, [fadeAnim]);
 
-  const handleSignup = () => {
-    validateInputs();
+  const handleSignup = async () => {
+    validateInputs(); // Assuming you have this function for input validation
   
-    
-      // Perform the login API call
-      axios.post('http://192.168.29.209:8080/auth/login', {
+    try {
+      const response = await axios.post('http://192.168.29.209:8080/auth/login', {
         username: email,
         password: password,
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-      .then(response => {
-        const data = response.data;
-        if (data.jwt) {
-          // Store the JWT token in AsyncStorage
-          AsyncStorage.setItem('jwtToken', data.jwt)
-            .then(() => {
-              // Login was successful
-              ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
-              // Navigate to another screen
-              navigate("MATabs");
-            })
-            .catch(error => {
-              console.error('Error storing JWT token:', error);
-              ToastAndroid.show("An error occurred", ToastAndroid.SHORT);
-            });
-        } else {
-          // Handle login failure
-          ToastAndroid.show("Login failed", ToastAndroid.SHORT);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        ToastAndroid.show("An error occurred", ToastAndroid.SHORT);
       });
-    
+  
+      // Check HTTP status AND presence of JWT in nested structure
+      if (response.status === 200 && response.data) {
+        await SecureStore.setItemAsync('jwtToken', response.data);
+        console.log('JWT Token stored successfully:', response.data);
+  
+        // Successful login (assuming StuAppTabs is the correct route)
+        ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
+        navigate('StuAppTabs'); 
+      } else {
+        // Handle API errors
+        let errorMessage = "Login failed";
+        if (response.status === 401) {
+          errorMessage = "Incorrect username or password";
+        } else if (response.data.error || response.data.message) {
+          errorMessage = response.data.error || response.data.message;
+        } else {
+          errorMessage = "An error occurred. Status code: " + response.status;
+          Alert.alert('Login Response', JSON.stringify(response.data, null, 2)); 
+        }
+        Alert.alert('Error', errorMessage); 
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error('Error:', error);
+      console.log('Request Details:', error.request); 
+      console.log('Response Details:', error.response);
+  
+      let errorMessage = 'An error occurred during login. Please try again later.';
+      if (error.response && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      }
+      Alert.alert('Error', errorMessage);
+    }
   };
+  
   
 
   const validateInputs = () => {
@@ -98,12 +108,7 @@ const Login = ({ navigation: { navigate } }) => {
       setLoginSuccess(false);
     }
 
-    if (emailRegex.test(email) && passwordRegex.test(password)) {
-      ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
-      // Redirect to another screen if needed
-      navigate("MATabs");
-      // navigate("StuAppTabs");
-    }
+   
   };
 
   return (

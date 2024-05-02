@@ -10,7 +10,7 @@ const DrawerPage = () => {
   const navigation = useNavigation(); // Use useNavigation hook to get the navigation object
 
   const options = [
-    { name: 'Resume', icon: 'file-text-o', screen: 'ResumeScreen' },
+    { name: 'Generate Resume', icon: 'file-text-o', screen: 'ResumeScreen' },
     { name: 'Change Password', icon: 'lock', screen: 'Resume' },
     { name: 'Query Generation', icon: 'search', screen: 'Resume' },
     { name: 'Support', icon: 'question-circle-o', screen: 'Resume' },

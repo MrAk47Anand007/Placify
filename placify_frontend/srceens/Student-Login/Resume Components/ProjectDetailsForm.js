@@ -339,7 +339,7 @@ const ProjectDetailsForm = ({ onSubmit }) => {
             <TextInput
               style={styles.input}
               placeholder="Key Skills"
-              value={project.keySkills}
+              value={project.keySkills.join(', ')}
               onChangeText={(text) => handleChange(text, 'keySkills', index)}
             />
             <Text>Description</Text>

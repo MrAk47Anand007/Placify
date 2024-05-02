@@ -175,7 +175,7 @@ const ExperienceDetailsForm = ({ onSubmit }) => {
             <TextInput
               style={styles.input}
               placeholder="Skills"
-              value={experience.skills}
+              value={experience.skills.join(", ")}
               onChangeText={(text) => handleChange(text, 'skills', index)}
             />
             <Text>Description</Text>

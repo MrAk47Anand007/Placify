@@ -71,7 +71,7 @@ const BasicInfoForm = ({ onSubmit, onCancel }) => {
       <TextInput
         style={styles.input}
         placeholder="Phone No."
-        value={resumeData.phone} // Access the phoneNumber field from the resumeData object
+        value={resumeData.phoneNumber} // Access the phoneNumber field from the resumeData object
         onChangeText={(text) => handleChange(text, 'phoneNumber')}
       />
       {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}

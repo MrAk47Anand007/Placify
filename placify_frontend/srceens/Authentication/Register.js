@@ -16,6 +16,7 @@ const Register = ({ navigation: { navigate } }) => {
     const [personalEmail, setPersonalEmail] = useState('');
     const [collegeEmail, setCollegeEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [gender,setGender]=useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [passwordError, setPasswordError] = useState('');
@@ -83,6 +84,8 @@ const Register = ({ navigation: { navigate } }) => {
               personalEmail,
               collegeEmail,
               password,
+              gender,
+              passoutYear,
               isEnabled: true,
               department: {
                 deptName:selectedBranch // Assuming you always send the department info
@@ -105,7 +108,7 @@ const Register = ({ navigation: { navigate } }) => {
     };
 
     const data = [
-      {key:'1', value:'Computer Engineering'},
+      {key:'1', value:'Computer Science'},
       {key:'2', value:'Artificial Intelligence and Data Science'},
       {key:'3', value:'Civil Engineering'},
       {key:'4', value:'Mechanical Engineering'},
@@ -144,10 +147,16 @@ const Register = ({ navigation: { navigate } }) => {
                 value={lastName}
               />
               <AppTextInput 
+                placeholder="Gender"
+                onChangeText={text => setGender(text)}
+                value={gender}
+              />
+              <AppTextInput 
                 placeholder="Personal Email-Id"
                 onChangeText={text => setPersonalEmail(text)}
                 value={personalEmail}
               />
+              
 
               {!validateEmail(personalEmail) && personalEmail && <Text style={styles.validationText}>Invalid Email</Text>}
               <AppTextInput 

@@ -248,8 +248,8 @@ const DynamicEducationInputs = ({ educationType,educationIndex }) => {
             />
             <Text style={styles.inputLabel}>Branch/Specialization:</Text>
             <TextInput style={styles.inputField}
-            value={resumeData.education[educationIndex].branch} // Access from context
-            onChangeText={(text) => handleChange(text, 'branch')}
+            value={resumeData.education[educationIndex].degree} // Access from context
+            onChangeText={(text) => handleChange(text, 'degree')}
             />
             <Text style={styles.inputLabel}>Year of Completion:</Text>
             <TextInput style={styles.inputField}
@@ -341,8 +341,8 @@ const DynamicEducationInputs = ({ educationType,educationIndex }) => {
             />
             <Text style={styles.inputLabel}>Major/Degree:</Text>
             <TextInput style={styles.inputField} 
-            value={resumeData.education[educationIndex].branch} // Access from context
-            onChangeText={(text) => handleChange(text, 'branch')}
+            value={resumeData.education[educationIndex].degree} // Access from context
+            onChangeText={(text) => handleChange(text, 'degree')}
             />
             <Text style={styles.inputLabel}>Graduation Year:</Text>
             <TextInput style={styles.inputField} 

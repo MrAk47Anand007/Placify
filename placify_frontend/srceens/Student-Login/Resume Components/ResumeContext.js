@@ -3,7 +3,7 @@ import React, { createContext, useState } from 'react';
 const initialResumeData = {
   name: 'Anand Sudhir Kale',
   address: '123 Main Street, Anytown, CA 12345',
-  phone: '555-555-1212',
+  phoneNumber: '555-555-1212',
   email: 'anandkale@gmail.com',
   linkedin: 'https://www.linkedin.com/in/john-doe',
   github: 'https://www.linkedin.com/in/john-doe',
@@ -42,7 +42,7 @@ const initialResumeData = {
       dates: 'Summer 2021',
       startDate: '2021-06-01', // Example start date
       endDate: '2021-08-31', // Example end date
-      skills: 'DevOps, Kubernetes, AWS, Rest-API',
+      skills: ['DevOps, Kubernetes, AWS, Rest-API'],
       description:'Developed Python scripts for data analysis and automation'
         
     }
@@ -53,7 +53,7 @@ const initialResumeData = {
       description: 'A responsive website showcasing my skills and projects.',
       link: 'https://johndoeportfolio.com',
       teamSize: '4',
-      keySkills: 'Angular, JS, React, Node',
+      keySkills: ['Angular, JS, React, Node'],
       startDate: '2020-12-02',
       endDate: '2024-01-14'
 
@@ -63,7 +63,7 @@ const initialResumeData = {
       description: 'A Python app to create interactive visualizations from CSV data.',
       link: 'https://johndoeGroceyApp.com',
       teamSize: '4',
-      keySkills: 'Python, JS, React, Node',
+      keySkills: ['Python, JS, React, Node'],
       startDate: '2019-12-02',
       endDate: '2023-11-12'
     }
@@ -130,3 +130,5 @@ const ResumeProvider = ({ children }) => {
 };
 
 export { ResumeContext, ResumeProvider };
+
+//add here skills array in all sections.....
