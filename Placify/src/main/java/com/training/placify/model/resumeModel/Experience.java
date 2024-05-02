@@ -17,13 +17,12 @@ public class Experience {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String role;
-    private String company;
-    private String location;
-    private String dates;
-
-    @ElementCollection // Use ElementCollection for List<String>
-    private List<String> responsibilities;
+    private String designation;
+    private String organization;
+    private String country;
+    private String description, startDate, endDate;
+    @ElementCollection
+    private List<String> skills;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_data_id")

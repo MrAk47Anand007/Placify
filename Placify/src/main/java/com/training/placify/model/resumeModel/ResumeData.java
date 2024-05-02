@@ -96,7 +96,8 @@ public class ResumeData {
     private String email;
     private String linkedin;
     private String website;
-    private String objective;
+    private String briefSummary;
+    private String github;
 
 
     @OneToMany(mappedBy = "resumeData", cascade = CascadeType.ALL)
@@ -113,5 +114,11 @@ public class ResumeData {
 
     @OneToMany(mappedBy = "resumeData", cascade = CascadeType.ALL)
     private List<Project> projects;
+
+    @OneToMany(mappedBy = "resumeData", cascade = CascadeType.ALL)
+    private List<CoCurricularActivity> coCurricularActivities;
+
+    @OneToMany(mappedBy = "resumeData", cascade = CascadeType.ALL)
+    private List<Certification> certifications;
 
 }

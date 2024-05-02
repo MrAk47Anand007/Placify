@@ -80,14 +80,17 @@ public class PdfGenerationTask implements Runnable {
                 .replace("%EMAIL%", resumeData.getEmail())
                 .replace("%LINKEDIN%", resumeData.getLinkedin())
                 .replace("%WEBSITE%", resumeData.getWebsite())
-                .replace("%OBJECTIVE%", resumeData.getObjective());
+                .replace("%OBJECTIVE%", resumeData.getBriefSummary())
+                .replace("%GITHUB%", resumeData.getGithub());
 
         template = template.replace("%EDUCATION%", generateEducationSection(resumeData.getEducation()))
                 .replace("%TECHNICAL_SKILLS%", generateSimpleList(resumeData.getSkills().getTechnicalSkills()))
                 .replace("%SOFT_SKILLS%", generateSimpleList(resumeData.getSkills().getSoftSkills()))
                 .replace("%EXPERIENCE%", generateExperienceSection(resumeData.getExperience()))
                 .replace("%PROJECTS%", generateProjectSection(resumeData.getProjects()))
-                .replace("%EXTRA_CURRICULAR%", generateExtraCurricularActivities(resumeData.getExtraCurricularActivities()));
+                .replace("%EXTRA_CURRICULAR%", generateExtraCurricularActivities(resumeData.getExtraCurricularActivities()))
+                .replace("%CO_CURRICULAR%",generateCoCurricularActivities(resumeData.getCoCurricularActivities()))
+                .replace("%CERTIFICATIONS%",generateCertifications(resumeData.getCertifications()));
 
 
         return template;
@@ -109,13 +112,42 @@ public class PdfGenerationTask implements Runnable {
     private CharSequence generateExtraCurricularActivities(List<ExtraCurricularActivity> extraCurricularActivities) {
         StringBuilder ExActSection = new StringBuilder();
         ExActSection.append("\\begin{itemize}\n");
-        for(ExtraCurricularActivity extraCurricularActivity: extraCurricularActivities){
-            ExActSection.append("\\item ").append(extraCurricularActivity.getActivityName()).append("\n");
+        for (ExtraCurricularActivity extraCurricularActivity : extraCurricularActivities) {
+            String activityName = extraCurricularActivity.getValue();
+            if (activityName != null && !activityName.isEmpty()) {
+                ExActSection.append("\\item ").append(activityName).append("\n");
+            }
         }
         ExActSection.append("\\end{itemize}\n");
         return ExActSection.toString();
     }
 
+    private CharSequence generateCoCurricularActivities(List<CoCurricularActivity> coCurricularActivities) {
+        StringBuilder coCurSection = new StringBuilder();
+        coCurSection.append("\\begin{itemize}\n");
+        for (CoCurricularActivity coCurricularActivity : coCurricularActivities) {
+            String activityName = coCurricularActivity.getValue();
+            if (activityName != null && !activityName.isEmpty()) {
+                coCurSection.append("\\item ").append(activityName).append("\n");
+            }
+        }
+        coCurSection.append("\\end{itemize}\n");
+        return coCurSection.toString();
+    }
+
+    private CharSequence generateCertifications(List<Certification> certifications) {
+        StringBuilder certSection = new StringBuilder();
+        certSection.append("\\begin{itemize}\n");
+        for (Certification certification : certifications) {
+            String certName = certification.getName();
+            String organization = certification.getOrganization();
+            if (certName != null && !certName.isEmpty() && organization != null && !organization.isEmpty()) {
+                certSection.append("\\item ").append(certName).append(" (").append(organization).append(")\n");
+            }
+        }
+        certSection.append("\\end{itemize}\n");
+        return certSection.toString();
+    }
     private CharSequence generateList(List<String> items) {
         StringBuilder list = new StringBuilder();
         list.append("\\begin{itemize}\n");
@@ -130,11 +162,20 @@ public class PdfGenerationTask implements Runnable {
         StringBuilder projectSection = new StringBuilder();
         projectSection.append("\\begin{itemize}\n");
         for (Project project : projects) {
-            projectSection.append("\\item \\textbf{").append(project.getTitle()).append(".} \\\\ \n");
+            projectSection.append("\\item \\textbf{").append(project.getTitle()).append(".} \\hfill")
+                    .append(project.getStartDate().substring(0,4)+"-"+project.getEndDate().substring(0,4))
+                    .append("\\\\ \n");
             projectSection.append("{").append(project.getDescription()).append("}\n");
             if (project.getLink() != null) {
-                projectSection.append("{\\href{").append(project.getLink()).append("}{(Try it here)}}\n");
+                projectSection.append("{\\href{").append(project.getLink()).append("}{(Try it here)}} \\\\\n");
             }
+            if (project.getKeySkills()!=null){
+                projectSection.append("Key Skills:");
+                for(String skill:project.getKeySkills()){
+                    projectSection.append(skill+",");
+                }
+            }
+
         }
         projectSection.append("\\end{itemize} ");
         return projectSection.toString();
@@ -143,15 +184,20 @@ public class PdfGenerationTask implements Runnable {
     private CharSequence generateExperienceSection(List<Experience> experience) {
         StringBuilder experienceSection = new StringBuilder();
         for (Experience exp : experience) {
-            experienceSection.append("\\textbf{").append(exp.getRole()).append("} \\hfill ")
-                    .append(exp.getDates()).append("\\\\ \\hfill {").append(exp.getCompany()).append("}\\\n");
-            if (exp.getResponsibilities() != null) {
-                experienceSection.append("\\begin{itemize}\n");
-                for (String achievement : exp.getResponsibilities()) {
-                    experienceSection.append("\\item ").append(achievement).append("\n");
-                }
-                experienceSection.append("\\end{itemize}\n");
+            experienceSection.append("\\textbf{").append(exp.getDesignation()).append("} \\hfill ")
+                    .append(exp.getStartDate().substring(0,4)+"-"+exp.getEndDate().substring(0,4)).append("\\\\ \\hfill {")
+                    .append(exp.getOrganization()).append("}").append(exp.getCountry()).append("\\\\\n");
+            if (exp.getDescription() != null) {
+                experienceSection.append(exp.getDescription()).append("\\\\\n");
             }
+            if (exp.getSkills() != null) {
+                experienceSection.append("Skills:");
+                for(String skill:exp.getSkills()){
+                    experienceSection.append(skill+",");
+                }
+                experienceSection.append("\\\\\n");
+            }
+
         }
         return experienceSection.toString();
     }
@@ -172,19 +218,17 @@ public class PdfGenerationTask implements Runnable {
         educationSection.append("\\begin{itemize}");
         for(Education entry: education){
             educationSection.append("\\item").append("\\textbf{").append(entry.getDegree()).append("}, ")
-                    .append(entry.getInstitution()).append("\\hfill {").append(entry.getDates()).append("}");
+                    .append(entry.getInstitution()).append("\\hfill {").append(entry.getStartDate().substring(0,4)+"-"+entry.getEndDate().substring(0,4))
+                    .append("}").append("\\\\ \\textit{Passing Year:} ").append(entry.getPassingyear());
 
-            List<String> relevantCoursework = entry.getRelevantCoursework();
-            if (relevantCoursework != null && !relevantCoursework.isEmpty()) {
-                educationSection.append("\\\\ \\textit{Relevant Coursework:} ");
-                for (int i = 0; i < relevantCoursework.size(); i++) {
-                    educationSection.append(relevantCoursework.get(i));
-                    if (i < relevantCoursework.size() - 1) {
-                        educationSection.append(", ");
-                    }
-                }
-                educationSection.append("\n");
+            if(entry.getPercentage()!=null){
+                educationSection.append(" \\\\\\textit{Percentage:} ").append(entry.getPercentage());
             }
+            if(entry.getAggregateCGPA()!=null){
+                educationSection.append(" \\\\\\textit{CGPA:} ").append(entry.getAggregateCGPA());
+            }
+            educationSection.append("\n");
+
         }
         educationSection.append("\\end{itemize}");
         return educationSection.toString();

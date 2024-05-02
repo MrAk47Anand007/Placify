@@ -78,6 +78,8 @@ public class ResumeServiceImpl implements ResumeService {
         resumeData.getExperience().forEach(experience -> experience.setResumeData(resumeData));
         resumeData.getExtraCurricularActivities().forEach(activity -> activity.setResumeData(resumeData));
         resumeData.getProjects().forEach(project -> project.setResumeData(resumeData));
+        resumeData.getCoCurricularActivities().forEach(activity -> activity.setResumeData(resumeData));
+        resumeData.getCertifications().forEach(certification -> certification.setResumeData(resumeData));
 
         // Save the ResumeData entity (this will cascade to child entities)
         resumeDataRepository.save(resumeData);

@@ -1,6 +1,5 @@
 package com.training.placify.model.companyModel;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +36,7 @@ public class PlacementDrive {
     @Enumerated(EnumType.STRING)
     private EmploymentType employmentType; // E.g., FULL_TIME, INTERNSHIP, etc. (create an enum)
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 

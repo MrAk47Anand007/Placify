@@ -21,6 +21,11 @@ public class Project {
     private String description;
     private String link;
 
+    private String teamSize,startDate, endDate;
+
+    @ElementCollection
+    private List<String> keySkills;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_data_id")
     private ResumeData resumeData;

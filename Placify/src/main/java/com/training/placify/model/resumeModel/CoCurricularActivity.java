@@ -6,31 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Education {
+public class CoCurricularActivity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String degree;
-    private String institution;
-    private String startDate;
-    private String endDate;
-    private String passingyear;
-    private String percentage;
-    private String branch;
-    @ElementCollection
-    private List<String> semesterCGPA;
-    private String aggregateCGPA;
 
+    @Column(name = "activity_key") // Use a different name to avoid conflict with reserved word "key"
+    private String key;
+
+    @Column(name = "activity_value") // Use a different name to avoid conflict with reserved word "value"
+    private String value;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_data_id")
     private ResumeData resumeData;
+
 
 }

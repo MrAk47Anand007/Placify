@@ -35,11 +35,19 @@ public class CompanyServiceImpl implements CompanyService {
                             .map(dept -> departmentRepository.findByName(dept.getName())
                                     .orElseThrow(() -> new EntityNotFoundException("Department not found")))
                             .collect(Collectors.toList());
+                    drive.setCompany(company);
                     criteria.setEligibleDepartments(departments);
                 }
             }
         }
 
-        return companyRepository.save(company);
+
+        try {
+            return companyRepository.save(company);
+        } catch (Exception e) {
+            // Handle the exception
+            e.printStackTrace(); // Print the stack trace for debugging
+            throw new RuntimeException("Error saving company: " + e.getMessage()); // Re-throw a more informative exception
+        }
     }
 }

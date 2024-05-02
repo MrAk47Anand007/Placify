@@ -1,10 +1,13 @@
 package com.training.placify.model;
 
+import com.training.placify.model.resumeModel.ResumeVersion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,5 +25,8 @@ public class Student extends User{
     private String prnNo;
 
     private String erpId;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<ResumeVersion> resumeVersions;
 
 }

@@ -15,11 +15,14 @@ public class ExtraCurricularActivity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String activityName;
+    @Column(name = "activity_key") // Use a different name to avoid conflict with reserved word "key"
+    private String key;
+
+    @Column(name = "activity_value") // Use a different name to avoid conflict with reserved word "value"
+    private String value;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_data_id")
     private ResumeData resumeData;
 }
-
 
