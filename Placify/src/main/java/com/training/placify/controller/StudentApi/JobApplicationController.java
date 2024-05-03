@@ -1,39 +1,38 @@
-//package com.training.placify.controller.Student;
-//
-//import com.training.placify.dto.JobApplicationDTO;
-//import com.training.placify.model.companyModel.ApplicationStatus;
-//import com.training.placify.model.companyModel.JobApplication;
-//import com.training.placify.service.JobApplicationService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//@RestController
-//@RequestMapping("/api/jobApplications")
-//public class JobApplicationController {
-//
-//    @Autowired
-//    private JobApplicationService jobApplicationService;
-//
-//    @PostMapping("/apply")
-//    public ResponseEntity<JobApplication> applyForJob(@RequestBody JobApplicationDTO jobApplicationDTO) {
-//        try {
-//            JobApplication jobApplication = new JobApplication();
-//            jobApplication.setStudentId(jobApplicationDTO.getStudentId());
-//            jobApplication.setPlacementDriveId(jobApplicationDTO.getPlacementDriveId());
-//            jobApplication.setApplicationDate(jobApplicationDTO.getApplicationDate());
-//            jobApplication.setResumeVersionId(jobApplicationDTO.getResumeVersionId());
-//            jobApplication.setStatus(ApplicationStatus.APPLIED); // Set default status to APPLIED
-//
-//            JobApplication savedJobApplication = jobApplicationService.applyForJob(jobApplication);
-//            return ResponseEntity.status(HttpStatus.CREATED).body(savedJobApplication);
-//        } catch (Exception e) {
-//            // Handle the exception appropriately
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
-//}
+package com.training.placify.controller.StudentApi;
+
+import com.training.placify.model.companyModel.JobApplication;
+import com.training.placify.service.JobApplicationService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/job-applications")
+public class JobApplicationController {
+
+    @Autowired
+    private JobApplicationService jobApplicationService;
+
+    @PostMapping("/apply")
+    public ResponseEntity<JobApplication> applyForJob(
+            @RequestParam Long studentId,
+            @RequestParam Long placementDriveId,
+            @RequestParam Long resumeVersionId) {
+        try {
+            JobApplication application = jobApplicationService.applyForJob(studentId, placementDriveId, resumeVersionId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(application);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    // Add more endpoints as needed for other operations like:
+    // - Getting application status
+    // - Updating application details
+    // - Listing applications for a student or placement drive
+
+}
