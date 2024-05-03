@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.StandardCharsets;
 
 @RestController
+@CrossOrigin(origins = "http://192.168.29.79")
 @RequestMapping("/api/resume") // Base path for resume API
 public class ResumeController {
 

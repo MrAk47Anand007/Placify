@@ -37,6 +37,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     @Autowired
     private EligibilityEvaluator eligibilityEvaluator; // Assuming you have this utility class
 
+    @Override
     @Transactional
     public JobApplication applyForJob(Long studentId, Long placementDriveId, Long resumeVersionId) {
         // 1. Fetch entities
@@ -65,8 +66,4 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         return jobApplicationRepository.save(jobApplication);
     }
 
-    @Override
-    public JobApplication applyForJob(JobApplication jobApplication) {
-        return null;
-    }
 }
