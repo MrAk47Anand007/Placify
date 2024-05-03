@@ -274,7 +274,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { CheckBox } from '@react-native-community/checkbox'; // Import CheckBox component
+import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker'; // Import Picker component
 import Colors from '../../constants/Colors';
 import FontSize from '../../constants/FontSize';
@@ -497,11 +497,7 @@ const JobPlacementDriveForm = () => {
               onChangeText={(value) => setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, minimumTwelfthMarks: parseInt(value) } })}
               value={driveData.eligibilityCriteria.minimumTwelfthMarks.toString()}
             />
-            {/* <CheckBox
-              disabled={false}
-              value={checked}
-              onValueChange={handleCheckboxChange}
-            /> */}
+            
             <TextInput
               style={styles.inputField}
               placeholder="Maximum Previous Backlogs"
@@ -516,7 +512,23 @@ const JobPlacementDriveForm = () => {
               onChangeText={(value) => setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, minimumCgpa: parseFloat(value) } })}
               value={driveData.eligibilityCriteria.minimumCgpa.toString()}
             />
-            {/* <Picker
+            <View style={styles.rowOrientation}>
+            <CheckBox
+              disabled={false}
+              value={checked}
+              onValueChange={handleCheckboxChange}
+            />
+            <Text>
+              Allow Live backlog
+            </Text>
+            </View>
+
+            <View style={styles.rowOrientation}>
+            <Text>
+              Allow Live backlog
+            </Text>
+
+            <Picker
               selectedValue={driveData.eligibilityCriteria.gender}
               style={{ height: 50, width: 150 }}
               onValueChange={(itemValue) => handleGenderChange(itemValue)}
@@ -524,7 +536,11 @@ const JobPlacementDriveForm = () => {
               <Picker.Item label="Any" value="Any" />
               <Picker.Item label="Male" value="Male" />
               <Picker.Item label="Female" value="Female" />
-            </Picker> */}
+            </Picker>
+
+            </View>
+
+
             <View style={styles.departmentSelectionContainer}>
               <Text style={styles.label}>Eligible Departments</Text>
               <View style={styles.departmentButtonsContainer}>
@@ -649,6 +665,9 @@ const styles = StyleSheet.create({
   departmentButtonText: {
     fontSize: 14,
   },
+  rowOrientation: {
+    flexDirection: 'row',
+  }
 });
 
 export default JobPlacementDriveForm;
