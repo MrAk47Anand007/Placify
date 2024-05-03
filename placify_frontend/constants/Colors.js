@@ -1,6 +1,6 @@
 const white = "#fff";
 const black = "#000";
-const dark = "#626262";
+const dark = "#444444";
 const blue = "#1F41BB";
 const darkblue = "#0A0F72";
 const lightB = "#1a1f71";

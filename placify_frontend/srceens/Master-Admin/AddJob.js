@@ -1,283 +1,565 @@
 
+// import React, { useState } from 'react';
+// import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+// import DatePicker from 'react-native-date-picker';
+// import Colors from '../../constants/Colors';
+// import FontSize from '../../constants/FontSize';
+// import Spacing from '../../constants/Spacing';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome icon library
+
+// const JobPlacementDriveForm = () => {
+//   const [driveData, setDriveData] = useState({
+//     title: "Software Engineer Internship 2024",
+//     description: "An internship opportunity for software engineers.",
+//     costToCompany: "5000.0",
+//     startDate: new Date(),
+//     endDate: new Date(),
+//     location: "Example City",
+//     otherDetails: "Additional details about the internship.",
+//     selectionProcess: "Interview and technical assessment",
+//     employmentType: "INTERNSHIP",
+//     eligibilityCriteria: {
+//       minimumTenthMarks: 80,
+//       minimumTwelfthMarks: 85,
+//       allowCurrentBacklogs: false,
+//       maximumPreviousBacklogs: 2,
+//       minimumCgpa: 7.5,
+//       gender: "Any",
+//       eligibleDepartments: [
+//         {
+//           name: "Computer Science"
+//         },
+//         {
+//           name: "Computer"
+//         }
+//       ]
+//     }
+//   });
+//   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+//   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+
+//   const handleStartDateChange = (date) => {
+//     setSelectedStartDate(date);
+//     setDriveData({ ...driveData, startDate: date });
+//   };
+
+//   const handleEndDateChange = (date) => {
+//     setSelectedEndDate(date);
+//     setDriveData({ ...driveData, endDate: date });
+//   };
+
+//   const handleSubmit = () => {
+//     // Handle form submission logic here
+//     // You can access form data using state variables
+//     alert('Placement Drive added successfully!');
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+
+//         <Text style={styles.heading}>Placement Drive Form</Text>
+
+//         {/* Drive Title Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Drive Title</Text>
+//           <TextInput
+//             style={styles.textInput}
+//             placeholder="Drive Title"
+//             onChangeText={(title) => setDriveData({ ...driveData, title })}
+//             value={driveData.title}
+//           />
+//         </View>
+
+//         {/* Drive Description Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Drive Description</Text>
+//           <TextInput
+//             style={styles.multilineInput}
+//             placeholder="Drive Description"
+//             onChangeText={(description) => setDriveData({ ...driveData, description })}
+//             value={driveData.description}
+//             multiline={true}
+//             numberOfLines={4}
+//           />
+//         </View>
+
+//         {/* Cost To Company Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Cost To Company (CTC)</Text>
+//           <TextInput
+//             style={styles.textInput}
+//             placeholder="CTC"
+//             onChangeText={(ctc) => setDriveData({ ...driveData, costToCompany: parseFloat(ctc) })}
+//             value={driveData.costToCompany.toString()}
+//             keyboardType="numeric"
+//           />
+//         </View>
+
+//         {/* Start Date Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Start Date</Text>
+//           <TouchableOpacity
+//             style={styles.datePicker}
+//             onPress={() => {} /* Handle opening start date picker */}
+//           >
+//             <FontAwesome name="calendar" size={20} color={Colors.primary} />
+//             <Text style={styles.dateText}>{selectedStartDate.toLocaleDateString()}</Text>
+//           </TouchableOpacity>
+//           {/* Implement start date picker here */}
+//           <DatePicker
+//             date={selectedStartDate}
+//             onDateChange={handleStartDateChange}
+//           />
+//         </View>
+
+//         {/* End Date Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>End Date</Text>
+//           <TouchableOpacity
+//             style={styles.datePicker}
+//             onPress={() => {} /* Handle opening end date picker */}
+//           >
+//             <FontAwesome name="calendar" size={20} color={Colors.primary} />
+//             <Text style={styles.dateText}>{selectedEndDate.toLocaleDateString()}</Text>
+//           </TouchableOpacity>
+//           {/* Implement end date picker here */}
+//           <DatePicker
+//             date={selectedEndDate}
+//             onDateChange={handleEndDateChange}
+//           />
+//         </View>
+
+//         {/* Location Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Location</Text>
+//           <TextInput
+//             style={styles.textInput}
+//             placeholder="Location"
+//             onChangeText={(location) => setDriveData({ ...driveData, location })}
+//             value={driveData.location}
+//           />
+//         </View>
+
+//         {/* Other Details Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Other Details</Text>
+//           <TextInput
+//             style={styles.textInput}
+//             placeholder="Other Details"
+//             onChangeText={(otherDetails) => setDriveData({ ...driveData, otherDetails })}
+//             value={driveData.otherDetails}
+//           />
+//         </View>
+
+//         {/* Selection Process Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Selection Process</Text>
+//           <TextInput
+//             style={styles.textInput}
+//             placeholder="Selection Process"
+//             onChangeText={(selectionProcess) => setDriveData({ ...driveData, selectionProcess })}
+//             value={driveData.selectionProcess}
+//           />
+//         </View>
+
+//         {/* Employment Type Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Employment Type</Text>
+//           <TextInput
+//             style={styles.textInput}
+//             placeholder="Employment Type"
+//             onChangeText={(employmentType) => setDriveData({ ...driveData, employmentType })}
+//             value={driveData.employmentType}
+//           />
+//         </View>
+
+//         {/* Eligibility Criteria Input */}
+//         <View style={styles.fieldContainer}>
+//           <Text style={styles.label}>Eligibility Criteria</Text>
+//           {/* Implement Eligibility Criteria input fields here */}
+//         </View>
+
+//       </ScrollView>
+//       {/* Submit Button */}
+//       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+//         <Text style={styles.submitText}>Add Placement Drive</Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#FFFFFF',
+//     position: 'relative',
+//   },
+//   scrollView: {
+//     marginBottom: 100,
+//     margin: Spacing * 2.5
+//   },
+//   heading: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     marginBottom: 20,
+//     color: Colors.primary,
+//     textAlign: 'center',
+//   },
+//   label: {
+//     fontSize: 16,
+//   },
+//   fieldContainer: {
+//     marginBottom: 20,
+//   },
+//   textInput: {
+//     height: 40,
+//     borderColor: '#ccc',
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     paddingHorizontal: 10,
+//   },
+//   multilineInput: {
+//     height: 80,
+//     borderColor: '#ccc',
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     paddingHorizontal: 10,
+//     paddingTop: 10,
+//   },
+//   datePicker: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     borderColor: '#ccc',
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     paddingHorizontal: 10,
+//     paddingVertical: 8,
+//     marginTop: 5,
+//   },
+//   dateText: {
+//     marginLeft: 10,
+//     color: '#333',
+//   },
+//   submitButton: {
+//     position: 'absolute',
+//     bottom: 7,
+//     left: 0,
+//     right: 0,
+//     backgroundColor: Colors.primary,
+//     borderRadius: 20,
+//     paddingVertical: Spacing * 2,
+//     marginHorizontal: Spacing * 2,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   submitText: {
+//     color: 'white',
+//     fontSize: FontSize.large,
+//     fontWeight: 'bold',
+//   },
+// });
+
+// export default JobPlacementDriveForm;
+
+
+
+
+
+
+
+
+
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import DatePicker from 'react-native-date-picker';
+import { CheckBox } from '@react-native-community/checkbox'; // Import CheckBox component
+import { Picker } from '@react-native-picker/picker'; // Import Picker component
 import Colors from '../../constants/Colors';
 import FontSize from '../../constants/FontSize';
 import Spacing from '../../constants/Spacing';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome icon library
 
-const JobApplicationForm = () => {
-  const [internship, setInternship] = useState(false);
-  const [fullTime, setFullTime] = useState(false);
-  const [internshipFullTime, setInternshipFullTime] = useState(false);
-  const [name, setName] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [ctc, setCtc] = useState('');
-  const [fixedGross, setFixedGross] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [bondDetails, setBondDetails] = useState('');
-  const [otherDetails, setOtherDetails] = useState('');
-  const [offerType, setOfferType] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [location, setLocation] = useState('');
-  const [uploadedDocuments, setUploadedDocuments] = useState([]);
-  const [uploadedLogo, setUploadedLogo] = useState(null);
 
-  const handleCheckboxChange = (option) => {
-    if (option === 'Internship') {
-      setInternship(!internship);
-      if (!internship && (fullTime || internshipFullTime)) {
-        setFullTime(false);
-        setInternshipFullTime(false);
-      }
-    } else if (option === 'Full Time') {
-      setFullTime(!fullTime);
-      if (!fullTime && (internship || internshipFullTime)) {
-        setInternship(false);
-        setInternshipFullTime(false);
-      }
-    } else if (option === 'Internship + Full Time') {
-      setInternshipFullTime(!internshipFullTime);
-      if (!internshipFullTime && (internship || fullTime)) {
-        setInternship(false);
-        setFullTime(false);
-      }
+const departments = [
+  "Computer Science",
+  "Artificial Intelligence and Data Science",
+  "Civil Engineering",
+  "Mechanical Engineering",
+  "Electronics and Telecommunication Engineering",
+  "Automation and Robotics",
+  "Instrumentation Engineering",
+  "Electrical Engineering",
+  "Information Technology"
+];
+
+
+const JobPlacementDriveForm = () => {
+  const [driveData, setDriveData] = useState({
+    title: "Software Engineer Internship 2024",
+    description: "An internship opportunity for software engineers.",
+    costToCompany: "5000.0",
+    startDate: new Date(),
+    endDate: new Date(),
+    location: "Example City",
+    otherDetails: "Additional details about the internship.",
+    selectionProcess: "Interview and technical assessment",
+    employmentType: "INTERNSHIP",
+    eligibilityCriteria: {
+      minimumTenthMarks: 80,
+      minimumTwelfthMarks: 85,
+      allowCurrentBacklogs: false,
+      maximumPreviousBacklogs: 2,
+      minimumCgpa: 7.5,
+      gender: "Any",
+      eligibleDepartments: []
     }
+  });
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [checked, setChecked] = useState(false); // State for CheckBox
+  const [selectedDepartments, setSelectedDepartments] = useState([]); // State for selected departments
+
+  const handleStartDateChange = (date) => {
+    setSelectedStartDate(date);
+    setDriveData({ ...driveData, startDate: date });
   };
 
-  const handleUploadDocuments = () => {
-    // Implement file upload logic here
-    // For example, you can use a file picker library or implement your own file upload functionality
-    alert('Upload Documents functionality to be implemented');
+  const handleEndDateChange = (date) => {
+    setSelectedEndDate(date);
+    setDriveData({ ...driveData, endDate: date });
   };
 
-  const handleUploadLogo = () => {
-    // Implement file upload logic here
-    // For example, you can use a file picker library or implement your own file upload functionality
-    alert('Upload Logo functionality to be implemented');
+  const handleCheckboxChange = () => {
+    setChecked(!checked);
+    setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, allowCurrentBacklogs: !checked } });
+  };
+
+  const handleMaxBacklogsChange = (value) => {
+    const maxBacklogs = parseInt(value);
+    setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, maximumPreviousBacklogs: maxBacklogs } });
+  };
+
+  const handleGenderChange = (value) => {
+    setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, gender: value } });
+  };
+
+  const handleDepartmentSelection = (department) => {
+    if (selectedDepartments.includes(department)) {
+      setSelectedDepartments(selectedDepartments.filter(dep => dep !== department));
+    } else {
+      setSelectedDepartments([...selectedDepartments, department]);
+    }
   };
 
   const handleSubmit = () => {
     // Handle form submission logic here
     // You can access form data using state variables
-    const handleSubmit = () => {
-      // Validate job type checkboxes
-      if (!(internship || fullTime || internshipFullTime)) {
-        alert('Please select at least one job type.');
-        return;
-      }
-    
-      // Validate company name
-      if (!companyName.trim()) {
-        alert('Please enter the company name.');
-        return;
-      }
-    
-      // Validate CTC
-      if (!ctc.trim()) {
-        alert('Please enter the CTC.');
-        return;
-      }
-    
-      // Validate if CTC is a number
-      if (isNaN(ctc)) {
-        alert('CTC should be a numeric value.');
-        return;
-      }
-    
-      // Validate offer type
-      if (!offerType) {
-        alert('Please select the offer type.');
-        return;
-      }
-    
-      // Handle form submission logic here
-      // You can access form data using state variables
-      alert('Form submitted successfully!');
-    };
-    
-    alert('Form submitted successfully!');
+    alert('Placement Drive added successfully!');
   };
 
   return (
     <View style={styles.container}>
-    <ScrollView style={styles.scrollView}>
-      
-        <Text style={styles.heading}>Job Application Form</Text>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
 
-        {/* Job Type Checkboxes */}
-        <View style={styles.checkboxContainer}>
-          <TouchableOpacity
-            style={[styles.checkbox, { backgroundColor: internship ? Colors.primary : '#FFFFFF' }]}
-            onPress={() => handleCheckboxChange('Internship')}
-          >
-            <Text style={[styles.label, { color: internship ? '#FFFFFF' : '#000000' }]}>Internship</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.checkbox, { backgroundColor: fullTime ? Colors.primary : '#FFFFFF' }]}
-            onPress={() => handleCheckboxChange('Full Time')}
-          >
-            <Text style={[styles.label, { color: fullTime ? '#FFFFFF' : '#000000' }]}>Full Time</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.checkbox, { backgroundColor: internshipFullTime ? Colors.primary : '#FFFFFF' }]}
-            onPress={() => handleCheckboxChange('Internship + Full Time')}
-          >
-            <Text style={[styles.label, { color: internshipFullTime ? '#FFFFFF' : '#000000' }]}>Internship + Full Time</Text>
-          </TouchableOpacity>
+        <Text style={styles.heading}>Placement Drive Form</Text>
+
+        {/* Drive Title Input */}
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Drive Title</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Drive Title"
+            onChangeText={(title) => setDriveData({ ...driveData, title })}
+            value={driveData.title}
+          />
         </View>
 
-        {/* Input Fields */}
-
+        {/* Drive Description Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Job Title</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Job Title"
-            onChangeText={setJobTitle}
-            value={jobTitle}
-          />
-        </View>
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Company Name</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Company Name"
-            onChangeText={setCompanyName}
-            value={companyName}
-          />
-        </View>
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>CTC</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="CTC"
-            onChangeText={setCtc}
-            value={ctc}
-            keyboardType="numeric"
-          />
-        </View>
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Fixed Gross</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Fixed Gross"
-            onChangeText={setFixedGross}
-            value={fixedGross}
-            keyboardType="numeric"
-          />
-        </View>
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Job Description</Text>
+          <Text style={styles.label}>Drive Description</Text>
           <TextInput
             style={styles.multilineInput}
-            placeholder="Job Description"
-            onChangeText={setJobDescription}
-            value={jobDescription}
+            placeholder="Drive Description"
+            onChangeText={(description) => setDriveData({ ...driveData, description })}
+            value={driveData.description}
             multiline={true}
             numberOfLines={4}
           />
         </View>
+
+        {/* Cost To Company Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Bond Details</Text>
+          <Text style={styles.label}>Cost To Company (CTC)</Text>
           <TextInput
             style={styles.textInput}
-            placeholder="Bond Details (if any)"
-            onChangeText={setBondDetails}
-            value={bondDetails}
-          />
-        </View>
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Other Details</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Other Details"
-            onChangeText={setOtherDetails}
-            value={otherDetails}
+            placeholder="CTC"
+            onChangeText={(ctc) => setDriveData({ ...driveData, costToCompany: parseFloat(ctc) })}
+            value={driveData.costToCompany.toString()}
+            keyboardType="numeric"
           />
         </View>
 
-        {/* Offer Type Input */}
+        {/* Start Date Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Offer Type</Text>
-          <View style={styles.dropdownContainer}>
-            <TouchableOpacity
-              style={[styles.dropdownItem, { backgroundColor: offerType === 'On Campus' ? '#3399FF' : '#FFFFFF' }]}
-              onPress={() => setOfferType('On Campus')}
-            >
-              <Text style={[styles.label, { color: offerType === 'On Campus' ? '#FFFFFF' : '#333' }]}>On Campus</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.dropdownItem, { backgroundColor: offerType === 'Off Campus' ? '#3399FF' : '#FFFFFF' }]}
-              onPress={() => setOfferType('Off Campus')}
-            >
-              <Text style={[styles.label, { color: offerType === 'Off Campus' ? '#FFFFFF' : '#333' }]}>Off Campus</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.dropdownItem, { backgroundColor: offerType === 'Pool Campus' ? '#3399FF' : '#FFFFFF' }]}
-              onPress={() => setOfferType('Pool Campus')}
-            >
-              <Text style={[styles.label, { color: offerType === 'Pool Campus' ? '#FFFFFF' : '#333' }]}>Pool Campus</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.label}>Start Date</Text>
+          <TouchableOpacity
+            style={styles.datePicker}
+            onPress={() => {} /* Handle opening start date picker */}
+          >
+            <FontAwesome name="calendar" size={20} color={Colors.primary} />
+            <Text style={styles.dateText}>{selectedStartDate.toLocaleDateString()}</Text>
+          </TouchableOpacity>
+          {/* Implement start date picker here */}
+          <DatePicker
+            date={selectedStartDate}
+            onDateChange={handleStartDateChange}
+          />
         </View>
 
-        {/* Date Input */}
+        {/* End Date Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Joining Date</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="YYYY-MM-DD"
-            onChangeText={setSelectedDate}
-            value={selectedDate}
+          <Text style={styles.label}>End Date</Text>
+          <TouchableOpacity
+            style={styles.datePicker}
+            onPress={() => {} /* Handle opening end date picker */}
+          >
+            <FontAwesome name="calendar" size={20} color={Colors.primary} />
+            <Text style={styles.dateText}>{selectedEndDate.toLocaleDateString()}</Text>
+          </TouchableOpacity>
+          {/* Implement end date picker here */}
+          <DatePicker
+            date={selectedEndDate}
+            onDateChange={handleEndDateChange}
           />
         </View>
 
         {/* Location Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Job Location</Text>
+          <Text style={styles.label}>Location</Text>
           <TextInput
             style={styles.textInput}
             placeholder="Location"
-            onChangeText={setLocation}
-            value={location}
+            onChangeText={(location) => setDriveData({ ...driveData, location })}
+            value={driveData.location}
           />
         </View>
 
-        {/* Upload Documents Input */}
+        {/* Other Details Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Upload Necessary Documents</Text>
-          <TouchableOpacity style={styles.uploadButton} onPress={handleUploadDocuments}>
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
+          <Text style={styles.label}>Other Details</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Other Details"
+            onChangeText={(otherDetails) => setDriveData({ ...driveData, otherDetails })}
+            value={driveData.otherDetails}
+          />
         </View>
 
-        {/* Upload Logo Input */}
+        {/* Selection Process Input */}
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>Upload Company Logo</Text>
-          <TouchableOpacity style={styles.uploadButton} onPress={handleUploadLogo}>
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
+          <Text style={styles.label}>Selection Process</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Selection Process"
+            onChangeText={(selectionProcess) => setDriveData({ ...driveData, selectionProcess })}
+            value={driveData.selectionProcess}
+          />
         </View>
 
-    </ScrollView>
-     {/* Submit Button */}
-     <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-     <Text style={styles.submitText}>Add Job</Text>
-   </TouchableOpacity>
-   </View>
+        {/* Employment Type Input */}
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Employment Type</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Employment Type"
+            onChangeText={(employmentType) => setDriveData({ ...driveData, employmentType })}
+            value={driveData.employmentType}
+          />
+        </View>
+
+        {/* Eligibility Criteria Input */}
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Eligibility Criteria</Text>
+          <View style={styles.eligibilityContainer}>
+            <TextInput
+              style={styles.inputField}
+              placeholder="Minimum Tenth Marks"
+              keyboardType="numeric"
+              onChangeText={(value) => setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, minimumTenthMarks: parseInt(value) } })}
+              value={driveData.eligibilityCriteria.minimumTenthMarks.toString()}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Minimum Twelfth Marks"
+              keyboardType="numeric"
+              onChangeText={(value) => setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, minimumTwelfthMarks: parseInt(value) } })}
+              value={driveData.eligibilityCriteria.minimumTwelfthMarks.toString()}
+            />
+            {/* <CheckBox
+              disabled={false}
+              value={checked}
+              onValueChange={handleCheckboxChange}
+            /> */}
+            <TextInput
+              style={styles.inputField}
+              placeholder="Maximum Previous Backlogs"
+              keyboardType="numeric"
+              onChangeText={(value) => handleMaxBacklogsChange(value)}
+              value={driveData.eligibilityCriteria.maximumPreviousBacklogs.toString()}
+            />
+            <TextInput
+              style={styles.inputField}
+              placeholder="Minimum CGPA"
+              keyboardType="numeric"
+              onChangeText={(value) => setDriveData({ ...driveData, eligibilityCriteria: { ...driveData.eligibilityCriteria, minimumCgpa: parseFloat(value) } })}
+              value={driveData.eligibilityCriteria.minimumCgpa.toString()}
+            />
+            {/* <Picker
+              selectedValue={driveData.eligibilityCriteria.gender}
+              style={{ height: 50, width: 150 }}
+              onValueChange={(itemValue) => handleGenderChange(itemValue)}
+            >
+              <Picker.Item label="Any" value="Any" />
+              <Picker.Item label="Male" value="Male" />
+              <Picker.Item label="Female" value="Female" />
+            </Picker> */}
+            <View style={styles.departmentSelectionContainer}>
+              <Text style={styles.label}>Eligible Departments</Text>
+              <View style={styles.departmentButtonsContainer}>
+                {departments.map((department, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.departmentButton, { backgroundColor: selectedDepartments.includes(department) ? Colors.primary : '#ccc' }]}
+                    onPress={() => handleDepartmentSelection(department)}
+                  >
+                    <Text style={styles.departmentButtonText}>{department}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+      {/* Submit Button */}
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <Text style={styles.submitText}>Add Placement Drive</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    position: 'relative', // Needed for absolute positioning of the button
+    position: 'relative',
   },
   scrollView: {
-    marginBottom: 70, // Adjust this value based on the height of your button to avoid content being hidden behind it
+    marginBottom: 100,
     margin: Spacing * 2.5
   },
   heading: {
@@ -286,21 +568,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: Colors.primary,
     textAlign: 'center',
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  checkbox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
   },
   label: {
     fontSize: 16,
@@ -323,15 +590,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 10,
   },
+  datePicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginTop: 5,
+  },
+  dateText: {
+    marginLeft: 10,
+    color: '#333',
+  },
   submitButton: {
-    position: 'absolute', // Position the button absolutely
-    bottom: 7, // Place it at the bottom of the screen
+    position: 'absolute',
+    bottom: 7,
     left: 0,
     right: 0,
     backgroundColor: Colors.primary,
     borderRadius: 20,
     paddingVertical: Spacing * 2,
-    marginHorizontal:Spacing * 2,
+    marginHorizontal: Spacing * 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -340,33 +621,35 @@ const styles = StyleSheet.create({
     fontSize: FontSize.large,
     fontWeight: 'bold',
   },
-  dropdownContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  eligibilityContainer: {
+    marginTop: 10,
   },
-  dropdownItem: {
-    flex: 1,
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
+  inputField: {
+    height: 40,
     borderColor: '#ccc',
-  },
-  uploadButton: {
-    backgroundColor: Colors.primary,
+    borderWidth: 1,
     borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
+    paddingHorizontal: 10,
+    marginBottom: 10,
   },
-  uploadText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+  departmentSelectionContainer: {
+    marginTop: 10,
+  },
+  departmentButtonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 5,
+  },
+  departmentButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  departmentButtonText: {
+    fontSize: 14,
   },
 });
 
-export default JobApplicationForm;
+export default JobPlacementDriveForm;
+

@@ -17,14 +17,15 @@ import studentProfile from './srceens/Master-Admin/studentProfile';
 import Student_Offer from './srceens/Master-Admin/Student_Offer';
 import ChatPage from './srceens/Student-Login/Group Pages/ChatPage';
 import GroupProfile from './srceens/Student-Login/Group Pages/GroupProfile';
-import GenerateResumeScreen from './srceens/Student-Login/GenerateResumeScreen'
+import GenerateResumeScreen from './srceens/Student-Login/GenerateResumeScreen';
+import JobDetailsEdit from './srceens/Master-Admin/JobDetails-Edit';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='MATabs' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
@@ -42,6 +43,7 @@ function App() {
         <Stack.Screen name="ChatPage" component={ChatPage} /> 
         <Stack.Screen name="GroupProfile" component={GroupProfile} /> 
         <Stack.Screen name="GenerateResumeScreen" component={GenerateResumeScreen} /> 
+        <Stack.Screen name="JobDetailsEdit" component={JobDetailsEdit} /> 
         
       </Stack.Navigator>
     </NavigationContainer>
