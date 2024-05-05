@@ -1,4 +1,4 @@
-package com.training.placify.model;
+package com.training.placify.model.companyModel;
 
 public enum ApplicationStatus {
     APPLIED,

@@ -3,17 +3,20 @@ package com.training.placify.service;
 import com.training.placify.dto.AdminDTO;
 import com.training.placify.dto.StudentDTO;
 import java.util.List;
+import java.util.Map;
 
 public interface MasterAdminService {
     // CRUD operations for Students
     StudentDTO createStudent(StudentDTO studentDTO);
-    StudentDTO updateStudent(Long id, StudentDTO studentDTO);
+    StudentDTO updateStudent(Long id, Map<String,Object> map);
     void deleteStudent(Long id);
     StudentDTO blockStudent(Long id, StudentDTO studentDTO);
     List<StudentDTO> getAllStudents();
-    List<StudentDTO> getAllStudentsByDepartment();
-    List<StudentDTO> getAllFemaleStudents();
-    List<StudentDTO> getAllFemaleStudentsByDepartment();
+    List<StudentDTO> getStudentsByDepartment(Long departmentId);
+    List<StudentDTO> getEnabledStudents();
+    List<StudentDTO> getDisabledStudents();
+//    List<StudentDTO> getAllFemaleStudents();
+//    List<StudentDTO> getAllFemaleStudentsByDepartment(Long departmentId);
 
 
 

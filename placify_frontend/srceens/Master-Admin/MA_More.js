@@ -22,3 +22,8 @@ const styles = StyleSheet.create({
 });
 
 export default MA_More;
+
+
+
+
+

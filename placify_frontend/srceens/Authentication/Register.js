@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, Animated, TouchableOpacity, View, ToastAndroid, ScrollView, Alert } from "react-native";
+import { SafeAreaView, StyleSheet, Text, Animated, Button, TouchableOpacity, View, ToastAndroid, ScrollView, Alert } from "react-native";
 import AppTextInput from "../../components/RegisterTextInuput";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
@@ -8,6 +8,7 @@ import Font from "../../constants/Font";
 import { SelectList } from "react-native-dropdown-select-list";
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import axios from 'axios';
+import DatePicker from 'react-native-date-picker';
 
 const Register = ({ navigation: { navigate } }) => {
     const [firstName, setFirstName] = useState('');
@@ -15,12 +16,15 @@ const Register = ({ navigation: { navigate } }) => {
     const [personalEmail, setPersonalEmail] = useState('');
     const [collegeEmail, setCollegeEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [gender,setGender]=useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const [selectedBranch, setSelectedBranch] = useState(null); // State to track selected branch
     const [branchError, setBranchError] = useState(false); // State to track branch error message
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const [passoutYear, setPassoutYear] = useState(new Date()); // Initialize as a Date object
+    const [openDatePicker, setOpenDatePicker] = useState(false);
 
   useEffect(() => {
     Animated.timing(
@@ -80,6 +84,8 @@ const Register = ({ navigation: { navigate } }) => {
               personalEmail,
               collegeEmail,
               password,
+              gender,
+              passoutYear,
               isEnabled: true,
               department: {
                 deptName:selectedBranch // Assuming you always send the department info
@@ -102,7 +108,7 @@ const Register = ({ navigation: { navigate } }) => {
     };
 
     const data = [
-      {key:'1', value:'Computer Engineering'},
+      {key:'1', value:'Computer Science'},
       {key:'2', value:'Artificial Intelligence and Data Science'},
       {key:'3', value:'Civil Engineering'},
       {key:'4', value:'Mechanical Engineering'},
@@ -141,16 +147,38 @@ const Register = ({ navigation: { navigate } }) => {
                 value={lastName}
               />
               <AppTextInput 
+                placeholder="Gender"
+                onChangeText={text => setGender(text)}
+                value={gender}
+              />
+              <AppTextInput 
                 placeholder="Personal Email-Id"
                 onChangeText={text => setPersonalEmail(text)}
                 value={personalEmail}
               />
+              
+
               {!validateEmail(personalEmail) && personalEmail && <Text style={styles.validationText}>Invalid Email</Text>}
               <AppTextInput 
                 placeholder="College Email-Id"
                 onChangeText={text => setCollegeEmail(text)}
                 value={collegeEmail}
               />
+                 <Text style={styles.label}>Passout Year</Text>
+                <Button title="Select Passout Year" onPress={() => setOpenDatePicker(true)} />
+                <DatePicker
+                  modal
+                  open={openDatePicker}
+                  date={passoutYear} // Use the passoutYear state
+                  onConfirm={(date) => {
+                    setOpenDatePicker(false);
+                    setPassoutYear(date);
+                  }}
+                  onCancel={() => {
+                    setOpenDatePicker(false);
+                  }}
+                  mode="date" // You can customize this as needed, e.g., to 'year' if supported
+                />
               {!validateEmail(collegeEmail) && collegeEmail && <Text style={styles.validationText}>Invalid Email</Text>}
               <AppTextInput 
                 placeholder="Password"
@@ -262,6 +290,15 @@ const styles = StyleSheet.create({
     color: Colors.text,
     textAlign: "center",
     fontSize: responsiveFontSize(1.6),
+  },
+  datePickerStyle: {
+    width: responsiveWidth(90),
+    marginTop: Spacing,
+  },
+  label: {
+    fontSize: responsiveFontSize(2),
+    color: Colors.text,
+    marginBottom: Spacing,
   },
   Branch: {
     padding: Spacing * -0.1,

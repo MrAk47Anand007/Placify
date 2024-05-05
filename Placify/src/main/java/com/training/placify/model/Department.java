@@ -33,7 +33,4 @@ public class Department {
     @OneToMany(mappedBy = "department",fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private List<Admin> admins;
-
-
-
 }

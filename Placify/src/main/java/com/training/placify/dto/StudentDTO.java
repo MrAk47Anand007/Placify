@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO extends UserDTO {
-    private String phoneNo;
-    private int passoutYear;
-    private String rollNo;
+    private String phone_No;
+    private Integer passoutYear;
+    private String roll_No;
     private String prnNo;
     private String erpId;
 

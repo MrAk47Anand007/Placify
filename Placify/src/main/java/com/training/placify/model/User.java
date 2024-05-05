@@ -33,7 +33,7 @@ public abstract class User {
     @Column(unique = true)
     private String collegeEmail;
 
-    @NotBlank
+
     private String password;
 
     private String profilePic; // Consider storing the image path/URL
@@ -41,7 +41,7 @@ public abstract class User {
 
     private Boolean isEnabled;
 
-    @NotBlank
+
     private String gender;
 
     @ManyToOne

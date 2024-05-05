@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -84,6 +86,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Optional<User> getUserByUserName(String username) {
+        return userRepository.findByCollegeEmail(username);
+    }
+
 
     private Role determineRoleByEmail(String email) {
         if (email.endsWith("@dypvp.edu.in")) {
@@ -111,27 +118,15 @@ public class UserServiceImpl implements UserService {
 
     private Admin mapToAdmin(UserDTO userDTO) {
         Admin admin = modelMapper.map(userDTO,Admin.class);
-//        Department department = departmentRepository.findByName(userDTO.getDepartment().getDeptName())
-//                .orElseGet(() -> departmentRepository.save(new Department(userDTO.getDepartment().getDeptName())));
-//        admin.setDepartment(department);
         admin.setPersonalEmail(userDTO.getPersonalEmail());
         admin.setCollegeEmail(userDTO.getCollegeEmail());
-        //associateDepartment(admin, userDTO.getDepartment().getDeptName());
-
-        //System.out.println(admin);
-
         return admin;
     }
 
     private Student mapToStudent(UserDTO userDTO) {
         Student student = modelMapper.map(userDTO, Student.class);
-//        Department department = departmentRepository.findByName(userDTO.getDepartment().getDeptName())
-//                .orElseGet(() -> departmentRepository.save(new Department(userDTO.getDepartment().getDeptName())));
-//        student.setDepartment(department);
         student.setPersonalEmail(userDTO.getPersonalEmail());
         student.setCollegeEmail(userDTO.getCollegeEmail());
-        //associateDepartment(student, userDTO.getDepartment().getDeptName());
-        //System.out.println(student);
         return student;
     }
 
