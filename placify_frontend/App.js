@@ -20,6 +20,7 @@ import GroupProfile from './srceens/Student-Login/Group Pages/GroupProfile';
 import GenerateResumeScreen from './srceens/Student-Login/GenerateResumeScreen';
 import JobDetailsEdit from './srceens/Master-Admin/JobDetails-Edit';
 import DriveList from './srceens/Master-Admin/DriveList';
+import StudentInfo from './srceens/Master-Admin/StudentInfo'
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,7 @@ function App() {
         <Stack.Screen name="GenerateResumeScreen" component={GenerateResumeScreen} /> 
         <Stack.Screen name="JobDetailsEdit" component={JobDetailsEdit} /> 
         <Stack.Screen name="DriveList" component={DriveList} />
+        <Stack.Screen name="StudentInfo" component={StudentInfo} />
         
       </Stack.Navigator>
     </NavigationContainer>

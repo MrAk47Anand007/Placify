@@ -6,6 +6,7 @@ const darkblue = "#0A0F72";
 const lightB = "#1a1f71";
 const shadeofblue = "#4b66c8";
 const gray = "#C5C6C7";
+const LighGray = "#EDEDEE";
 const lightBlue = "#f1f4ff";
 
 export default {
@@ -21,4 +22,5 @@ export default {
   lightBlue: lightB,
   lightPrimary: lightBlue,
   gray: gray,
+  LightGray: LighGray,
 };

@@ -44,12 +44,22 @@ const DriveList = ({ navigation: { navigate } }) => {
               <Text style={styles.textbelowlogo}>CTC: {item.ctc}</Text>
             </View>
             <Text style={styles.textbelowlogo}>Location: {item.location}</Text>
+
+            <View style={styles.DriveButtons}>
             <TouchableOpacity
               style={styles.applyButton}
               onPress={() => navigate("JobDetailsEdit")}
             >
               <Text style={styles.applyButtonText}>View Details</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.applyButton2}
+              onPress={() => navigate("StudentInfo")}
+            >
+              <Text style={styles.applyButtonText2}>Student Info</Text>
+            </TouchableOpacity>
+            </View>
+
           </View>
         )}
       />
@@ -138,15 +148,33 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: Spacing * 0.5,
   },
+  DriveButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 8,
+  },
   applyButton: {
     marginTop: 10,
     backgroundColor: Colors.primary,
-    padding: 10,
-    borderRadius: 20,
+    paddingHorizontal: 40,
+    paddingVertical: 8,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  applyButton2: {
+    marginTop: 10,
+    backgroundColor: Colors.LightGray,
+    paddingHorizontal: 40,
+    paddingVertical: 8,
+    borderRadius: 12,
     alignItems: 'center',
   },
   applyButtonText: {
     color: Colors.onPrimary,
+    fontWeight: 'bold',
+  },
+  applyButtonText2: {
+    color: Colors.text,
     fontWeight: 'bold',
   },
   submitButton: {
