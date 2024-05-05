@@ -37,7 +37,7 @@ const Login = ({ navigation: { navigate } }) => {
   }, [fadeAnim]);
 
   const handleSignup = async () => {
-    validateInputs(); // Assuming you have this function for input validation
+    validateInputs(); 
   
     try {
       const response = await axios.post('http://192.168.29.209:8080/auth/login', {
@@ -49,14 +49,21 @@ const Login = ({ navigation: { navigate } }) => {
         },
       });
   
-      // Check HTTP status AND presence of JWT in nested structure
       if (response.status === 200 && response.data) {
-        await SecureStore.setItemAsync('jwtToken', response.data);
-        console.log('JWT Token stored successfully:', response.data);
+        // Extract JWT and student ID
+        const jwtToken = response.data.token; // Assuming 'jwt' is the key for the token
+        const studentId = response.data.student_id; // Assuming 'studentId' is the key
+        console.log("Student ID:", studentId);
+        console.log("Token:", jwtToken)
+        const studentIdString = studentId.toString();
   
-        // Successful login (assuming StuAppTabs is the correct route)
+        // Store securely
+        await SecureStore.setItemAsync('jwtToken', jwtToken);
+        await SecureStore.setItemAsync('studentId',studentIdString);
+  
+        console.log('JWT Token and student ID stored successfully');
         ToastAndroid.show("Sign in successful", ToastAndroid.SHORT);
-        navigate('StuAppTabs'); 
+        navigate('StuAppTabs');
       } else {
         // Handle API errors
         let errorMessage = "Login failed";

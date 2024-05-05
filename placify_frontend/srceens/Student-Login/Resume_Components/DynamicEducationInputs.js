@@ -1,12 +1,14 @@
 // DynamicEducationInputs.js
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Text,Image} from 'react-native';
 import { ResumeContext } from './ResumeContext';
 import Colors from "../../../constants/Colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DatePicker from 'react-native-date-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 const DynamicEducationInputs = ({ educationType,educationIndex }) => {
 
@@ -17,21 +19,53 @@ const DynamicEducationInputs = ({ educationType,educationIndex }) => {
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
-  const handleUpload = (semester) => {
-    launchImageLibrary({ mediaType: 'photo' }, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        const source = { uri: response.uri };
-        setUploadedImages(prevState => ({
-          ...prevState,
-          [semester]: source,
-        }));
+  
+  const handleUpload = async (semester) => {
+    try {
+      // 1. Select image using image picker
+      const result = await launchImageLibrary({ mediaType: 'photo' });
+  
+      if (result.cancelled) {
+        return; // Handle cancellation
       }
-    });
+  
+      const token = await SecureStore.getItemAsync('jwtToken'); // Get JWT token
+  
+      // 2. Upload image to your backend
+      const formData = new FormData();
+      formData.append('form-data', {
+        uri: result.assets[0].uri,
+        name: 'image.jpg', // Adjust filename and type as needed
+        type: 'image/jpeg',
+      });
+  
+      const uploadResponse = await axios.post(
+        'http://192.168.29.209:8080/student/extract/image-data',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // 3. Extract text from response
+      console.log(uploadResponse.data);
+      const extractedText = uploadResponse.data;
+  
+      // 4. Update state with extracted text and image URI
+      setUploadedImages(prevImages => ({
+        ...prevImages,
+        [semester]: result.assets[0].uri,
+        [`${semester}Text`]: extractedText,
+      }));
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      // Handle upload errors
+    }
   };
+  
 
 
   // useEffect(() => {

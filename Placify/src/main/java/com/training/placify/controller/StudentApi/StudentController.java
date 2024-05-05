@@ -12,13 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.29.69")
-@RequestMapping("/api")
+@CrossOrigin(origins = "http://192.168.29.209")
+@RequestMapping("/student")
 public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("/extract")
+    @PostMapping("/extract/image-data")
     public ResponseEntity<String> extractTextFromImage(@RequestParam("form-data") MultipartFile image) {
         try {
             String extractedText = studentService.performOcr(image);

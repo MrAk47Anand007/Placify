@@ -1,26 +1,48 @@
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, View, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import ResumeItem from './ResumeItems';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you're using react-native-vector-icons
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
+import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
 
 const S_Resume = ({ navigation }) => {
-
   const { navigate } = navigation;
-
-  const [resumes, setResumes] = useState([
-    { id: 1, name: 'John Doe Resume', date: '2024-01-15' },
-    { id: 2, name: 'Doe Resume', date: '2024-01-15' },
-    { id: 3, name: 'John Resume', date: '2024-01-15' },
-    { id: 4, name: 'J_Doe Resume', date: '2024-01-15' },
-    { id: 5, name: 'John_D Resume', date: '2024-01-15' },
-    // Add more resumes as needed
-  ]);
-
+  const [resumes, setResumes] = useState([]);
   const [defaultResumeId, setDefaultResumeId] = useState(null);
+  
+ 
+  // Fetch resumes from backend on component mount
+  useEffect(() => {
+    const fetchResumes = async () => {
+      try {
+        const token = await SecureStore.getItemAsync('jwtToken');
+        const studentId = await SecureStore.getItemAsync('studentId');
 
+        const response = await axios.get(
+          `http://192.168.29.209:8080/student/resume/versions/${studentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Add Authorization header
+            },
+          }
+        );
+
+        setResumes(response.data);
+      } catch (error) {
+        console.error('Error fetching resumes:', error);
+        // Handle error
+      }
+    };
+
+    fetchResumes();
+  }, []);
+
+  // Function to handle adding a new resume after generation (in GenerateResumeScreen)
+  const handleAddResume = (newResume) => {
+    // Assuming newResume has the necessary properties (id, name, date, etc.)
+    setResumes(prevResumes => [...prevResumes, newResume]); 
+  };
   const onEdit = () => {
     console.log('Edit action');
   };
@@ -59,7 +81,7 @@ const S_Resume = ({ navigation }) => {
               date={resume.date}
               validity={resume.validity}
               onDownload={() => console.log('Download', resume.id)}
-              onView={() => console.log('View', resume.id)}
+              onView={() => console.log('View', resume.id)} 
               onMarkAsDefault={() => onMarkAsDefault(resume.id)}
               onDelete={() => onDelete(resume.id)}
               isDefault={defaultResumeId === resume.id} // Pass isDefault prop to indicate if this resume is marked as default

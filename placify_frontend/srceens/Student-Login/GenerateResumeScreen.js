@@ -1,21 +1,22 @@
 import React, { useState, useRef,useContext } from "react";
-import { ResumeProvider } from './Resume Components/ResumeContext'; 
-import { StyleSheet, SafeAreaView, TouchableOpacity, Text, Animated, ScrollView, Alert } from "react-native";
+import { ResumeProvider } from './Resume_Components/ResumeContext'; 
+import { StyleSheet, SafeAreaView, TouchableOpacity, Text, Animated, ScrollView, Alert,Modal,View,TextInput} from "react-native";
 import Colors from "../../constants/Colors";
-import BasicInfoForm from "./Resume Components/BasicInfoForm";
-import EducationDetailsForm from "./Resume Components/EducationDetailsForm"; // Import the EducationDetailsForm
-import ExpDetailsForm from "./Resume Components/ExperienceDetailsForm";
-import ProjectDetailsForm from "./Resume Components/ProjectDetailsForm"; // Adjust the path as necessary
-import CertificationDetailsForm from "./Resume Components/CertificationDetailsForm";
-import ExtraCoCurricularActivitiesForm from "./Resume Components/ExtraCoCurricularActivitiesForm";
-import OtherDetailsForm from "./Resume Components/OtherDetailsForm";
+import BasicInfoForm from "./Resume_Components/BasicInfoForm";
+import EducationDetailsForm from "./Resume_Components/EducationDetailsForm"; // Import the EducationDetailsForm
+import ExpDetailsForm from "./Resume_Components/ExperienceDetailsForm";
+import ProjectDetailsForm from "./Resume_Components/ProjectDetailsForm"; // Adjust the path as necessary
+import CertificationDetailsForm from "./Resume_Components/CertificationDetailsForm";
+import ExtraCoCurricularActivitiesForm from "./Resume_Components/ExtraCoCurricularActivitiesForm";
+import OtherDetailsForm from "./Resume_Components/OtherDetailsForm";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontSize from '../../constants/FontSize';
 import Spacing from '../../constants/Spacing';
-import { ResumeContext } from './Resume Components/ResumeContext';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from 'expo-secure-store';
-import  {handleGenerateResume}  from "./Resume Components/ResumeService";
+import { ResumeContext } from './Resume_Components/ResumeContext';
+import RNFetchBlob from 'rn-fetch-blob';
+import  {handleGenerateResume}  from "./Resume_Components/ResumeService";
+import Pdf from 'react-native-pdf';
+
 
 
 const ResumeScreen = () => {
@@ -26,6 +27,12 @@ const ResumeScreen = () => {
   const [isCertificationDetailsExpanded, setIsCertificationDetailsExpanded] = useState(false);
   const [isExtraCoCurricularActivitiesFormExpanded, setIsExtraCoCurricularActivitiesFormExpanded] = useState(false);
   const [isOtherDetailsExpanded, setIsOtherDetailsExpanded] = useState(false); 
+  const [fileName, setFileName] = useState('');
+  const [modalVisible, setModalVisible] = useState(false); // State for the main modal
+  const [modalFileNameVisible, setModalFileNameVisible] = useState(false); // State for the modal to enter file name
+
+  const [modalInput, setModalInput] = useState(''); // State for modal input value
+  const [pdfUri, setPdfUri] = useState('');
 
   const animationControllerBasicInfo = useRef(new Animated.Value(0)).current;
   const animationControllerEducationDetails = useRef(new Animated.Value(0)).current; // For education details animation
@@ -34,8 +41,11 @@ const ResumeScreen = () => {
   const animationControllerCertificationDetails = useRef(new Animated.Value(0)).current;
   const animationControllerExtraCoCurricularActivitiesForm = useRef(new Animated.Value(0)).current;
   const animationControllerOtherDetails = useRef(new Animated.Value(0)).current;
+  
 
-  const { resumeData } = useContext(ResumeContext);
+  // const resumeData = useContext(ResumeContext);
+
+  
 
   const handlePressBasicInfo = () => {
     setIsBasicInfoExpanded(!isBasicInfoExpanded);
@@ -134,25 +144,53 @@ const ResumeScreen = () => {
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'], 
   });
-
-  const handleSubmit = async () => {    
-      
-    const token = await SecureStore.getItemAsync('jwtToken');
-
-  if (token) {
-    handleGenerateResume(resumeData, token)
-      .then(result => {
-            //view pdf here 
-            Alert("Generated Resume Successfully")
-        })
-        .catch(error => {
-            Alert("Generated Resume Failed")
-        });
-      }else {
-        Alert.alert('Error', 'No token found. Please login.');
-      }
-};
+  const handleModalOk = async () => {
+    // Set the file name and close the modal
+    setFileName(modalInput);
+    setModalFileNameVisible(false);
     
+    try {
+      const response = await handleGenerateResume(resumeData);
+  
+      if (response.status === 200) {
+        const pdfData = response.data; // Byte array of the PDF
+        const filePath = RNFetchBlob.fs.dirs.DownloadDir + '/' + modalInput + '.pdf'; // Use modalInput for filename
+  
+        await RNFetchBlob.fs.writeFile(filePath, pdfData, 'base64')
+          .then(() => {
+            console.log('The file saved to ', filePath);
+            setPdfUri(filePath);
+            setModalVisible(true);
+          })
+          .catch((error) => {
+            console.error('Error saving resume:', error);
+            Alert.alert('Error', 'Failed to save resume.');
+          });
+  
+      } else {
+        // Handle API error
+        console.error('Error generating resume:', response.data);
+        Alert.alert('Error', 'Failed to generate resume.');
+      }
+  
+    } catch (error) {
+      // Handle network or other errors
+      console.error('Error during API call or file generation:', error);
+      Alert.alert('Error', 'An error occurred. Please try again later.');
+    }
+  };
+  
+
+  const handleModalCancel = () => {
+    // Close the modal without changing the file name
+    setModalVisible(false);
+  };
+
+  const resumeData = useContext(ResumeContext);
+  
+  const handleSubmit = async () => {
+    setModalFileNameVisible(true);
+  };
 
   return (
     <ResumeProvider> 
@@ -172,6 +210,7 @@ const ResumeScreen = () => {
           <BasicInfoForm />
         </Animated.View>
       )}
+
 
       {/* Education Details Section */}
       <TouchableOpacity style={styles.box} onPress={handlePressEducationDetails}>
@@ -266,6 +305,51 @@ const ResumeScreen = () => {
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
      <Text style={styles.submitText}>Generate Resume</Text>
    </TouchableOpacity>
+   <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalFileNameVisible}
+          onRequestClose={() => setModalFileNameVisible(false)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Enter File Name</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter file name"
+                onChangeText={text => setModalInput(text)}
+                value={modalInput}
+              />
+              <View style={styles.modalButtonContainer}>
+                <TouchableOpacity style={[styles.modalButton, { backgroundColor: Colors.primary }]} onPress={handleModalOk}>
+                  <Text style={styles.modalButtonText}>OK</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.modalButton, { backgroundColor: Colors.error }]} onPress={handleModalCancel}>
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        {pdfUri !== '' && (
+          <View style={styles.pdfContainer}>
+            <Pdf
+              source={{ uri: pdfUri }}
+              style={styles.pdf}
+            />
+          </View>
+        )}
+      </Modal>
+        
     </SafeAreaView>
     </ResumeProvider>
   );
@@ -324,6 +408,57 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: FontSize.large,
     fontWeight: 'bold',
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: Colors.primary,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginBottom: 10,
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  modalButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  pdfContainer: {
+    flex: 1,
+    backgroundColor: '#fff', // Set the background color as needed
+    marginTop: 20, // Adjust as needed
+  },
+
+  pdf: {
+    flex: 1,
+    width: '100%', // Adjust as needed
+    height: '100%', // Adjust as needed
   },
   // Add more styles as needed
 });

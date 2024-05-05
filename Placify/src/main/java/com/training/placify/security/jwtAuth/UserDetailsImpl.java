@@ -19,7 +19,7 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Assuming your User entity has a Role or Authority field that can be converted to GrantedAuthority
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName().name()));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));
     }
 
     @Override

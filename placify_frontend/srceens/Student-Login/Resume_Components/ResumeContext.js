@@ -18,8 +18,8 @@ const initialResumeData = {
       endDate: '2022-06-30', // Example end date
       percentage: '80',
       branch: 'Computer',
-      semesterCGPA:['9.55','8.55','8.55','8.55','8.55','8.55','8.55','8.55'],
-      aggregateCGPA:'89'
+      semesterCGPA: ['7.55', '8.55', '8.55', '8.55', '8.55', '8.55', '8.55', '8.55'],
+      aggregateCGPA: '89'
     },
     {
       degree: 'High School Diploma',
@@ -43,8 +43,7 @@ const initialResumeData = {
       startDate: '2021-06-01', // Example start date
       endDate: '2021-08-31', // Example end date
       skills: ['DevOps, Kubernetes, AWS, Rest-API'],
-      description:'Developed Python scripts for data analysis and automation'
-        
+      description: 'Developed Python scripts for data analysis and automation'
     }
   ],
   projects: [
@@ -56,7 +55,6 @@ const initialResumeData = {
       keySkills: ['Angular, JS, React, Node'],
       startDate: '2020-12-02',
       endDate: '2024-01-14'
-
     },
     {
       title: 'Data Visualization Tool',
@@ -70,30 +68,30 @@ const initialResumeData = {
   ],
   extraCurricularActivities: [
     {
-      "key": "1",
-      "value": "Activity 1"
+      key: '1',
+      value: 'Activity 1'
     },
     {
-      "key": "2",
-      "value": "Activity 2"
+      key: '2',
+      value: 'Activity 2'
     },
     {
-      "key": "3",
-      "value": "Activity 3"
+      key: '3',
+      value: 'Activity 3'
     }
   ],
   coCurricularActivities: [
     {
-      "key": "1",
-      "value": "Co-curricular Activity 1"
+      key: '1',
+      value: 'Co-curricular Activity 1'
     },
     {
-      "key": "2",
-      "value": "Co-curricular Activity 2"
+      key: '2',
+      value: 'Co-curricular Activity 2'
     },
     {
-      "key": "3",
-      "value": "Co-curricular Activity 3"
+      key: '3',
+      value: 'Co-curricular Activity 3'
     }
   ],
 
@@ -108,6 +106,7 @@ const initialResumeData = {
     }
   ],
 };
+
 
 
   // Create a context with the initial data
