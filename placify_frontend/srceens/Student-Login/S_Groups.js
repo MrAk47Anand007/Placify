@@ -1,33 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import Colors from '../../constants/Colors';
+// Import your logo images
+import AmazonLogo from '../../assets/images/amazonlogo.png';
+import GoogleLogo from '../../assets/images/googlelogo.png';
+import SiemensLogo from '../../assets/images/volvo.png';
 
 const data = [
-  { id: 1, name: 'Amazon Drive', lastMessage: 'Hello there!', unreadCount: 3 },
-  { id: 2, name: 'Google Drive', lastMessage: 'How are you?', unreadCount: 0 },
-  { id: 3, name: 'Simens Drive', lastMessage: 'What\'s up?', unreadCount: 1 },
-  // Add more group data as needed
+  { id: 1, name: 'Amazon Drive', lastMessage: 'Hello there!', unreadCount: 3, logo: AmazonLogo },
+  { id: 2, name: 'Google Drive', lastMessage: 'How are you?', unreadCount: 0, logo: GoogleLogo },
+  { id: 3, name: 'Volvo Drive', lastMessage: 'What\'s up?', unreadCount: 1, logo: SiemensLogo },
+  
 ];
 
 const S_Groups = ({ navigation: { navigate } }) => {
   const [groups, setGroups] = useState(data);
-
-  const renderGroupItem = ({ item }) => (
-    <View style={styles.card}>
-      <TouchableOpacity style={styles.groupItem} onPress={() => handleGroupPress(item)}>
-        {/* Placeholder for group logo */}
-        <View style={styles.groupLogo} />
-        <View style={styles.groupInfo}>
-          <Text style={styles.groupName}>{item.name}</Text>
-          <Text style={styles.lastMessage}>{item.lastMessage}</Text>
-        </View>
-        {item.unreadCount > 0 && (
-          <View style={styles.unreadBadge}>
-            <Text style={styles.unreadText}>{item.unreadCount}</Text>
-          </View>
-        )}
-      </TouchableOpacity>
-    </View>
-  );
 
   const handleGroupPress = (group) => {
     navigate("ChatPage");
@@ -36,14 +23,30 @@ const S_Groups = ({ navigation: { navigate } }) => {
 
   return (
     <View style={styles.container}>
-      {/* Header for the groups */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Company Groups</Text>
+        <Text style={styles.headerText}>Groups</Text>
       </View>
       <FlatList
         data={groups}
-        renderItem={renderGroupItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.card} onPress={() => handleGroupPress(item)}>
+            <View style={styles.groupItem}>
+              <View style={styles.groupLogoContainer}>
+                <Image source={item.logo} style={styles.groupLogo} />
+              </View>
+              <View style={styles.groupInfo}>
+                <Text style={styles.groupName}>{item.name}</Text>
+                <Text style={styles.lastMessage}>{item.lastMessage}</Text>
+              </View>
+              {item.unreadCount > 0 && (
+                <View style={styles.unreadBadge}>
+                  <Text style={styles.unreadText}>{item.unreadCount}</Text>
+                </View>
+              )}
+            </View>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
@@ -52,43 +55,53 @@ const S_Groups = ({ navigation: { navigate } }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: Colors.lightPrimary,
+
   },
   header: {
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 14,
+    backgroundColor: Colors.primary,
   },
   headerText: {
-    fontSize: 24,
+    marginLeft: 8,
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#ffffff',
   },
   card: {
-    marginBottom: 10,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#fff',
     borderRadius: 10,
-    elevation: 3,
+    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   groupItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     padding: 15,
   },
+  groupLogoContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#ccc',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
   groupLogo: {
-    width: 50, // Adjust the width according to your design
-    height: 50, // Adjust the height according to your design
-    borderRadius: 25, // Half of the width and height to make it circular
-    backgroundColor: '#ccc', // Placeholder background color
-    marginRight: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
   groupInfo: {
     flex: 1,
@@ -96,23 +109,23 @@ const styles = StyleSheet.create({
   groupName: {
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: 'Arial', // Change the font family as needed
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    color: '#333',
   },
   lastMessage: {
-    color: '#555',
+    color: '#666',
   },
   unreadBadge: {
     backgroundColor: 'red',
-    borderRadius: 10,
+    borderRadius: 12,
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   unreadText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 12,
   },
 });
 

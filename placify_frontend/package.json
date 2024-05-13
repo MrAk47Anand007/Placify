@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.0.2",
     "@gorhom/animated-tabbar": "^2.1.2",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/checkbox": "^0.5.17",
@@ -30,6 +31,7 @@
     "react-native": "0.73.5",
     "react-native-animatable": "^1.4.0",
     "react-native-blob-util": "^0.19.8",
+    "react-native-circular-progress": "^1.4.0",
     "react-native-date-picker": "^5.0.2",
     "react-native-datepicker": "^1.7.2",
     "react-native-dropdown-picker": "^5.4.6",
@@ -53,6 +55,8 @@
     "react-native-vector-icons": "^10.0.3",
     "rn-fetch-blob": "^0.12.0",
     "text-encoding": "^0.7.0",
+    "victory-native": "^40.2.0",
+    "victory-pie": "^37.0.2",
     "yoga-layout-prebuilt": "^1.10.0"
   },
   "plugins": [

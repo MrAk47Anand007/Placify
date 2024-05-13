@@ -1,427 +1,331 @@
-// import React from "react";
-// import { StyleSheet, SafeAreaView } from "react-native";
-// import Spacing from "../../constants/Spacing";
-// import FontSize from "../../constants/FontSize";
-// import Colors from "../../constants/Colors";
-// import Font from "../../constants/Font";
-
-// const MA_StuDetails = ({}) => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-      
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     backgroundColor: Colors.background,
-//   }
-// });
-
-// export default MA_StuDetails;
-
-
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput, Modal, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import Colors from "../../constants/Colors";
+import Spacing from '../../constants/Spacing';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { Ionicons } from '@expo/vector-icons';
 
-Ionicons.loadFont();
-
-const studentsData = [
-  { id: 1, name: 'John Doe', rollNo: '123', status: 'eligible', department: 'CS' },
-  { id: 2, name: 'Jane Doe', rollNo: '456', status: 'blocked', department: 'IT' },
-  { id: 3, name: 'Alice Smith', rollNo: '789', status: 'eligible', department: 'Mech' },
-  { id: 4, name: 'Bob Johnson', rollNo: '101', status: 'blocked', department: 'Civil' },
-  { id: 5, name: 'Clara Oswald', rollNo: '234', status: 'eligible', department: 'Instru' },
-  { id: 6, name: 'Danny Pink', rollNo: '567', status: 'blocked', department: 'CS' },
-  { id: 7, name: 'Eve Moneypenny', rollNo: '890', status: 'eligible', department: 'IT' },
-  { id: 8, name: 'Frank Underwood', rollNo: '112', status: 'blocked', department: 'Mech' },
+// Dummy data for job listings
+const EligibleStu = [
+  { id: '1', Name: 'Shreyas Joshi', Branch: 'Computer Engineering', photo: require('../../assets/images/amazonlogo.png') },
+  { id: '2', Name: 'Onkar Kale', Branch: 'Information Technology', photo: require('../../assets/images/googlelogo.png') },
+  { id: '3', Name: 'Vivek Harwani', Branch: 'Instrumentation Engineering', photo: require('../../assets/images/Tatalogo.png') },
+  { id: '4', Name: 'Anand Kale', Branch: 'Mechanical Engineering', photo: require('../../assets/images/amazonlogo.png') },
+  { id: '5', Name: 'Rahul Singh', Branch: 'Civil Engineering', photo: require('../../assets/images/amazonlogo.png') },
+  { id: '6', Name: 'Aditya Shah', Branch: 'Artificial Intelligence and Data Science', photo: require('../../assets/images/googlelogo.png') },
+  { id: '7', Name: 'Arjun Kapoor', Branch: 'Automation and Robotics', photo: require('../../assets/images/Tatalogo.png') },
+  // Add more listings as needed
 ];
 
-const departments = ['CS', 'IT', 'Mech', 'Civil', 'Instru'];
+const AppliedStu = [
+  { id: '1', Name: 'Shreyas Joshi', Branch: 'Computer Engineering', photo: require('../../assets/images/amazonlogo.png') },
+  { id: '2', Name: 'Onkar Kale', Branch: 'Electrical Engineering', photo: require('../../assets/images/googlelogo.png') },
+  { id: '3', Name: 'Vivek Harwani', Branch: 'Instrumentation Engineering', photo: require('../../assets/images/Tatalogo.png') },
+  { id: '4', Name: 'Anand Kale', Branch: 'Mechanical Engineering', photo: require('../../assets/images/amazonlogo.png') },
+];
 
-function filterStudents(students, searchQuery, selectedDepartments) {
-  return students.filter(student => {
-    const nameMatch = student.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const departmentMatch = selectedDepartments.length === 0 || selectedDepartments.includes(student.department);
-    return nameMatch && departmentMatch;
-  });
-}
+const branches = ['Computer Engineering', 'Information Technology', 'Mechanical Engineering', 'Civil Engineering', 'Instrumentation Engineering', 'Artificial Intelligence and Data Science', 'Automation and Robotics'];
 
-function StudentsList({ status, searchQuery, selectedDepartments }) {
-  const navigation = useNavigation(); // Get the navigation object
+// Existing code...
 
-  const filteredStudents = filterStudents(studentsData, searchQuery, selectedDepartments).filter(student => student.status === status);
+const EligibleStudents = ({ navigation: { navigate } }) => {
+  const [searchText, setSearchText] = useState('');
+  const [selectedBranches, setSelectedBranches] = useState([]);
+  const [showBranchModal, setShowBranchModal] = useState(false);
 
-  return (
-    <ScrollView>
-      {filteredStudents.map((student) => (
-  <TouchableOpacity
-    key={student.id} // Assign unique key here
-    style={styles.card}
-    onPress={() => navigation.navigate("studentProfile", { studentData: student })}
-  >
-    <Image source={{ uri: 'https://i.pravatar.cc/150?u=' + student.id }} style={styles.photo} />
-    <View>
-      <Text>{student.name}</Text>
-      <Text>{student.rollNo}</Text>
-      <Ionicons
-        name={status === 'eligible' ? 'checkmark-circle' : 'close-circle'}
-        size={24}
-        color={status === 'eligible' ? 'green' : 'red'}
-      />
-    </View>
-  </TouchableOpacity>
-))}
-    </ScrollView>
+  const filteredData = EligibleStu.filter(item =>
+    item.Name.toLowerCase().includes(searchText.toLowerCase()) &&
+    (selectedBranches.length === 0 || selectedBranches.includes(item.Branch))
   );
-}
 
-const Tab = createMaterialTopTabNavigator();
-
-function MyTabs({ searchQuery, selectedDepartments }) {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen 
-        name="Eligible" 
-        children={() => <StudentsList status="eligible" searchQuery={searchQuery} selectedDepartments={selectedDepartments} />} 
-      />
-      <Tab.Screen 
-        name="Blocked" 
-        children={() => <StudentsList status="blocked" searchQuery={searchQuery} selectedDepartments={selectedDepartments} />} 
-      />
-    </Tab.Navigator>
-  );
-}
-
-const MA_StuDetails = ({ navigation: { navigate } }) =>{
-// export default function App() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedDepartments, setSelectedDepartments] = useState([]);
-
-  const toggleDepartment = (department) => {
-    setSelectedDepartments(prevDepartments => {
-      if (prevDepartments.includes(department)) {
-        return prevDepartments.filter(dep => dep !== department);
-      } else {
-        return [...prevDepartments, department];
-      }
-    });
+  const toggleBranch = (branch) => {
+    if (selectedBranches.includes(branch)) {
+      setSelectedBranches(selectedBranches.filter(b => b !== branch));
+    } else {
+      setSelectedBranches([...selectedBranches, branch]);
+    }
   };
 
   return (
-    
-      <View style={styles.container}>
-      <View style={styles.search}>
-      <TextInput
-          placeholder="Search Students"
-          style={styles.searchBar}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.iconButton}>
-          <Text><Ionicons name="filter" size={24} color="black" /> Filter</Text>
+    <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBox}>
+          <Ionicons name="search" size={24} color={Colors.primary} style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by name"
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+        </View>
+        <TouchableOpacity style={styles.filterButton} onPress={() => setShowBranchModal(true)}>
+          <Ionicons name="filter" size={24} color={Colors.primary} />
         </TouchableOpacity>
-
       </View>
-       
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-          }}
-        >
-          <View style={styles.modalView}>
-            {departments.map((department, index) => (
-              <TouchableOpacity key={index} onPress={() => toggleDepartment(department)} style={styles.departmentOption}>
-                <Text>{department}</Text>
-                <Ionicons name={selectedDepartments.includes(department) ? 'checkbox-outline' : 'square-outline'} size={24} color="black" />
+      <FlatList
+        data={filteredData}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.listingHeader}>
+              <Image source={item.photo} style={styles.logo} />
+              <View style={styles.nameAndBranchContainer}>
+                <Text style={styles.title}>{item.Name}</Text>
+                <Text style={styles.jobType}>Branch: {item.Branch}</Text>
+              </View>
+            </View>
+          </View>
+        )}
+      />
+      <Modal visible={showBranchModal} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Filter by Branch</Text>
+            <TouchableOpacity onPress={() => setShowBranchModal(false)}>
+              <Ionicons name="close" size={24} color={Colors.primary} />
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.branchListContainer}>
+            {branches.map(branch => (
+              <TouchableOpacity
+                key={branch}
+                style={styles.branchItem}
+                onPress={() => toggleBranch(branch)}
+              >
+                <Text style={selectedBranches.includes(branch) ? styles.selectedBranchText : styles.branchText}>{branch}</Text>
+                {selectedBranches.includes(branch) && (
+                  <Ionicons name="checkmark-circle" size={24} color={Colors.primary} />
+                )}
               </TouchableOpacity>
             ))}
-          </View>
-        </Modal>
-        <MyTabs searchQuery={searchQuery} selectedDepartments={selectedDepartments} />
-      </View>
-  
+          </ScrollView>
+        </View>
+      </Modal>
+    </View>
   );
-}
+};
 
-export default MA_StuDetails;
+// Existing code...
+
+
+const AppliedStudents = () => {
+  const [searchText, setSearchText] = useState('');
+  const [selectedBranches, setSelectedBranches] = useState([]);
+  const [showBranchModal, setShowBranchModal] = useState(false);
+
+  const filteredData = EligibleStu.filter(item =>
+    item.Name.toLowerCase().includes(searchText.toLowerCase()) &&
+    (selectedBranches.length === 0 || selectedBranches.includes(item.Branch))
+  );
+
+  const toggleBranch = (branch) => {
+    if (selectedBranches.includes(branch)) {
+      setSelectedBranches(selectedBranches.filter(b => b !== branch));
+    } else {
+      setSelectedBranches([...selectedBranches, branch]);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBox}>
+          <Ionicons name="search" size={24} color={Colors.primary} style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by name"
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+        </View>
+        <TouchableOpacity style={styles.filterButton} onPress={() => setShowBranchModal(true)}>
+          <Ionicons name="filter" size={24} color={Colors.primary} />
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={filteredData}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.listingHeader}>
+              <Image source={item.photo} style={styles.logo} />
+              <View style={styles.nameAndBranchContainer}>
+                <Text style={styles.title}>{item.Name}</Text>
+                <Text style={styles.jobType}>Branch: {item.Branch}</Text>
+              </View>
+            </View>
+          </View>
+        )}
+      />
+      <Modal visible={showBranchModal} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Filter by Branch</Text>
+            <TouchableOpacity onPress={() => setShowBranchModal(false)}>
+              <Ionicons name="close" size={24} color={Colors.primary} />
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.branchListContainer}>
+            {branches.map(branch => (
+              <TouchableOpacity
+                key={branch}
+                style={styles.branchItem}
+                onPress={() => toggleBranch(branch)}
+              >
+                <Text style={selectedBranches.includes(branch) ? styles.selectedBranchText : styles.branchText}>{branch}</Text>
+                {selectedBranches.includes(branch) && (
+                  <Ionicons name="checkmark-circle" size={24} color={Colors.primary} />
+                )}
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const Tab = createMaterialTopTabNavigator();
+
+const StudentsData = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Opportunities"
+      screenOptions={{
+        tabBarActiveTintColor: '#ffffff',
+        tabBarLabelStyle: { fontSize: responsiveFontSize(1.8), fontWeight: "bold", justifyContent: 'center' },
+        tabBarStyle: { backgroundColor: Colors.primary, paddingVertical: Spacing * 0.8 },
+        tabBarIndicatorStyle: { backgroundColor: '#ffffff' },
+      }}
+    >
+      <Tab.Screen name="Eligible" component={EligibleStudents} />
+      <Tab.Screen name="Applied" component={AppliedStudents} />
+    </Tab.Navigator>
+  );
+};
+
+export default StudentsData;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
-    backgroundColor: '#fff',
-  },
-  searchBar: {
-    marginHorizontal: 10,
-    marginBottom: 10,
-    flexDirection:'row-reverse',
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-    borderColor:'#000000',
-    borderWidth:1,
-    fontSize: 16,
-    paddingHorizontal:100
-
-  },
-  iconButton: {
-    alignSelf: 'flex-end',
-    
-    padding: 17,
-  },
-  modalView: {
-    marginTop: '50%',
-    marginHorizontal: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  departmentOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 10,
+    position: 'relative',
+    backgroundColor: Colors.lightPrimary,
   },
   card: {
+    marginVertical: Spacing * 0.5,
+    backgroundColor: '#fff',
+    borderRadius: Spacing * 1.2,
+    paddingVertical: Spacing * 1.2,
+    paddingHorizontal: Spacing * 1.5,
+    marginHorizontal: Spacing * 2.2,
+    shadowColor: Colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: Spacing * 0.2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: Spacing * 0.2,
+    elevation: 4,
+  },
+  listingHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    marginHorizontal: 10,
-    marginBottom: 10,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 10,
+    marginBottom: Spacing * 0.3,
   },
-  photo: {
+  logo: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 10,
-  },
-  search:{
-  
-    flexDirection:'row'  
-  }
-  
+    marginRight: Spacing,
+  },
+  nameAndBranchContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  title: {
+    fontSize: responsiveFontSize(2.25),
+    fontWeight: 'bold',
+    color: Colors.text,
+  },
+  jobType: {
+    fontSize: responsiveFontSize(1.4),
+    color: Colors.primary,
+    fontWeight: 'bold',
+  },
+  applyButton: {
+    marginTop: Spacing * 1.5,
+    backgroundColor: Colors.primary,
+    padding: Spacing * 1.2,
+    borderRadius: Spacing * 2,
+    alignItems: 'center',
+  },
+  applyButtonText: {
+    color: Colors.onPrimary,
+    fontWeight: 'bold',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: Spacing * 2,
+    marginVertical: Spacing,
+  },
+  searchBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 20,
+    paddingHorizontal: Spacing,
+    flex: 1,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    padding: 0,
+  },
+  searchIcon: {
+    marginRight: Spacing * 0.5,
+  },
+  filterButton: {
+    marginLeft: Spacing,
+  },
+  modalContainer: {
+    flex: 0.6, // Adjust height as needed
+    backgroundColor: Colors.lightPrimary,
+    padding: Spacing * 2,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing,
+  },
+  modalTitle: {
+    fontSize: responsiveFontSize(2.2),
+    fontWeight: 'bold',
+  },
+  branchListContainer: {
+    flex: 1,
+  },
+  branchItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: Spacing,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.primary,
+  },
+  branchText: {
+    fontSize: responsiveFontSize(1.8),
+    color: Colors.text,
+  },
+  selectedBranchText: {
+    fontSize: responsiveFontSize(1.8),
+    fontWeight: 'bold',
+    color: Colors.primary,
+  },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState } from 'react';
-// import { View, Text, FlatList, TouchableOpacity, SafeAreaView, Modal, Button, ScrollView, StyleSheet } from 'react-native';
-// import CheckBox from 'expo-checkbox';
-// import Icon from 'react-native-vector-icons/FontAwesome';
-// // import * as XLSX from 'xlsx';
-
-// const students = [
-//   { id: '1', fullName: 'John Doe', mobileNo: '1234567890', course: 'Computer Science', specialization: 'AI' },
-//   // Add more students as needed
-// ];
-
-// const StudentListScreen = () => {
-//   const [selectedStudents, setSelectedStudents] = useState([]);
-//   const [filterModalVisible, setFilterModalVisible] = useState(false);
-//   const [selectedCourse, setSelectedCourse] = useState(null);
-//   const [selectedSpecializations, setSelectedSpecializations] = useState([]);
-
-//   const courses = ['Computer Science', 'Mechanical Engineering', 'Electrical Engineering'];
-//   const specializations = {
-//     'Computer Science': ['AI', 'Machine Learning', 'Software Engineering'],
-//     'Mechanical Engineering': ['Robotics', 'Thermodynamics'],
-//     'Electrical Engineering': ['Power Systems', 'Electronics'],
-//   };
-
-//   const handleSelectStudent = (id) => {
-//     setSelectedStudents(prevSelected => {
-//       if (prevSelected.includes(id)) {
-//         return prevSelected.filter(studentId => studentId !== id);
-//       } else {
-//         return [...prevSelected, id];
-//       }
-//     });
-//   };
-
-//   const handleDownload = () => {
-//     const filtered = students.filter(student => selectedStudents.includes(student.id));
-//     const ws = XLSX.utils.json_to_sheet(filtered.map(({ id, fullName, mobileNo, course, specialization }) => ({
-//       FullName: fullName,
-//       MobileNo: mobileNo,
-//       Course: course,
-//       Specialization: specialization,
-//     })));
-//     const wb = XLSX.utils.book_new();
-//     XLSX.utils.book_append_sheet(wb, ws, "Students");
-//     const exportFileName = "students.xlsx";
-//     XLSX.writeFile(wb, exportFileName);
-//   };
-
-//   const handleSelectCourse = (course) => {
-//     setSelectedCourse(course);
-//     setSelectedSpecializations([]);
-//   };
-
-//   const handleSelectSpecialization = (specialization) => {
-//     setSelectedSpecializations(prevSelected => {
-//       if (prevSelected.includes(specialization)) {
-//         return prevSelected.filter(spec => spec !== specialization);
-//       } else {
-//         return [...prevSelected, specialization];
-//       }
-//     });
-//   };
-
-//   const filteredStudents = students.filter(student => {
-//     return selectedCourse ? student.course === selectedCourse && selectedSpecializations.includes(student.specialization) : true;
-//   });
-
-//   const renderItem = ({ item }) => (
-//     <View style={styles.itemContainer}>
-//       <CheckBox value={selectedStudents.includes(item.id)} onValueChange={() => handleSelectStudent(item.id)} />
-//       <View style={styles.studentDetails}>
-//         <Text style={styles.studentName}>{item.fullName}</Text>
-//         <Text>{item.mobileNo}</Text>
-//         <Text>{`${item.course}, ${item.specialization}`}</Text>
-//       </View>
-//     </View>
-//   );
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.headerTitle}>Applied Students</Text>
-//         <View style={styles.headerIcons}>
-//           <TouchableOpacity onPress={handleDownload}>
-//             <Icon name="download" size={24} color="#000" />
-//           </TouchableOpacity>
-//           <TouchableOpacity onPress={() => setFilterModalVisible(true)} style={styles.iconButton}>
-//             <Icon name="filter" size={24} color="#000" />
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//       <FlatList
-//         data={filteredStudents}
-//         renderItem={renderItem}
-//         keyExtractor={item => item.id}
-//       />
-//       {renderFilterModal()}
-//     </SafeAreaView>
-//   );
-
-//   // Function to render filter modal
-//   function renderFilterModal() {
-//     return (
-//       <Modal visible={filterModalVisible} animationType="slide" onRequestClose={() => setFilterModalVisible(false)}>
-//         <ScrollView style={styles.modalContent}>
-//           <Text style={styles.modalTitle}>Select Course</Text>
-//           {courses.map(course => (
-//             <TouchableOpacity key={course} style={styles.modalButton} onPress={() => handleSelectCourse(course)}>
-//               <Text style={styles.modalButtonText}>{course}</Text>
-//               <CheckBox value={selectedCourse === course} onValueChange={() => handleSelectCourse(course)} />
-//             </TouchableOpacity>
-//           ))}
-//           {selectedCourse && (
-//             <>
-//               <Text style={styles.modalTitle}>Select Specialization(s)</Text>
-//               {specializations[selectedCourse].map(specialization => (
-//                 <TouchableOpacity key={specialization} style={styles.modalButton} onPress={() => handleSelectSpecialization(specialization)}>
-//                   <Text style={styles.modalButtonText}>{specialization}</Text>
-//                   <CheckBox
-//                     value={selectedSpecializations.includes(specialization)}
-//                     onValueChange={() => handleSelectSpecialization(specialization)}
-//                   />
-//                 </TouchableOpacity>
-//               ))}
-//             </>
-//           )}
-//           <Button title="Apply Filters" onPress={() => setFilterModalVisible(false)} />
-//         </ScrollView>
-//       </Modal>
-//     );
-//   }
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#f0f0f0',
-//   },
-//   header: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     padding: 20,
-//     backgroundColor: '#fff',
-//   },
-//   headerTitle: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//   },
-//   headerIcons: {
-//     flexDirection: 'row',
-//   },
-//   iconButton: {
-//     marginLeft: 15,
-//   },
-//   itemContainer: {
-//     flexDirection: 'row',
-//     padding: 10,
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ddd',
-//     alignItems: 'center',
-//   },
-//   studentDetails: {
-//     marginLeft: 10,
-//   },
-//   studentName: {
-//     fontWeight: 'bold',
-//   },
-//   modalContent: {
-//     padding: 20,
-//   },
-//   modalTitle: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 10,
-//   },
-//   modalButton: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     padding: 10,
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#eee',
-//   },
-//   modalButtonText: {
-//     fontSize: 16,
-//   },
-//   // Add other styles as needed
-// });
-
-// export default StudentListScreen;

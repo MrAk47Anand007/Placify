@@ -14,7 +14,7 @@ import MA_StuDetails from './srceens/Master-Admin/MA_StuDetails';
 
 
 const TabArr = [
-  { route: 'Groups', label: 'Groups', type: Icons.MaterialIcons, icon: 'groups', component: MA_StuDetails },
+  { route: 'Groups', label: 'Groups', type: Icons.MaterialIcons, icon: 'groups', component: MA_Groups },
   { route: 'Students', label: 'Students', type: Icons.AntDesign, icon: 'idcard', component: MA_StuDetails },
   { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: MA_Dashboard },
   { route: 'Jobs', label: 'Jobs', type: Icons.Entypo, icon: 'suitcase', component: MA_Jobs },
