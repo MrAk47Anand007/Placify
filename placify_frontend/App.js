@@ -11,23 +11,25 @@ import StuAppTabs from './StuAppTabs';
 import MATabs from './MATabs';
 import CompanyDetails from './srceens/Student-Login/CompanyDetails';
 import NotificationPage from './srceens/Student-Login/NotificationPage';
-import JobDetails from './srceens/Master-Admin/JobDetails';
-import AddJob from './srceens/Master-Admin/AddJob';
+import JobDetails from './srceens/Master-Admin/company/JobDetails';
+import AddJob from './srceens/Master-Admin/company/AddJob';
 import studentProfile from './srceens/Master-Admin/studentProfile';
 import Student_Offer from './srceens/Master-Admin/Student_Offer';
 import ChatPage from './srceens/Student-Login/Group Pages/ChatPage';
 import GroupProfile from './srceens/Student-Login/Group Pages/GroupProfile';
 import GenerateResumeScreen from './srceens/Student-Login/GenerateResumeScreen';
-import JobDetailsEdit from './srceens/Master-Admin/JobDetails-Edit';
-import DriveList from './srceens/Master-Admin/DriveList';
+import JobDetailsEdit from './srceens/Master-Admin/company/JobDetails-Edit';
+import DriveList from './srceens/Master-Admin/company/DriveList';
 import StudentInfo from './srceens/Master-Admin/StudentInfo'
+import SplashScreen from './SplashScreen'
+import ContextWrapper from './srceens/Master-Admin/company/contextWrap';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='MATabs' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
@@ -40,6 +42,7 @@ function App() {
         <Stack.Screen name="MATabs" component={MATabs} /> 
         <Stack.Screen name="JobDetails" component={JobDetails} /> 
         <Stack.Screen name="AddJob" component={AddJob} /> 
+        <Stack.Screen name='contextWrap' component={ContextWrapper}/>
         <Stack.Screen name="studentProfile" component={studentProfile} /> 
         <Stack.Screen name="Student_Offer" component={Student_Offer} /> 
         <Stack.Screen name="ChatPage" component={ChatPage} /> 
@@ -48,7 +51,7 @@ function App() {
         <Stack.Screen name="JobDetailsEdit" component={JobDetailsEdit} /> 
         <Stack.Screen name="DriveList" component={DriveList} />
         <Stack.Screen name="StudentInfo" component={StudentInfo} />
-        
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

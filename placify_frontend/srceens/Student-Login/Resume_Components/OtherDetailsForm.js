@@ -1,25 +1,69 @@
-// OtherDetailsForm.js
-import React, { useState,useContext } from 'react';
-import { View, TextInput, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Ensure you have this package
+import React, { useState, useContext, useEffect } from 'react';
+import { View, TextInput, Text, StyleSheet, ScrollView } from 'react-native';
 import Colors from "../../../constants/Colors";
 import { ResumeContext } from './ResumeContext';
+
 const OtherDetailsForm = () => {
   const { resumeData, updateResumeData } = useContext(ResumeContext);
 
   const [otherDetails, setOtherDetails] = useState({
-    briefSummary: resumeData.briefSummary,
-    linkedinLink: resumeData.linkedin,
-    githubLink: resumeData.github,
-    technicalSkills: resumeData.skills.technicalSkills.join(', '), // Join skills into a string
-    softSkills: resumeData.skills.softSkills.join(', '), // Join skills into a string
+    briefSummary: resumeData.briefSummary || '',
+    linkedinLink: resumeData.linkedin || '',
+    githubLink: resumeData.github || '',
+    websitelink: resumeData.website || '',
+    technicalSkills: resumeData.skills?.technicalSkills?.join(', ') || '',
+    softSkills: resumeData.skills?.softSkills?.join(', ') || '',
   });
+
+  useEffect(() => {
+    setOtherDetails({
+      briefSummary: resumeData.briefSummary || '',
+      linkedinLink: resumeData.linkedin || '',
+      githubLink: resumeData.github || '',
+      websitelink: resumeData.website || '',
+      technicalSkills: resumeData.skills?.technicalSkills?.join(', ') || '',
+      softSkills: resumeData.skills?.softSkills?.join(', ') || '',
+    });
+  }, [resumeData]);
 
   const handleChange = (text, field) => {
     setOtherDetails(prevState => ({
       ...prevState,
       [field]: text,
     }));
+  };
+
+  const handleBlur = (field) => {
+    let updatedData = { ...resumeData };
+    switch (field) {
+      case 'technicalSkills':
+        updatedData.skills = {
+          ...resumeData.skills,
+          technicalSkills: otherDetails.technicalSkills.split(',').map(skill => skill.trim()),
+        };
+        break;
+      case 'softSkills':
+        updatedData.skills = {
+          ...resumeData.skills,
+          softSkills: otherDetails.softSkills.split(',').map(skill => skill.trim()),
+        };
+        break;
+      case 'briefSummary':
+        updatedData.briefSummary = otherDetails.briefSummary;
+        break;
+      case 'linkedinLink':
+        updatedData.linkedin = otherDetails.linkedinLink;
+        break;
+      case 'githubLink':
+        updatedData.github = otherDetails.githubLink;
+        break;
+      case 'website':
+        updatedData.website = otherDetails.websitelink;
+        break;
+      default:
+        break;
+    }
+    updateResumeData(updatedData);
   };
 
   return (
@@ -31,6 +75,7 @@ const OtherDetailsForm = () => {
           placeholder="Brief Summary"
           value={otherDetails.briefSummary}
           onChangeText={text => handleChange(text, 'briefSummary')}
+          onBlur={() => handleBlur('briefSummary')}
           multiline={true}
           numberOfLines={4}
         />
@@ -40,6 +85,7 @@ const OtherDetailsForm = () => {
           placeholder="Technical Skills"
           value={otherDetails.technicalSkills}
           onChangeText={text => handleChange(text, 'technicalSkills')}
+          onBlur={() => handleBlur('technicalSkills')}
         />
         <Text>Soft Skills</Text>
         <TextInput
@@ -47,6 +93,7 @@ const OtherDetailsForm = () => {
           placeholder="Soft Skills"
           value={otherDetails.softSkills}
           onChangeText={text => handleChange(text, 'softSkills')}
+          onBlur={() => handleBlur('softSkills')}
         />
         <Text>LinkedIn Link</Text>
         <TextInput
@@ -54,6 +101,7 @@ const OtherDetailsForm = () => {
           placeholder="LinkedIn Link"
           value={otherDetails.linkedinLink}
           onChangeText={text => handleChange(text, 'linkedinLink')}
+          onBlur={() => handleBlur('linkedinLink')}
         />
         <Text>GitHub Link</Text>
         <TextInput
@@ -61,6 +109,15 @@ const OtherDetailsForm = () => {
           placeholder="GitHub Link"
           value={otherDetails.githubLink}
           onChangeText={text => handleChange(text, 'githubLink')}
+          onBlur={() => handleBlur('githubLink')}
+        />
+        <Text>Website Url</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Personal Portfolio"
+          value={otherDetails.websitelink}
+          onChangeText={text => handleChange(text, 'websitelink')}
+          onBlur={() => handleBlur('websitelink')}
         />
       </View>
     </ScrollView>

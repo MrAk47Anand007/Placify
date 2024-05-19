@@ -1,6 +1,5 @@
-import React, { useState, useRef,useContext } from "react";
-import { ResumeProvider } from './Resume_Components/ResumeContext'; 
-import { StyleSheet, SafeAreaView, TouchableOpacity, Text, Animated, ScrollView, Alert,Modal,View,TextInput} from "react-native";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { StyleSheet, SafeAreaView, TouchableOpacity, Text, Animated, ScrollView, Alert, Modal, View, TextInput } from "react-native";
 import Colors from "../../constants/Colors";
 import BasicInfoForm from "./Resume_Components/BasicInfoForm";
 import EducationDetailsForm from "./Resume_Components/EducationDetailsForm"; // Import the EducationDetailsForm
@@ -12,21 +11,20 @@ import OtherDetailsForm from "./Resume_Components/OtherDetailsForm";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontSize from '../../constants/FontSize';
 import Spacing from '../../constants/Spacing';
-import { ResumeContext } from './Resume_Components/ResumeContext';
+import { ResumeProvider, ResumeContext } from './Resume_Components/ResumeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFetchBlob from 'rn-fetch-blob';
-import  {handleGenerateResume}  from "./Resume_Components/ResumeService";
+import { handleGenerateResume } from "./Resume_Components/ResumeService";
 import Pdf from 'react-native-pdf';
-
-
 
 const ResumeScreen = () => {
   const [isBasicInfoExpanded, setIsBasicInfoExpanded] = useState(false);
   const [isEducationDetailsExpanded, setIsEducationDetailsExpanded] = useState(false); // New state for education details
-  const [isExperienceDetailsExpanded, setIsExperienceDetailsExpanded] = useState(false); 
+  const [isExperienceDetailsExpanded, setIsExperienceDetailsExpanded] = useState(false);
   const [isProjectDetailsExpanded, setIsProjectDetailsExpanded] = useState(false);
   const [isCertificationDetailsExpanded, setIsCertificationDetailsExpanded] = useState(false);
   const [isExtraCoCurricularActivitiesFormExpanded, setIsExtraCoCurricularActivitiesFormExpanded] = useState(false);
-  const [isOtherDetailsExpanded, setIsOtherDetailsExpanded] = useState(false); 
+  const [isOtherDetailsExpanded, setIsOtherDetailsExpanded] = useState(false);
   const [fileName, setFileName] = useState('');
   const [modalVisible, setModalVisible] = useState(false); // State for the main modal
   const [modalFileNameVisible, setModalFileNameVisible] = useState(false); // State for the modal to enter file name
@@ -41,11 +39,6 @@ const ResumeScreen = () => {
   const animationControllerCertificationDetails = useRef(new Animated.Value(0)).current;
   const animationControllerExtraCoCurricularActivitiesForm = useRef(new Animated.Value(0)).current;
   const animationControllerOtherDetails = useRef(new Animated.Value(0)).current;
-  
-
-  // const resumeData = useContext(ResumeContext);
-
-  
 
   const handlePressBasicInfo = () => {
     setIsBasicInfoExpanded(!isBasicInfoExpanded);
@@ -127,35 +120,37 @@ const ResumeScreen = () => {
 
   const rotateArrowProjectDetails = animationControllerProjectDetails.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'], 
+    outputRange: ['0deg', '180deg'],
   });
 
   const rotateArrowCertificationDetails = animationControllerCertificationDetails.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'], 
+    outputRange: ['0deg', '180deg'],
   });
 
   const rotateArrowExtraCoCurricularActivitiesForm = animationControllerExtraCoCurricularActivitiesForm.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'], 
+    outputRange: ['0deg', '180deg'],
   });
 
   const rotateArrowOtherDetails = animationControllerOtherDetails.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'], 
+    outputRange: ['0deg', '180deg'],
   });
+
   const handleModalOk = async () => {
-    // Set the file name and close the modal
     setFileName(modalInput);
     setModalFileNameVisible(false);
-    
+
     try {
+      const resumeData=await AsyncStorage.getItem('resumeData');
+      
       const response = await handleGenerateResume(resumeData);
-  
+
       if (response.status === 200) {
         const pdfData = response.data; // Byte array of the PDF
         const filePath = RNFetchBlob.fs.dirs.DownloadDir + '/' + modalInput + '.pdf'; // Use modalInput for filename
-  
+
         await RNFetchBlob.fs.writeFile(filePath, pdfData, 'base64')
           .then(() => {
             console.log('The file saved to ', filePath);
@@ -166,146 +161,132 @@ const ResumeScreen = () => {
             console.error('Error saving resume:', error);
             Alert.alert('Error', 'Failed to save resume.');
           });
-  
+
       } else {
-        // Handle API error
         console.error('Error generating resume:', response.data);
         Alert.alert('Error', 'Failed to generate resume.');
       }
-  
+
     } catch (error) {
-      // Handle network or other errors
       console.error('Error during API call or file generation:', error);
       Alert.alert('Error', 'An error occurred. Please try again later.');
     }
   };
-  
 
   const handleModalCancel = () => {
-    // Close the modal without changing the file name
     setModalVisible(false);
   };
 
-  const resumeData = useContext(ResumeContext);
-  
   const handleSubmit = async () => {
     setModalFileNameVisible(true);
   };
 
   return (
-    <ResumeProvider> 
+    <ResumeProvider>
       <SafeAreaView style={styles.container}>
-      <ScrollView>
-      {/* Basic Information Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressBasicInfo}>
-        <Text>Basic Information</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowBasicInfo }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isBasicInfoExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerBasicInfo }]}
-        >
-          <BasicInfoForm />
-        </Animated.View>
-      )}
+        <ScrollView>
+          <TouchableOpacity style={styles.box} onPress={handlePressBasicInfo}>
+            <Text>Basic Information</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowBasicInfo }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isBasicInfoExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerBasicInfo }]}
+            >
+              <BasicInfoForm />
+            </Animated.View>
+          )}
 
+          <TouchableOpacity style={styles.box} onPress={handlePressEducationDetails}>
+            <Text>Education Details</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowEducationDetails }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isEducationDetailsExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerEducationDetails }]}
+            >
+              <EducationDetailsForm />
+            </Animated.View>
+          )}
 
-      {/* Education Details Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressEducationDetails}>
-        <Text>Education Details</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowEducationDetails }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isEducationDetailsExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerEducationDetails }]}
-        >
-          <EducationDetailsForm />
-        </Animated.View>
-      )}
+          <TouchableOpacity style={styles.box} onPress={handlePressExperienceDetails}>
+            <Text>Experience Details</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowExperienceDetails }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isExperienceDetailsExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerExperienceDetails }]}
+            >
+              <ExpDetailsForm />
+            </Animated.View>
+          )}
 
-      {/* Experience Details Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressExperienceDetails}>
-        <Text>Experience Details</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowExperienceDetails }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isExperienceDetailsExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerExperienceDetails }]}
-        >
-          <ExpDetailsForm />
-        </Animated.View>
-      )}
+          <TouchableOpacity style={styles.box} onPress={handlePressProjectDetails}>
+            <Text>Project Details</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowProjectDetails }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isProjectDetailsExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerProjectDetails }]}
+            >
+              <ProjectDetailsForm />
+            </Animated.View>
+          )}
 
-      {/* Project Details Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressProjectDetails}>
-        <Text>Project Details</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowProjectDetails }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isProjectDetailsExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerProjectDetails }]}
-        >
-          <ProjectDetailsForm />
-        </Animated.View>
-      )}
+          <TouchableOpacity style={styles.box} onPress={handlePressCertificationDetails}>
+            <Text>Certification Details</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowCertificationDetails }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isCertificationDetailsExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerCertificationDetails }]}
+            >
+              <CertificationDetailsForm />
+            </Animated.View>
+          )}
 
-      {/* Certification Details Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressCertificationDetails}>
-        <Text>Certification Details</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowCertificationDetails }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isCertificationDetailsExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerCertificationDetails }]}
-        >
-          <CertificationDetailsForm />
-        </Animated.View>
-      )}
+          <TouchableOpacity style={styles.box} onPress={handlePressExtraCoCurricularActivitiesForm}>
+            <Text>Extra & Co-Curricular Activities Details</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowExtraCoCurricularActivitiesForm }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isExtraCoCurricularActivitiesFormExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerExtraCoCurricularActivitiesForm }]}
+            >
+              <ExtraCoCurricularActivitiesForm />
+            </Animated.View>
+          )}
 
-      {/* ExtraCoCurricularActivitiesForm Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressExtraCoCurricularActivitiesForm}>
-        <Text>Extra & Co-Curricular Activities Details</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowExtraCoCurricularActivitiesForm }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isExtraCoCurricularActivitiesFormExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerExtraCoCurricularActivitiesForm }]}
-        >
-          <ExtraCoCurricularActivitiesForm />
-        </Animated.View>
-      )}
-
-      {/* Other Details Section */}
-      <TouchableOpacity style={styles.box} onPress={handlePressOtherDetails}>
-        <Text>Other Details</Text>
-        <Animated.View style={{ transform: [{ rotate: rotateArrowOtherDetails }] }}>
-          <Icon name="chevron-down" size={24} color={Colors.primary} />
-        </Animated.View>
-      </TouchableOpacity>
-      {isOtherDetailsExpanded && (
-        <Animated.View
-          style={[styles.formContainer, { opacity: animationControllerOtherDetails }]}
-        >
-          <OtherDetailsForm />
-        </Animated.View>
-      )}
-      </ScrollView>
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-     <Text style={styles.submitText}>Generate Resume</Text>
-   </TouchableOpacity>
-   <Modal
+          <TouchableOpacity style={styles.box} onPress={handlePressOtherDetails}>
+            <Text>Other Details</Text>
+            <Animated.View style={{ transform: [{ rotate: rotateArrowOtherDetails }] }}>
+              <Icon name="chevron-down" size={24} color={Colors.primary} />
+            </Animated.View>
+          </TouchableOpacity>
+          {isOtherDetailsExpanded && (
+            <Animated.View
+              style={[styles.formContainer, { opacity: animationControllerOtherDetails }]}
+            >
+              <OtherDetailsForm />
+            </Animated.View>
+          )}
+        </ScrollView>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitText}>Generate Resume</Text>
+        </TouchableOpacity>
+        <Modal
           animationType="slide"
           transparent={true}
           visible={modalFileNameVisible}
@@ -333,24 +314,24 @@ const ResumeScreen = () => {
         </Modal>
 
         <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        {pdfUri !== '' && (
-          <View style={styles.pdfContainer}>
-            <Pdf
-              source={{ uri: pdfUri }}
-              style={styles.pdf}
-            />
-          </View>
-        )}
-      </Modal>
-        
-    </SafeAreaView>
+          animationType="slide"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(false);
+          }}
+        >
+          {pdfUri !== '' && (
+            <View style={styles.pdfContainer}>
+              <Pdf
+                source={{ uri: pdfUri }}
+                style={styles.pdf}
+              />
+            </View>
+          )}
+        </Modal>
+
+      </SafeAreaView>
     </ResumeProvider>
   );
 };

@@ -411,8 +411,137 @@
 
 
 
+// import React, { useState } from 'react';
+// import { View, StyleSheet, TouchableOpacity, Text, Modal, ScrollView } from 'react-native';
+// import Colors from '../../../constants/Colors';
+// import EducationTypeDropdown from './EducationTypeDropdown';
+// import DynamicEducationInputs from './DynamicEducationInputs';
+
+// const EducationDetailsForm = () => {
+//   const [educationForms, setEducationForms] = useState([{ educationType: null }]);
+//   const [selectedFormIndex, setSelectedFormIndex] = useState(null);
+//   const [isModalVisible, setIsModalVisible] = useState(false);
+//   const [educationNumber, setEducationNumber] = useState(""); //Changed
+
+//   const handleAddNew = () => {
+//     setEducationForms([...educationForms, { educationType: null }]);
+//   };
+
+//   const handleEducationTypeChange = (index, newValue) => {
+//     const updatedForms = [...educationForms];
+//     updatedForms[index].educationType = newValue;
+//     setEducationForms(updatedForms);
+//   };
+
+//   const handleDropdownSelection = (index, newValue) => {
+//     setSelectedFormIndex(index);
+//     setIsModalVisible(true); // Open the modal
+//     handleEducationTypeChange(index, newValue);
+//     setEducationNumber(newValue); // Changed
+//   };
+
+//   const handleModalClose = () => {
+//     setIsModalVisible(false);
+//   };
+
+//   const renderModalContent = () => {
+//     if (selectedFormIndex !== null) {
+//       const educationType = educationForms[selectedFormIndex].educationType;
+//       console.log(educationType);
+//       return <DynamicEducationInputs educationType={educationNumber} />; // Changed
+//     }
+//     return null;
+//   };
+
+//   return (
+//     <ScrollView>
+//       <View style={styles.container}>
+//         {educationForms.map((form, index) => (
+//           <View key={index} style={styles.educationForm}>
+//             <EducationTypeDropdown
+//               value={form.educationType}
+//               onSelectionChange={(newValue) => handleDropdownSelection(index, newValue)}
+//             />
+//             {form.educationType && <DynamicEducationInputs educationType={form.educationType} educationIndex={index} />}
+//           </View>
+//         ))}
+        
+//           <TouchableOpacity style={styles.addButton} onPress={handleAddNew}>
+//             <Text style={styles.buttonText}>Add More</Text>
+//           </TouchableOpacity>
+      
+//         {/* <Modal visible={isModalVisible} onRequestClose={handleModalClose}>
+//           <View style={styles.modalContent}>
+//             {renderModalContent()}
+//             <TouchableOpacity onPress={handleModalClose}>
+//               <Text>Close</Text>
+//             </TouchableOpacity>
+//           </View>
+//         </Modal> */}
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     // padding: 20,
+//   },
+//   educationForm: {
+//     borderWidth: 1,
+//     borderColor: Colors.lightGray,
+//     borderRadius: 15,
+//     marginBottom: 20,
+//     backgroundColor: Colors.background,
+//     padding: 15,
+//   },
+//   formHeader: { // Optional header for each form section
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     marginBottom: 10,
+//   },
+//   formTitle: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   removeButton: { // Optional button to remove a form section
+//     padding: 5,
+//     backgroundColor: '#dc3545', // Red color for remove button
+//     borderRadius: 5,
+//   },
+//   removeButtonText: {
+//     color: '#fff',
+//   },
+//   inputLabel: {
+//     fontSize: 14,
+//     marginBottom: 5,
+//   },
+//   inputField: {
+//     height: 40,
+//     borderColor: '#ccc',
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     paddingHorizontal: 10,
+//     marginBottom: 10,
+//   },
+//   addButton: {
+//     backgroundColor: '#007BFF',
+//     borderRadius: 15,
+//     paddingVertical: 12,
+//     alignItems: 'center',
+//   },
+//   buttonText: {
+//     color: '#FFFFFF',
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//   },
+// });
+
+// export default EducationDetailsForm;
+
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Modal, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
 import Colors from '../../../constants/Colors';
 import EducationTypeDropdown from './EducationTypeDropdown';
 import DynamicEducationInputs from './DynamicEducationInputs';
@@ -420,8 +549,6 @@ import DynamicEducationInputs from './DynamicEducationInputs';
 const EducationDetailsForm = () => {
   const [educationForms, setEducationForms] = useState([{ educationType: null }]);
   const [selectedFormIndex, setSelectedFormIndex] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [educationNumber, setEducationNumber] = useState(""); //Changed
 
   const handleAddNew = () => {
     setEducationForms([...educationForms, { educationType: null }]);
@@ -435,22 +562,7 @@ const EducationDetailsForm = () => {
 
   const handleDropdownSelection = (index, newValue) => {
     setSelectedFormIndex(index);
-    setIsModalVisible(true); // Open the modal
     handleEducationTypeChange(index, newValue);
-    setEducationNumber(newValue); // Changed
-  };
-
-  const handleModalClose = () => {
-    setIsModalVisible(false);
-  };
-
-  const renderModalContent = () => {
-    if (selectedFormIndex !== null) {
-      const educationType = educationForms[selectedFormIndex].educationType;
-      console.log(educationType);
-      return <DynamicEducationInputs educationType={educationNumber} />; // Changed
-    }
-    return null;
   };
 
   return (
@@ -462,22 +574,18 @@ const EducationDetailsForm = () => {
               value={form.educationType}
               onSelectionChange={(newValue) => handleDropdownSelection(index, newValue)}
             />
-            {form.educationType && <DynamicEducationInputs educationType={form.educationType} educationIndex={index} />}
+            {form.educationType && (
+              <DynamicEducationInputs
+                key={`${form.educationType}-${index}`} // Unique key for re-renders
+                educationType={form.educationType}
+                educationIndex={index}
+              />
+            )}
           </View>
         ))}
-        
-          <TouchableOpacity style={styles.addButton} onPress={handleAddNew}>
-            <Text style={styles.buttonText}>Add More</Text>
-          </TouchableOpacity>
-      
-        {/* <Modal visible={isModalVisible} onRequestClose={handleModalClose}>
-          <View style={styles.modalContent}>
-            {renderModalContent()}
-            <TouchableOpacity onPress={handleModalClose}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal> */}
+        <TouchableOpacity style={styles.addButton} onPress={handleAddNew}>
+          <Text style={styles.buttonText}>Add More</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -485,7 +593,7 @@ const EducationDetailsForm = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 20,
+    padding: 20,
   },
   educationForm: {
     borderWidth: 1,
@@ -494,36 +602,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: Colors.background,
     padding: 15,
-  },
-  formHeader: { // Optional header for each form section
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  formTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  removeButton: { // Optional button to remove a form section
-    padding: 5,
-    backgroundColor: '#dc3545', // Red color for remove button
-    borderRadius: 5,
-  },
-  removeButtonText: {
-    color: '#fff',
-  },
-  inputLabel: {
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  inputField: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
   },
   addButton: {
     backgroundColor: '#007BFF',
@@ -539,10 +617,5 @@ const styles = StyleSheet.create({
 });
 
 export default EducationDetailsForm;
-
-
-
-
-
 
 
