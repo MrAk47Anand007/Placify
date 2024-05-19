@@ -3,9 +3,9 @@ import React, { useRef, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Dimensions, Image, Animated } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Colors from '../../constants/Colors';
-import Spacing from '../../constants/Spacing';
-import FontSize from '../../constants/FontSize';
+import Colors from '../../../constants/Colors';
+import Spacing from '../../../constants/Spacing';
+import FontSize from '../../../constants/FontSize';
 
 const { width } = Dimensions.get('window');
 
@@ -45,7 +45,7 @@ const JobDetailsEdit = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Image source={require('../../assets/images/amazonlogo.png')} style={styles.companyLogo} />
+        <Image source={require('../../../assets/images/amazonlogo.png')} style={styles.companyLogo} />
         <View>
           <Text style={styles.jobRoleText}>Software Engineer</Text>
           <Text style={styles.companyNameText}>Acme Inc.</Text>

@@ -1,31 +1,53 @@
-
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import Colors from "../../constants/Colors";
-import Spacing from '../../constants/Spacing';
+import Colors from "../../../constants/Colors";
+import Spacing from '../../../constants/Spacing';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import FontSize from '../../constants/FontSize';
+import FontSize from '../../../constants/FontSize';
+import { CompanyContext, CompanyProvider } from './CompanyContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-// Alias the components when importing
 const Icon = {
   AntDesign: AntDesignIcon,
 };
 
-// Dummy data for job listings
-const drives = [
-  { id: '1', title: 'Software Engineer', company: 'Amazon', ctc: '10 LPA', jobType: 'Full Time', location: 'New York', logo: require('../../assets/images/amazonlogo.png') },
-  { id: '2', title: 'Web Developer Intern', company: 'Amazon', ctc: '6 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/amazonlogo.png') },
-  { id: '3', title: 'Tech Consultant', company: 'Amazon', ctc: '22 LPA', jobType: 'Full Time', location: 'San Francisco', logo: require('../../assets/images/amazonlogo.png') },
-  { id: '4', title: 'Cyber Security Intern', company: 'Amazon', ctc: '18 LPA', jobType: 'Internship', location: 'San Francisco', logo: require('../../assets/images/amazonlogo.png') },
-  // Add more listings as needed
-];
 
-const DriveList = ({ navigation: { navigate } }) => {
+const DriveList = () => {
+  const [drives, setDrives] = useState([]);
+  const [companyData, setCompanyData] = useState(null);
+  const navigation = useNavigation(); 
+
+  useEffect(() => {
+    const fetchDriveData = async () => {
+      try {
+        // Retrieve data from AsyncStorage
+        const storedCompanyData = await AsyncStorage.getItem('companyData'); 
+        if (storedCompanyData) {
+          setCompanyData(JSON.parse(storedCompanyData));
+
+          // Make API call to fetch drives
+          const response = await axios.get(`/api/drives?company=${companyData.name}`); 
+          setDrives(response.data);
+        } else {
+          console.error('Company data not available in AsyncStorage');
+        }
+      } catch (error) {
+        console.error('Error fetching drive data:', error);
+      }
+    };
+
+    fetchDriveData(); 
+  }, []);
+
   return (
-    <View style={styles.container}>
+    <CompanyProvider>
+<View style={styles.container}>
+      {/* Render the company name in the header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Amazon Drives</Text>
+        <Text style={styles.headerTitle}>{companyData?.name} - Drives</Text>
       </View>
       <FlatList
         data={drives}
@@ -46,27 +68,29 @@ const DriveList = ({ navigation: { navigate } }) => {
             <Text style={styles.textbelowlogo}>Location: {item.location}</Text>
 
             <View style={styles.DriveButtons}>
-            <TouchableOpacity
-              style={styles.applyButton}
-              onPress={() => navigate("JobDetailsEdit")}
-            >
-              <Text style={styles.applyButtonText}>View Details</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.applyButton2}
-              onPress={() => navigate("StudentInfo")}
-            >
-              <Text style={styles.applyButtonText2}>Student Info</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.applyButton}
+                onPress={() => navigate("JobDetailsEdit")}
+              >
+                <Text style={styles.applyButtonText}>View Details</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.applyButton2}
+                onPress={() => navigate("StudentInfo")}
+              >
+                <Text style={styles.applyButtonText2}>Student Info</Text>
+              </TouchableOpacity>
             </View>
 
           </View>
         )}
       />
-      <TouchableOpacity style={styles.submitButton} onPress={() => navigate("AddJob")}>
+      <TouchableOpacity style={styles.submitButton} onPress={() => navigation.navigate("contextWrap")}>
         <Text style={styles.submitText}>Add Drive</Text>
       </TouchableOpacity>
     </View>
+    </CompanyProvider>
+    
   );
 };
 
