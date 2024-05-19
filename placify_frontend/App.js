@@ -21,13 +21,14 @@ import GenerateResumeScreen from './srceens/Student-Login/GenerateResumeScreen';
 import JobDetailsEdit from './srceens/Master-Admin/JobDetails-Edit';
 import DriveList from './srceens/Master-Admin/DriveList';
 import StudentInfo from './srceens/Master-Admin/StudentInfo'
+import SplashScreen from './SplashScreen'
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='MATabs' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
@@ -48,7 +49,7 @@ function App() {
         <Stack.Screen name="JobDetailsEdit" component={JobDetailsEdit} /> 
         <Stack.Screen name="DriveList" component={DriveList} />
         <Stack.Screen name="StudentInfo" component={StudentInfo} />
-        
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
