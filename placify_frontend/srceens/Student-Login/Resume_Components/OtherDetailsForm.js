@@ -10,6 +10,7 @@ const OtherDetailsForm = () => {
     briefSummary: resumeData.briefSummary || '',
     linkedinLink: resumeData.linkedin || '',
     githubLink: resumeData.github || '',
+    websitelink: resumeData.website || '',
     technicalSkills: resumeData.skills?.technicalSkills?.join(', ') || '',
     softSkills: resumeData.skills?.softSkills?.join(', ') || '',
   });
@@ -19,6 +20,7 @@ const OtherDetailsForm = () => {
       briefSummary: resumeData.briefSummary || '',
       linkedinLink: resumeData.linkedin || '',
       githubLink: resumeData.github || '',
+      websitelink: resumeData.website || '',
       technicalSkills: resumeData.skills?.technicalSkills?.join(', ') || '',
       softSkills: resumeData.skills?.softSkills?.join(', ') || '',
     });
@@ -54,6 +56,9 @@ const OtherDetailsForm = () => {
         break;
       case 'githubLink':
         updatedData.github = otherDetails.githubLink;
+        break;
+      case 'website':
+        updatedData.website = otherDetails.websitelink;
         break;
       default:
         break;
@@ -105,6 +110,14 @@ const OtherDetailsForm = () => {
           value={otherDetails.githubLink}
           onChangeText={text => handleChange(text, 'githubLink')}
           onBlur={() => handleBlur('githubLink')}
+        />
+        <Text>Website Url</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Personal Portfolio"
+          value={otherDetails.websitelink}
+          onChangeText={text => handleChange(text, 'websitelink')}
+          onBlur={() => handleBlur('websitelink')}
         />
       </View>
     </ScrollView>

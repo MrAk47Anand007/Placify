@@ -13,7 +13,7 @@ import FontSize from '../../constants/FontSize';
 import Spacing from '../../constants/Spacing';
 import { ResumeProvider, ResumeContext } from './Resume_Components/ResumeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system';
+import RNFetchBlob from 'rn-fetch-blob';
 import { handleGenerateResume } from "./Resume_Components/ResumeService";
 import Pdf from 'react-native-pdf';
 
@@ -141,31 +141,32 @@ const ResumeScreen = () => {
   const handleModalOk = async () => {
     setFileName(modalInput);
     setModalFileNameVisible(false);
-  
+
     try {
-      const resumeData = await AsyncStorage.getItem('resumeData');
-  
-      if (!resumeData) {
-        throw new Error('No resume data found');
-      }
-  
+      const resumeData=await AsyncStorage.getItem('resumeData');
+      
       const response = await handleGenerateResume(resumeData);
-  
+
       if (response.status === 200) {
         const pdfData = response.data; // Byte array of the PDF
-        const filePath = `${FileSystem.documentDirectory}${modalInput}.pdf`;
-  
-        await FileSystem.writeAsStringAsync(filePath, pdfData, {
-          encoding: FileSystem.EncodingType.Base64
-        });
-  
-        console.log('The file saved to', filePath);
-        setPdfUri(filePath);
-        setModalVisible(true);
+        const filePath = RNFetchBlob.fs.dirs.DownloadDir + '/' + modalInput + '.pdf'; // Use modalInput for filename
+
+        await RNFetchBlob.fs.writeFile(filePath, pdfData, 'base64')
+          .then(() => {
+            console.log('The file saved to ', filePath);
+            setPdfUri(filePath);
+            setModalVisible(true);
+          })
+          .catch((error) => {
+            console.error('Error saving resume:', error);
+            Alert.alert('Error', 'Failed to save resume.');
+          });
+
       } else {
         console.error('Error generating resume:', response.data);
         Alert.alert('Error', 'Failed to generate resume.');
       }
+
     } catch (error) {
       console.error('Error during API call or file generation:', error);
       Alert.alert('Error', 'An error occurred. Please try again later.');

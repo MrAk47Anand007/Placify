@@ -21,23 +21,15 @@ import GenerateResumeScreen from './srceens/Student-Login/GenerateResumeScreen';
 import JobDetailsEdit from './srceens/Master-Admin/company/JobDetails-Edit';
 import DriveList from './srceens/Master-Admin/company/DriveList';
 import StudentInfo from './srceens/Master-Admin/StudentInfo'
-<<<<<<< Updated upstream
 import SplashScreen from './SplashScreen'
-=======
-import contextWrapper from './srceens/Master-Admin/company/contextWrap';
 import ContextWrapper from './srceens/Master-Admin/company/contextWrap';
->>>>>>> Stashed changes
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-<<<<<<< Updated upstream
       <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
-=======
-      <Stack.Navigator initialRouteName='MATabs' screenOptions={{ headerShown: false }}>
->>>>>>> Stashed changes
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
