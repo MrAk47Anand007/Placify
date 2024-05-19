@@ -12,6 +12,9 @@ public interface MasterAdminService {
     void deleteStudent(Long id);
     StudentDTO blockStudent(Long id, StudentDTO studentDTO);
     List<StudentDTO> getAllStudents();
+
+    
+
     List<StudentDTO> getStudentsByDepartment(Long departmentId);
     List<StudentDTO> getEnabledStudents();
     List<StudentDTO> getDisabledStudents();

@@ -115,7 +115,7 @@ const AppliedStudents = () => {
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [showBranchModal, setShowBranchModal] = useState(false);
 
-  const filteredData = EligibleStu.filter(item =>
+  const filteredData = AppliedStu.filter(item =>
     item.Name.toLowerCase().includes(searchText.toLowerCase()) &&
     (selectedBranches.length === 0 || selectedBranches.includes(item.Branch))
   );

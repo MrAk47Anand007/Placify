@@ -79,7 +79,6 @@ public class PdfGenerationTask implements Runnable {
                 .replace("%PHONE_NUMBER%", resumeData.getPhoneNumber())
                 .replace("%EMAIL%", resumeData.getEmail())
                 .replace("%LINKEDIN%", resumeData.getLinkedin())
-                .replace("%WEBSITE%", resumeData.getWebsite())
                 .replace("%OBJECTIVE%", resumeData.getBriefSummary())
                 .replace("%GITHUB%", resumeData.getGithub());
 

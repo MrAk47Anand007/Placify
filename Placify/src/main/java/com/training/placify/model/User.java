@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor // A constructor with all arguments
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
+@Table(name = "central_user")
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

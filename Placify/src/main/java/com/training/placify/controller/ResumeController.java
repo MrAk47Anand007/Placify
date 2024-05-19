@@ -79,7 +79,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.29.209") // Adjust origin as needed
+@CrossOrigin(origins = "http://192.168.29.79") // Adjust origin as needed
 @RequestMapping("/student/resume")
 public class ResumeController {
 

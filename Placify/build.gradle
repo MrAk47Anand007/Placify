@@ -41,6 +41,10 @@ dependencies {
 	implementation 'org.apache.commons:commons-exec:1.4.0'
 	implementation 'com.github.fge:json-patch:1.7'
 	implementation 'commons-io:commons-io:2.16.1'
+	implementation 'org.postgresql:postgresql:42.7.3'
+	implementation 'com.google.cloud:google-cloud-storage:2.38.0'
+	implementation 'net.coobird:thumbnailator:0.4.20'
+
 
 
 	compileOnly 'org.projectlombok:lombok'

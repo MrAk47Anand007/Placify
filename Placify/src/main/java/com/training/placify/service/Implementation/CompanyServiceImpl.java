@@ -9,9 +9,13 @@ import com.training.placify.repository.DepartmentRepository;
 import com.training.placify.service.CompanyService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +25,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
-    private DepartmentRepository departmentRepository; // Add this for fetching departments
+    private DepartmentRepository departmentRepository;
 
     @Override
     @Transactional
     public Company addCompany(Company company) {
-        // Handle eligible departments (fetch them if IDs are provided)
         if (company.getPlacementDrives() != null) {
             for (PlacementDrive drive : company.getPlacementDrives()) {
                 EligibilityCriteria criteria = drive.getEligibilityCriteria();
@@ -41,13 +44,26 @@ public class CompanyServiceImpl implements CompanyService {
             }
         }
 
-
         try {
             return companyRepository.save(company);
         } catch (Exception e) {
-            // Handle the exception
-            e.printStackTrace(); // Print the stack trace for debugging
-            throw new RuntimeException("Error saving company: " + e.getMessage()); // Re-throw a more informative exception
+            e.printStackTrace();
+            throw new RuntimeException("Error saving company: " + e.getMessage());
         }
+    }
+
+    @Override
+    public byte[] compressLogo(byte[] logoBytes) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Thumbnails.of(new ByteArrayInputStream(logoBytes))
+                .size(200, 200)
+                .outputQuality(0.75)
+                .toOutputStream(outputStream);
+        return outputStream.toByteArray();
+    }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
     }
 }

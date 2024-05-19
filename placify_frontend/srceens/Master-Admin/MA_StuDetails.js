@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput, Modal, ScrollView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput, Modal, ScrollView, TouchableWithoutFeedback} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Colors from "../../constants/Colors";
@@ -48,6 +48,12 @@ const EligibleStudents = ({ navigation: { navigate } }) => {
     }
   };
 
+  const handleJobItemClick = () => {
+    // Your logic to handle the click event for "View Drives" goes here
+    navigate("studentProfile");
+  };
+
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -68,15 +74,17 @@ const EligibleStudents = ({ navigation: { navigate } }) => {
         data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.listingHeader}>
-              <Image source={item.photo} style={styles.logo} />
-              <View style={styles.nameAndBranchContainer}>
-                <Text style={styles.title}>{item.Name}</Text>
-                <Text style={styles.jobType}>Branch: {item.Branch}</Text>
+          <TouchableWithoutFeedback onPress={() => handleJobItemClick(item)}>
+            <View style={styles.card}>
+              <View style={styles.listingHeader}>
+                <Image source={item.photo} style={styles.logo} />
+                <View style={styles.nameAndBranchContainer}>
+                  <Text style={styles.title}>{item.Name}</Text>
+                  <Text style={styles.jobType}>Branch: {item.Branch}</Text>
+                </View>
               </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         )}
       />
       <Modal visible={showBranchModal} animationType="slide">
@@ -115,7 +123,7 @@ const AppliedStudents = () => {
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [showBranchModal, setShowBranchModal] = useState(false);
 
-  const filteredData = EligibleStu.filter(item =>
+  const filteredData = AppliedStu.filter(item =>
     item.Name.toLowerCase().includes(searchText.toLowerCase()) &&
     (selectedBranches.length === 0 || selectedBranches.includes(item.Branch))
   );
@@ -148,15 +156,17 @@ const AppliedStudents = () => {
         data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.listingHeader}>
-              <Image source={item.photo} style={styles.logo} />
-              <View style={styles.nameAndBranchContainer}>
-                <Text style={styles.title}>{item.Name}</Text>
-                <Text style={styles.jobType}>Branch: {item.Branch}</Text>
+          <TouchableWithoutFeedback onPress={() => handleJobItemClick(item)}>
+            <View style={styles.card}>
+              <View style={styles.listingHeader}>
+                <Image source={item.photo} style={styles.logo} />
+                <View style={styles.nameAndBranchContainer}>
+                  <Text style={styles.title}>{item.Name}</Text>
+                  <Text style={styles.jobType}>Branch: {item.Branch}</Text>
+                </View>
               </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         )}
       />
       <Modal visible={showBranchModal} animationType="slide">

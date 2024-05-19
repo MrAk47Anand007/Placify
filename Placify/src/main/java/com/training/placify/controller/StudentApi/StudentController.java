@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.29.209")
+@CrossOrigin(origins = "http://192.168.29.79")
 @RequestMapping("/student")
 public class StudentController {
     @Autowired
