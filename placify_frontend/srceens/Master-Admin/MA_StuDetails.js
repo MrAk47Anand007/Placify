@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< Updated upstream
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput, Modal, ScrollView, TouchableWithoutFeedback} from 'react-native';
+=======
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Image, TextInput, Modal, ScrollView } from 'react-native';
+>>>>>>> Stashed changes
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Colors from "../../constants/Colors";
@@ -19,7 +23,7 @@ const EligibleStu = [
   // Add more listings as needed
 ];
 
-const AppliedStu = [
+const BlockedStu = [
   { id: '1', Name: 'Shreyas Joshi', Branch: 'Computer Engineering', photo: require('../../assets/images/amazonlogo.png') },
   { id: '2', Name: 'Onkar Kale', Branch: 'Electrical Engineering', photo: require('../../assets/images/googlelogo.png') },
   { id: '3', Name: 'Vivek Harwani', Branch: 'Instrumentation Engineering', photo: require('../../assets/images/Tatalogo.png') },
@@ -74,7 +78,11 @@ const EligibleStudents = ({ navigation: { navigate } }) => {
         data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
+<<<<<<< Updated upstream
           <TouchableWithoutFeedback onPress={() => handleJobItemClick(item)}>
+=======
+          <TouchableWithoutFeedback onPress={() => navigate("studentProfile")}>
+>>>>>>> Stashed changes
             <View style={styles.card}>
               <View style={styles.listingHeader}>
                 <Image source={item.photo} style={styles.logo} />
@@ -118,12 +126,16 @@ const EligibleStudents = ({ navigation: { navigate } }) => {
 // Existing code...
 
 
-const AppliedStudents = () => {
+const BlockedStudents = ({ navigation: { navigate } }) => {
   const [searchText, setSearchText] = useState('');
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [showBranchModal, setShowBranchModal] = useState(false);
 
+<<<<<<< Updated upstream
   const filteredData = AppliedStu.filter(item =>
+=======
+  const filteredData = BlockedStu.filter(item =>
+>>>>>>> Stashed changes
     item.Name.toLowerCase().includes(searchText.toLowerCase()) &&
     (selectedBranches.length === 0 || selectedBranches.includes(item.Branch))
   );
@@ -156,7 +168,11 @@ const AppliedStudents = () => {
         data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
+<<<<<<< Updated upstream
           <TouchableWithoutFeedback onPress={() => handleJobItemClick(item)}>
+=======
+          <TouchableWithoutFeedback onPress={() => navigate("studentProfile")}>
+>>>>>>> Stashed changes
             <View style={styles.card}>
               <View style={styles.listingHeader}>
                 <Image source={item.photo} style={styles.logo} />
@@ -211,7 +227,7 @@ const StudentsData = () => {
       }}
     >
       <Tab.Screen name="Eligible" component={EligibleStudents} />
-      <Tab.Screen name="Applied" component={AppliedStudents} />
+      <Tab.Screen name="Blocked" component={BlockedStudents} />
     </Tab.Navigator>
   );
 };
