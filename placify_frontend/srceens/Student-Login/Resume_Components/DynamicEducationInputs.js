@@ -14,24 +14,44 @@ const DynamicEducationInputs = ({ educationType, educationIndex }) => {
   const [uploadedImages, setUploadedImages] = useState({});
   const [openFromDatePicker, setOpenFromDatePicker] = useState(false);
   const [openToDatePicker, setOpenToDatePicker] = useState(false);
+  const [aggregatedCGPA, setAggregatedCGPA] = useState(0);
+  const [percentage, setPercentage] = useState('');
 
-// Ensure resumeData.education is initialized as an array if undefined
-useEffect(() => {
-  if (!Array.isArray(resumeData.education)) {
-    updateResumeData({ education: [] });
-  }
-}, [resumeData.education, updateResumeData]);
+  useEffect(() => {
+    if (!Array.isArray(resumeData.education)) {
+      updateResumeData({ education: [] });
+    }
+  }, [resumeData.education, updateResumeData]);
 
-// Ensure the current education entry is initialized
-useEffect(() => {
-  if (Array.isArray(resumeData.education) && !resumeData.education[educationIndex]) {
-    const updatedEducation = [...resumeData.education];
-    updatedEducation[educationIndex] = {};
-    updateResumeData({ education: updatedEducation });
-  }
-}, [educationIndex, resumeData.education, updateResumeData]);
+  useEffect(() => {
+    if (Array.isArray(resumeData.education) && !resumeData.education[educationIndex]) {
+      const updatedEducation = [...resumeData.education];
+      updatedEducation[educationIndex] = {};
+      updateResumeData({ education: updatedEducation });
+    }
+  }, [educationIndex, resumeData.education, updateResumeData]);
 
   const currentEducation = resumeData && resumeData.education ? resumeData.education[educationIndex] || {} : {};
+
+  const convertCGPA = (cgpa) => {
+    if (cgpa < 4) {
+      return { grade: "F", per: "NA" };
+    } else if (cgpa < 4.75) {
+      return { grade: "D", per: 6.6 * cgpa + 13.6 };
+    } else if (cgpa < 5.25) {
+      return { grade: "C", per: 10 * cgpa - 2.5 };
+    } else if (cgpa < 5.75) {
+      return { grade: "B", per: 10 * cgpa - 2.5 };
+    } else if (cgpa < 6.75) {
+      return { grade: "B+", per: 5 * cgpa + 26.5 };
+    } else if (cgpa < 8.25) {
+      return { grade: "A", per: 10 * cgpa - 7.5 };
+    } else if (cgpa < 9.5) {
+      return { grade: "A+", per: 12 * cgpa - 25 };
+    } else {
+      return { grade: "O", per: 20 * cgpa - 100 };
+    }
+  };
 
   const handleUpload = async (semester) => {
     try {
@@ -61,14 +81,43 @@ useEffect(() => {
       );
 
       const extractedText = uploadResponse.data;
+      const semesterCGPA = parseFloat(extractedText);
+      console.log(semesterCGPA);
 
       setUploadedImages(prevImages => ({
         ...prevImages,
         [semester]: result.assets[0].uri,
-        [`${semester}Text`]: extractedText,
+        [`${semester}CGPA`]: semesterCGPA,
       }));
+
+      calculateAggregatedCGPA();
     } catch (error) {
       console.error('Error uploading image:', error);
+    }
+  };
+
+  const calculateAggregatedCGPA = () => {
+    const totalSemesters = 8;
+    let totalCGPA = 0;
+    let count = 0;
+
+    for (let i = 1; i <= totalSemesters; i++) {
+      if (uploadedImages[`semester${i}CGPA`]) {
+        totalCGPA += uploadedImages[`semester${i}CGPA`];
+        count++;
+      }
+    }
+
+    if (count > 0) {
+      const aggregatedCGPA = totalCGPA / count;
+      setAggregatedCGPA(aggregatedCGPA);
+
+      const { per } = convertCGPA(aggregatedCGPA);
+      setPercentage(per.toFixed(0));  // Convert to percentage and fix to 2 decimal points
+
+      const updatedEducation = [...resumeData.education];
+      updatedEducation[educationIndex].percentage = per.toFixed(2);
+      updateResumeData({ education: updatedEducation });
     }
   };
 
@@ -163,6 +212,7 @@ useEffect(() => {
               style={styles.inputField}
               value={currentEducation.percentage || ''}
               onChangeText={(text) => handleChange(text, 'percentage')}
+             
             />
             {renderDatePickers()}
           </View>
@@ -197,8 +247,8 @@ useEffect(() => {
             <Text style={styles.inputLabel}>Aggregate Percentage:</Text>
             <TextInput
               style={styles.inputField}
-              value={currentEducation.percentage || ''}
-              onChangeText={(text) => handleChange(text, 'percentage')}
+              value={percentage || ''}
+                // Make it read-only
             />
             <View style={styles.semesterContainer}>
               {Array.from({ length: 8 }, (_, i) => (

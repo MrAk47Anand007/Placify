@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, FlatList, TouchableWithoutFeedback, StyleSheet, Image, Modal } from 'react-native';
 import Colors from '../../constants/Colors';
-// Import your logo images
+import Spacing from '../../constants/Spacing';
 import AmazonLogo from '../../assets/images/amazonlogo.png';
 import GoogleLogo from '../../assets/images/googlelogo.png';
 import SiemensLogo from '../../assets/images/volvo.png';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const data = [
   { id: 1, name: 'Amazon Drive', lastMessage: 'Hello there!', unreadCount: 3, logo: AmazonLogo },
   { id: 2, name: 'Google Drive', lastMessage: 'How are you?', unreadCount: 0, logo: GoogleLogo },
   { id: 3, name: 'Volvo Drive', lastMessage: 'What\'s up?', unreadCount: 1, logo: SiemensLogo },
-  
+
 ];
 
 const MA_Groups = ({ navigation: { navigate } }) => {
@@ -27,25 +28,25 @@ const MA_Groups = ({ navigation: { navigate } }) => {
         <Text style={styles.headerText}>Groups</Text>
       </View>
       <FlatList
-        data={groups}   
+        data={groups}
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => handleGroupPress(item)}>
+          <TouchableWithoutFeedback onPress={() => handleGroupPress(item)}>
             <View style={styles.groupItem}>
-              <View style={styles.groupLogoContainer}>
+              <View style={styles.content}>
                 <Image source={item.logo} style={styles.groupLogo} />
-              </View>
-              <View style={styles.groupInfo}>
-                <Text style={styles.groupName}>{item.name}</Text>
-                <Text style={styles.lastMessage}>{item.lastMessage}</Text>
-              </View>
-              {item.unreadCount > 0 && (
-                <View style={styles.unreadBadge}>
-                  <Text style={styles.unreadText}>{item.unreadCount}</Text>
+                <View style={styles.groupInfo}>
+                  <Text style={styles.groupName}>{item.name}</Text>
+                  <Text style={styles.lastMessage}>{item.lastMessage}</Text>
                 </View>
-              )}
+                {item.unreadCount > 0 && (
+                  <View style={styles.unreadBadge}>
+                    <Text style={styles.unreadText}>{item.unreadCount}</Text>
+                  </View>
+                )}
+              </View>
             </View>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
         )}
       />
     </View>
@@ -55,8 +56,8 @@ const MA_Groups = ({ navigation: { navigate } }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
     backgroundColor: Colors.lightPrimary,
-
   },
   header: {
     flexDirection: 'row',
@@ -71,54 +72,49 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
   },
-  card: {
+  groupItem: {
+    marginVertical: Spacing * 0.5,
     backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: 20,
-    shadowColor: '#000',
+    borderRadius: Spacing * 1.2,
+    paddingVertical: Spacing * 1.2,
+    paddingHorizontal: Spacing * 1.5,
+    marginHorizontal: Spacing * 2.2,
+    shadowColor: Colors.primary,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: Spacing * 0.2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    shadowOpacity: 0.23,
+    shadowRadius: Spacing * 0.2,
+    elevation: 4,
   },
-  groupItem: {
+  content: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
-  },
-  groupLogoContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#ccc',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 15,
+    marginBottom: Spacing * 0.3,
   },
   groupLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: Spacing,
   },
   groupInfo: {
     flex: 1,
   },
   groupName: {
-    fontSize: 18,
+    fontSize: responsiveFontSize(2.25),
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.text,
   },
   lastMessage: {
     color: '#666',
   },
   unreadBadge: {
     backgroundColor: 'red',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
+    borderRadius: 40,
+    paddingHorizontal: 7.5,
+    paddingVertical: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },

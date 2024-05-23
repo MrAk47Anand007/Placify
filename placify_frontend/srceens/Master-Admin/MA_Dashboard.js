@@ -3,6 +3,8 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { PieChart, BarChart, LineChart } from 'react-native-chart-kit';
 import * as Animatable from 'react-native-animatable';
 import { Ionicons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
+import Spacing from '../../constants/Spacing';
 
 const data = {
   registeredStudents: 500,
@@ -29,7 +31,7 @@ const chartConfig = {
 const HomePage = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <Text style={styles.header}>Dashboard</Text>
+      <Text style={styles.header}>Placement Dashboard</Text>
 
       <View style={styles.tileContainer}>
         <Animatable.View animation="fadeInUp" style={styles.tile}>
@@ -62,7 +64,7 @@ const HomePage = () => {
             { name: '3rd Year', population: data.studentsByYear.thirdYear, color: '#36A2EB', legendFontColor: '#7F7F7F', legendFontSize: 15 },
             { name: '4th Year', population: data.studentsByYear.fourthYear, color: '#FFCE56', legendFontColor: '#7F7F7F', legendFontSize: 15 },
           ]}
-          width={400}
+          width={380}
           height={220}
           chartConfig={chartConfig}
           accessor="population"
@@ -84,7 +86,7 @@ const HomePage = () => {
               },
             ],
           }}
-          width={400}
+          width={360}
           height={220}
           chartConfig={chartConfig}
         />
@@ -106,7 +108,7 @@ const HomePage = () => {
               },
             ],
           }}
-          width={400}
+          width={360}
           height={220}
           chartConfig={chartConfig}
         />
@@ -118,35 +120,39 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f0f0f0',
+    // padding: 20,
+    backgroundColor: Colors.lightPrimary,
   },
   contentContainer: {
-    paddingBottom: 150, // Add padding to the bottom to avoid overlap with bottom navigation
+    // margin:20,
+    paddingBottom: 120, // Add padding to the bottom to avoid overlap with bottom navigation
   },
   header: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
+    fontStyle: 'italic',
+    color: Colors.primary,
+    marginTop: 12,
+    marginBottom: 18,
     textAlign: 'center',
   },
   tileContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   tile: {
-    width: '48%',
+    width: '46%',
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
+    marginHorizontal: 8,
     marginBottom: 20,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.primary,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowOpacity: 0.8,
+    shadowRadius: 0,
     elevation: 5,
   },
   tileTitle: {
@@ -161,13 +167,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   chartContainer: {
+    margin:10,
     marginBottom: 20,
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 20, height: 20 },
+    shadowOpacity: 0.8,
     shadowRadius: 5,
     elevation: 5,
   },

@@ -3,13 +3,19 @@
       "id": 1,
       "heading": "New Job Posting",
       "description": "A new job has been posted. Check it out!",
-      "dateTime": "2024-04-07T09:00:00"
+      "dateTime": "2024-04-07 @ 09:00:00"
     },
     {
       "id": 2,
       "heading": "Important Announcement",
       "description": "There's an important announcement for all users.",
-      "dateTime": "2024-04-06T15:30:00"
+      "dateTime": "2024-04-06 @ 15:30:00"
+    },
+    {
+      "id": 3,
+      "heading": "Important",
+      "description": "There's an important announcement for all users.",
+      "dateTime": "2024-04-06 @ 15:30:00"
     }
   ]
   

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import CheckBox from '@react-native-community/checkbox';
@@ -7,8 +7,8 @@ import Colors from '../../../constants/Colors';
 import Spacing from '../../../constants/Spacing';
 import FontSize from '../../../constants/FontSize';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { CompanyContext } from './CompanyContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const departments = [
   "Computer Science",
@@ -47,7 +47,7 @@ const JobPlacementDriveForm = ({ companyData, updateCompanyData }) => {
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [checked, setChecked] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState([]);
-
+ 
   const handleStartDateChange = (date) => {
     setSelectedStartDate(date);
     setDriveData({ ...driveData, startDate: date });
@@ -83,47 +83,51 @@ const JobPlacementDriveForm = ({ companyData, updateCompanyData }) => {
 
   const handleSubmit = async () => {
     try {
-        console.log(companyData);
-      if (companyData) {
-        const updatedPlacementDrives = [...companyData.placementDrives, driveData];
-        const updatedCompanyData = { ...companyData, placementDrives: updatedPlacementDrives };
+      const companyId = await AsyncStorage.getItem('CompanyId');
+      if (companyId) {
+        const response = await axios.post(
+          `http://192.168.29.209:8080/api/companies/${companyId}/addDrive`,
+          driveData
+        );
 
-        updateCompanyData(updatedCompanyData);
-        await AsyncStorage.setItem('companyData', JSON.stringify(updatedCompanyData));
-
-        Alert.alert('Success', 'Placement Drive added successfully!');
-        setDriveData({
-          title: "",
-          description: "",
-          costToCompany: "",
-          startDate: new Date(),
-          endDate: new Date(),
-          location: "",
-          otherDetails: "",
-          selectionProcess: "",
-          employmentType: "",
-          eligibilityCriteria: {
-            minimumTenthMarks: "",
-            minimumTwelfthMarks: "",
-            allowCurrentBacklogs: false,
-            maximumPreviousBacklogs: "",
-            minimumCgpa: "",
-            gender: "Any",
-            eligibleDepartments: []
-          }
-        });
-        setSelectedDepartments([]);
-        setSelectedStartDate(new Date());
-        setSelectedEndDate(new Date());
-        setChecked(false);
+        if (response.status === 201) {
+          Alert.alert('Success', 'Placement Drive added successfully!');
+          setDriveData({
+            title: "",
+            description: "",
+            costToCompany: "",
+            startDate: new Date(),
+            endDate: new Date(),
+            location: "",
+            otherDetails: "",
+            selectionProcess: "",
+            employmentType: "",
+            eligibilityCriteria: {
+              minimumTenthMarks: "",
+              minimumTwelfthMarks: "",
+              allowCurrentBacklogs: false,
+              maximumPreviousBacklogs: "",
+              minimumCgpa: "",
+              gender: "Any",
+              eligibleDepartments: []
+            }
+          });
+          setSelectedDepartments([]);
+          setSelectedStartDate(new Date());
+          setSelectedEndDate(new Date());
+          setChecked(false);
+        } else {
+          Alert.alert('Error', 'Failed to add Placement Drive');
+        }
       } else {
-        console.log('Company data is still loading...');
-        console.log(driveData);
+        Alert.alert('Error', 'Company ID not found');
       }
     } catch (error) {
       console.error('Error saving company data:', error);
+      Alert.alert('Error', 'There was an error adding the placement drive.');
     }
   };
+
 
 
     return (

@@ -184,6 +184,9 @@ const ResumeScreen = () => {
   return (
     <ResumeProvider>
       <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Resume Generation</Text>
+      </View>
         <ScrollView>
           <TouchableOpacity style={styles.box} onPress={handlePressBasicInfo}>
             <Text>Basic Information</Text>
@@ -341,9 +344,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     backgroundColor: Colors.background,
-    paddingBottom: 160,
+    paddingBottom: 75,
   },
-  
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 14,
+    backgroundColor: Colors.primary,
+  },
+  headerTitle: {
+    marginLeft: 8,
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#ffffff',
+  },
   box: {
     margin: 15,
     padding: 8,
@@ -383,7 +398,6 @@ const styles = StyleSheet.create({
     marginHorizontal:Spacing * 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom:75,
   },
   submitText: {
     color: 'white',

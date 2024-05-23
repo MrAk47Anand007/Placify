@@ -9,6 +9,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 import DatePicker from 'react-native-date-picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Register = ({ navigation: { navigate } }) => {
     const [firstName, setFirstName] = useState('');
@@ -164,8 +165,16 @@ const Register = ({ navigation: { navigate } }) => {
                 onChangeText={text => setCollegeEmail(text)}
                 value={collegeEmail}
               />
-                 <Text style={styles.label}>Passout Year</Text>
-                <Button title="Select Passout Year" onPress={() => setOpenDatePicker(true)} />
+              <View style={styles.dateRow}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.dateLabel}>Passout Year:</Text>
+                <TouchableOpacity style={styles.datePicker} onPress={() => setOpenDatePicker(true)}>
+                  <FontAwesome name="calendar" size={22} color={Colors.primary} />
+                  <Text style={styles.dateText}>{passoutYear instanceof Date ? passoutYear.toLocaleDateString() : 'DD-MM-YYYY'}</Text>
+                </TouchableOpacity>
+              </View>
+              </View>
+
                 <DatePicker
                   modal
                   open={openDatePicker}
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: Spacing * 2,
+    paddingHorizontal: Spacing * 2,
     backgroundColor: Colors.background,
   },
   header: {
@@ -291,12 +300,37 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: responsiveFontSize(1.6),
   },
+  dateRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 12,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dateLabel: {
+    marginRight: 10,
+    fontWeight: 'bold',
+    color: Colors.darkText,
+    fontSize: FontSize.medium,
+  },
+  datePicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dateText: {
+    marginLeft: 5,
+    color: Colors.darkText,
+    fontSize: FontSize.medium,
+  },
   datePickerStyle: {
     width: responsiveWidth(90),
     marginTop: Spacing,
   },
   label: {
-    fontSize: responsiveFontSize(2),
+    fontSize: responsiveFontSize(1.6),
     color: Colors.text,
     marginBottom: Spacing,
   },
