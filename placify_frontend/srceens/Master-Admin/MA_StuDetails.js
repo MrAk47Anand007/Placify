@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< Updated upstream
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput, Modal, ScrollView, TouchableWithoutFeedback} from 'react-native';
-=======
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Image, TextInput, Modal, ScrollView } from 'react-native';
->>>>>>> Stashed changes
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Colors from "../../constants/Colors";
@@ -78,11 +74,7 @@ const EligibleStudents = ({ navigation: { navigate } }) => {
         data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-<<<<<<< Updated upstream
-          <TouchableWithoutFeedback onPress={() => handleJobItemClick(item)}>
-=======
           <TouchableWithoutFeedback onPress={() => navigate("studentProfile")}>
->>>>>>> Stashed changes
             <View style={styles.card}>
               <View style={styles.listingHeader}>
                 <Image source={item.photo} style={styles.logo} />
@@ -131,11 +123,7 @@ const BlockedStudents = ({ navigation: { navigate } }) => {
   const [selectedBranches, setSelectedBranches] = useState([]);
   const [showBranchModal, setShowBranchModal] = useState(false);
 
-<<<<<<< Updated upstream
-  const filteredData = AppliedStu.filter(item =>
-=======
   const filteredData = BlockedStu.filter(item =>
->>>>>>> Stashed changes
     item.Name.toLowerCase().includes(searchText.toLowerCase()) &&
     (selectedBranches.length === 0 || selectedBranches.includes(item.Branch))
   );
@@ -168,11 +156,7 @@ const BlockedStudents = ({ navigation: { navigate } }) => {
         data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-<<<<<<< Updated upstream
-          <TouchableWithoutFeedback onPress={() => handleJobItemClick(item)}>
-=======
           <TouchableWithoutFeedback onPress={() => navigate("studentProfile")}>
->>>>>>> Stashed changes
             <View style={styles.card}>
               <View style={styles.listingHeader}>
                 <Image source={item.photo} style={styles.logo} />
