@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
   tileContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // justifyContent: 'space-between',
   },
   tile: {
     width: '46%',
@@ -155,34 +154,34 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     elevation: 5,
   },
-  tileTitle: {
-    fontSize: 16,
+tileTitle: {
+  fontSize: 16,
     color: '#333',
-    marginTop: 10,
+      marginTop: 10,
   },
-  tileValue: {
-    fontSize: 24,
+tileValue: {
+  fontSize: 24,
     fontWeight: 'bold',
-    color: '#000',
-    marginTop: 5,
+      color: '#000',
+        marginTop: 5,
   },
-  chartContainer: {
-    margin:10,
+chartContainer: {
+  margin: 10,
     marginBottom: 20,
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: Colors.primary,
-    shadowOffset: { width: 20, height: 20 },
-    shadowOpacity: 0.8,
+      backgroundColor: '#fff',
+        padding: 20,
+          borderRadius: 10,
+            shadowColor: Colors.primary,
+              shadowOffset: { width: 20, height: 20 },
+  shadowOpacity: 0.8,
     shadowRadius: 5,
-    elevation: 5,
+      elevation: 5,
   },
-  chartTitle: {
-    fontSize: 18,
+chartTitle: {
+  fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
+      marginBottom: 10,
+        color: '#333',
   },
 });
 

@@ -1,49 +1,54 @@
+// CompanyContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export const CompanyContext = createContext();
 
 export const CompanyProvider = ({ children }) => {
-  const [companyData, setCompanyData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCompanies = async () => {
+    try {
+      const response = await axios.get('http://192.168.29.209:8080/api/companies/getAll');
+      if (response.status === 200) {
+        setCompanies(response.data);
+      } else {
+        console.error('Failed to fetch companies', response.data);
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching companies', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadCompanyData = async () => {
-      try {
-        const savedData = await AsyncStorage.getItem('companyData');
-        if (savedData) {
-          setCompanyData(JSON.parse(savedData));
-        } else {
-          const initialCompanyData = {
-            name: 'Example Company',
-            description: 'This is a sample company for demonstration purposes.',
-            placementDrives: []
-          };
-          setCompanyData(initialCompanyData);
-          await AsyncStorage.setItem('companyData', JSON.stringify(initialCompanyData));
-        }
-      } catch (error) {
-        console.error('Failed to load company data', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (companies.length === 0) {
+      fetchCompanies();
+    }
+  }, [companies]);
 
-    loadCompanyData();
-  }, []);
-
-  const updateCompanyData = async (updatedFields) => {
+  const addCompany = async (companyData) => {
     try {
-      const updatedData = companyData ? { ...companyData, ...updatedFields } : { ...updatedFields };
-      setCompanyData(updatedData);
-      await AsyncStorage.setItem('companyData', JSON.stringify(updatedData));
+      const response = await axios.post('http://192.168.29.209:8080/api/companies/add', companyData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 201) {
+        fetchCompanies();  // Refetch companies after adding a new one
+      } else {
+        console.error('Failed to add company', response.data);
+      }
     } catch (error) {
-      console.error('Failed to update company data', error);
+      console.error('An error occurred while adding the company', error);
     }
   };
 
   return (
-    <CompanyContext.Provider value={{ companyData, updateCompanyData, isLoading }}>
+    <CompanyContext.Provider value={{ companies, loading, fetchCompanies, addCompany }}>
       {children}
     </CompanyContext.Provider>
   );
