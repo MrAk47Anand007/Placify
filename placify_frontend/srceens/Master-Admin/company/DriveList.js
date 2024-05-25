@@ -444,12 +444,13 @@ const DriveList = () => {
         const response = await axios.get(`http://192.168.29.209:8080/api/companies/${id}/getAllDrive`);
         
         const drivesWithLogos = await Promise.all(response.data.map(async (drive) => {
-          if (drive.company) {
-            const logo = await getCompanyLogo(drive.company.name);
-            return { ...drive, company: { ...drive.company, logo } };
+          let logo = 'https://example.com/default-logo.png'; // Default logo
+          if (drive.company && drive.company.name) {
+            logo = await getCompanyLogo(drive.company.name);
           } else {
-            return { ...drive, company: { name: 'Unknown', logo: null } };
+            console.warn('Drive is missing company information', drive);
           }
+          return { ...drive, company: { ...drive.company, logo } };
         }));
 
         setDrives(drivesWithLogos);
@@ -486,7 +487,7 @@ const DriveList = () => {
       <View style={styles.DriveButtons}>
         <TouchableOpacity
           style={styles.applyButton}
-          onPress={() => navigation.navigate("JobDetailsEdit")}
+          onPress={() => navigation.navigate("JobDetailsEdit", { placementDriveId: item.id })}
         >
           <Text style={styles.applyButtonText}>View Details</Text>
         </TouchableOpacity>
@@ -533,8 +534,6 @@ const DriveList = () => {
     </View>
   );
 };
-
-export default DriveList;
 
 const styles = StyleSheet.create({
   container: {
@@ -667,7 +666,7 @@ const styles = StyleSheet.create({
 
 
 
-
+export default DriveList;
 
 
 

@@ -1,54 +1,207 @@
 
-import React, { useRef, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Dimensions, Image, Animated } from 'react-native';
+// import React, { useRef, useEffect } from 'react';
+// import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Dimensions, Image, Animated } from 'react-native';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Colors from '../../../constants/Colors';
+// import Spacing from '../../../constants/Spacing';
+// import FontSize from '../../../constants/FontSize';
+
+// const { width } = Dimensions.get('window');
+
+// const JobDetailsEdit = () => {
+//   const descriptionText = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.";
+
+//   const selectionProcessText = "1. HR round\n2. Online Assessment\n3. Interview I\n4. Interview II";
+
+//   const locations = ['Pune', 'Mumbai', 'Delhi'];
+
+//   const eligibilityCriteria = [
+//     { title: 'Eligible Branches', value: 'Computer Science, IT' },
+//     { title: '10th Percentile', value: 'Minimum 80%' },
+//     { title: 'Gender', value: 'Female' },
+//     { title: '12th Percentile', value: 'Minimum 75%' },
+//     { title: 'Minimum CGPA', value: '7.5' },
+//   ];
+
+//   const necessaryDocuments = [
+
+//     'Compensation details',
+//     'Job Description',
+//   ];
+
+//   const fadeAnim = useRef(new Animated.Value(0)).current;
+
+//   useEffect(() => {
+//     Animated.timing(fadeAnim, {
+//       toValue: 1,
+//       duration: 1000,
+//       useNativeDriver: true,
+//     }).start();
+//   }, [fadeAnim]);
+
+
+
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <View style={styles.headerContainer}>
+//         <Image source={require('../../../assets/images/amazonlogo.png')} style={styles.companyLogo} />
+//         <View>
+//           <Text style={styles.jobRoleText}>Software Engineer</Text>
+//           <Text style={styles.companyNameText}>Acme Inc.</Text>
+//         </View>
+//       </View>
+//       <ScrollView contentContainerStyle={styles.scrollViewContent}>
+//         <Animated.View style={{ opacity: fadeAnim }}>
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <FontAwesome name="briefcase" size={20} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>Employment Type</Text>
+//             </View>
+//             <View style={styles.locationContainer}>
+//               <View style={styles.locationRectangle}>
+//                 <Text style={styles.rectangleText}>Full-time</Text>
+//               </View>
+//             </View>
+//           </View>
+
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <FontAwesome name="money" size={20} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>CTC</Text>
+//             </View>
+//             <View style={styles.locationContainer}>
+//               <View style={styles.locationRectangle}>
+//                 <Text style={styles.rectangleText}>Rs. 10,00,000</Text>
+//               </View>
+//             </View>
+//           </View>
+
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <MaterialCommunityIcons name="map-marker-multiple" size={20} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>Location</Text>
+//             </View>
+//             <View style={styles.locationContainer}>
+//               {locations.map((location, index) => (
+//                 <View key={index} style={styles.locationRectangle}>
+//                   <Text style={styles.locationText}>{location}</Text>
+//                 </View>
+//               ))}
+//             </View>
+//           </View>
+
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <FontAwesome name="file-text-o" size={20} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>Description</Text>
+//             </View>
+//             <View style={styles.descriptionContainer}>
+//               <Text style={styles.descriptionText}>{descriptionText}</Text>
+//             </View>
+//           </View>
+
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <FontAwesome name="check-square-o" size={20} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>Eligibility Criteria</Text>
+//             </View>
+//             {eligibilityCriteria.map((criteria, index) => (
+//               <View key={index} style={styles.criteriaContainer}>
+//                 <Text style={styles.criteriaTitle}>{criteria.title}:</Text>
+//                 <Text style={styles.criteriaValue}>{criteria.value}</Text>
+//               </View>
+//             ))}
+//           </View>
+
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <FontAwesome name="tasks" size={20} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>Selection Process</Text>
+//             </View>
+//             <View style={styles.processContainer}>
+//               <Text style={styles.processText}>{selectionProcessText}</Text>
+//             </View>
+//           </View>
+
+//           <View style={styles.contentContainer}>
+//             <View style={styles.sectionHeader}>
+//               <MaterialCommunityIcons name="file-document-outline" size={24} color={Colors.text} style={styles.sectionIcon} />
+//               <Text style={styles.heading}>Necessary Documents</Text>
+//             </View>
+//             <View style={styles.documentsContainer}>
+//               {necessaryDocuments.map((document, index) => (
+//                 <View key={index} style={styles.documentItem}>
+//                   <Text style={styles.documentText}>{document}</Text>
+//                   <TouchableOpacity style={styles.viewButton} activeOpacity={0.7}>
+//                     <Text style={styles.viewButtonText}>View</Text>
+//                   </TouchableOpacity>
+//                 </View>
+//               ))}
+//             </View>
+//           </View>
+//         </Animated.View>
+//       </ScrollView>
+//       <TouchableOpacity style={styles.submitButton} >
+//         <Text style={styles.submitText}>Edit Details</Text>
+//       </TouchableOpacity>
+//     </SafeAreaView>
+//   );
+// };
+
+import React, { useState, useEffect, useRef } from 'react';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, TouchableOpacity, Image, Animated } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
 import Colors from '../../../constants/Colors';
 import Spacing from '../../../constants/Spacing';
 import FontSize from '../../../constants/FontSize';
+import RenderPdf from '../../../RenderPdf'; // Adjust the import path as needed
 
-const { width } = Dimensions.get('window');
-
-const JobDetailsEdit = () => {
-  const descriptionText = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32.";
-
-  const selectionProcessText = "1. HR round\n2. Online Assessment\n3. Interview I\n4. Interview II";
-
-  const locations = ['Pune', 'Mumbai', 'Delhi'];
-
-  const eligibilityCriteria = [
-    { title: 'Eligible Branches', value: 'Computer Science, IT' },
-    { title: '10th Percentile', value: 'Minimum 80%' },
-    { title: 'Gender', value: 'Female' },
-    { title: '12th Percentile', value: 'Minimum 75%' },
-    { title: 'Minimum CGPA', value: '7.5' },
-  ];
-
-  const necessaryDocuments = [
-
-    'Compensation details',
-    'Job Description',
-  ];
-
+const JobDetailsEdit = ({ route }) => {
+  const { placementDriveId } = route.params; // Assuming you are passing the placementDriveId as a route parameter
+  const [jobDetails, setJobDetails] = useState(null);
+  const [showPdf, setShowPdf] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        const response = await axios.get(`http://192.168.29.209:8080/api/companies/placementDrive/${placementDriveId}`);
+        setJobDetails(response.data);
+        console.log(jobDetails);
+      } catch (error) {
+        console.error('Error fetching job details:', error);
+      }
+    };
+
+    fetchJobDetails();
+
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: true,
     }).start();
-  }, [fadeAnim]);
+  }, [fadeAnim, placementDriveId]);
 
+  if (!jobDetails) {
+    return <View style={styles.loaderContainer}><Text>Loading...</Text></View>;
+  }
 
+  if (showPdf) {
+    return <RenderPdf uri={jobDetails.fileUrl} />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Image source={require('../../../assets/images/amazonlogo.png')} style={styles.companyLogo} />
+        {jobDetails.fileUrl && (
+          <Image source={{ uri: jobDetails.fileUrl }} style={styles.companyLogo} />
+        )}
         <View>
-          <Text style={styles.jobRoleText}>Software Engineer</Text>
-          <Text style={styles.companyNameText}>Acme Inc.</Text>
+          <Text style={styles.jobRoleText}>{jobDetails.title}</Text>
+          <Text style={styles.companyNameText}>{jobDetails.title}</Text>
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -60,7 +213,7 @@ const JobDetailsEdit = () => {
             </View>
             <View style={styles.locationContainer}>
               <View style={styles.locationRectangle}>
-                <Text style={styles.rectangleText}>Full-time</Text>
+                <Text style={styles.rectangleText}>{jobDetails.employmentType}</Text>
               </View>
             </View>
           </View>
@@ -72,7 +225,7 @@ const JobDetailsEdit = () => {
             </View>
             <View style={styles.locationContainer}>
               <View style={styles.locationRectangle}>
-                <Text style={styles.rectangleText}>Rs. 10,00,000</Text>
+                <Text style={styles.rectangleText}>{`Rs. ${jobDetails.costToCompany}`}</Text>
               </View>
             </View>
           </View>
@@ -83,11 +236,9 @@ const JobDetailsEdit = () => {
               <Text style={styles.heading}>Location</Text>
             </View>
             <View style={styles.locationContainer}>
-              {locations.map((location, index) => (
-                <View key={index} style={styles.locationRectangle}>
-                  <Text style={styles.locationText}>{location}</Text>
-                </View>
-              ))}
+              <View style={styles.locationRectangle}>
+                <Text style={styles.locationText}>{jobDetails.location}</Text>
+              </View>
             </View>
           </View>
 
@@ -97,7 +248,7 @@ const JobDetailsEdit = () => {
               <Text style={styles.heading}>Description</Text>
             </View>
             <View style={styles.descriptionContainer}>
-              <Text style={styles.descriptionText}>{descriptionText}</Text>
+              <Text style={styles.descriptionText}>{jobDetails.description}</Text>
             </View>
           </View>
 
@@ -106,12 +257,28 @@ const JobDetailsEdit = () => {
               <FontAwesome name="check-square-o" size={20} color={Colors.text} style={styles.sectionIcon} />
               <Text style={styles.heading}>Eligibility Criteria</Text>
             </View>
-            {eligibilityCriteria.map((criteria, index) => (
-              <View key={index} style={styles.criteriaContainer}>
-                <Text style={styles.criteriaTitle}>{criteria.title}:</Text>
-                <Text style={styles.criteriaValue}>{criteria.value}</Text>
-              </View>
-            ))}
+            <View style={styles.criteriaContainer}>
+              <Text style={styles.criteriaTitle}>Eligible Branches:</Text>
+              {jobDetails.eligibilityCriteria.eligibleDepartments.map((department, index) => (
+                <Text key={index} style={styles.criteriaValue}>{department.name}</Text>
+              ))}
+            </View>
+            <View style={styles.criteriaContainer}>
+              <Text style={styles.criteriaTitle}>10th Percentile:</Text>
+              <Text style={styles.criteriaValue}>{jobDetails.eligibilityCriteria.minimumTenthMarks}%</Text>
+            </View>
+            <View style={styles.criteriaContainer}>
+              <Text style={styles.criteriaTitle}>12th Percentile:</Text>
+              <Text style={styles.criteriaValue}>{jobDetails.eligibilityCriteria.minimumTwelfthMarks}%</Text>
+            </View>
+            <View style={styles.criteriaContainer}>
+              <Text style={styles.criteriaTitle}>Gender:</Text>
+              <Text style={styles.criteriaValue}>{jobDetails.eligibilityCriteria.gender}</Text>
+            </View>
+            <View style={styles.criteriaContainer}>
+              <Text style={styles.criteriaTitle}>Minimum CGPA:</Text>
+              <Text style={styles.criteriaValue}>{jobDetails.eligibilityCriteria.minimumCgpa}</Text>
+            </View>
           </View>
 
           <View style={styles.contentContainer}>
@@ -120,7 +287,7 @@ const JobDetailsEdit = () => {
               <Text style={styles.heading}>Selection Process</Text>
             </View>
             <View style={styles.processContainer}>
-              <Text style={styles.processText}>{selectionProcessText}</Text>
+              <Text style={styles.processText}>{jobDetails.selectionProcess}</Text>
             </View>
           </View>
 
@@ -130,25 +297,26 @@ const JobDetailsEdit = () => {
               <Text style={styles.heading}>Necessary Documents</Text>
             </View>
             <View style={styles.documentsContainer}>
-              {necessaryDocuments.map((document, index) => (
-                <View key={index} style={styles.documentItem}>
-                  <Text style={styles.documentText}>{document}</Text>
-                  <TouchableOpacity style={styles.viewButton} activeOpacity={0.7}>
-                    <Text style={styles.viewButtonText}>View</Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
+              <View style={styles.documentItem}>
+                <Text style={styles.documentText}>Job Description</Text>
+                <TouchableOpacity
+                  style={styles.viewButton}
+                  activeOpacity={0.7}
+                  onPress={() => setShowPdf(true)}
+                >
+                  <Text style={styles.viewButtonText}>View</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Animated.View>
       </ScrollView>
-      <TouchableOpacity style={styles.submitButton} >
+      <TouchableOpacity style={styles.submitButton}>
         <Text style={styles.submitText}>Edit Details</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

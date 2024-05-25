@@ -23,6 +23,7 @@ import DriveList from './srceens/Master-Admin/company/DriveList';
 import StudentInfo from './srceens/Master-Admin/StudentInfo'
 import SplashScreen from './SplashScreen'
 import ContextWrapper from './srceens/Master-Admin/company/contextWrap';
+import UploadFile from './srceens/Master-Admin/company/sample';
 
 
 const Stack = createNativeStackNavigator();
@@ -53,6 +54,7 @@ function App() {
         <Stack.Screen name="DriveList" component={DriveList} />
         <Stack.Screen name="StudentInfo" component={StudentInfo} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="Sample" component={UploadFile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
