@@ -49,10 +49,10 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                 .orElseThrow(() -> new EntityNotFoundException("Resume version not found"));
 
         // 2. Check eligibility
-//        EligibilityCriteria criteria = placementDrive.getEligibilityCriteria();
-//        if (!eligibilityEvaluator.isStudentEligible(student, criteria)) {
-//            throw new RuntimeException("Student is not eligible for this placement drive.");
-//        }
+        EligibilityCriteria criteria = placementDrive.getEligibilityCriteria();
+        if (!eligibilityEvaluator.isStudentEligible(student, criteria)) {
+            throw new RuntimeException("Student is not eligible for this placement drive.");
+        }
 
         // 3. Create JobApplication
         JobApplication jobApplication = new JobApplication();
@@ -65,5 +65,4 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         // 4. Save and return
         return jobApplicationRepository.save(jobApplication);
     }
-
 }

@@ -1,6 +1,7 @@
 package com.training.placify.model.companyModel;
 
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.training.placify.model.Student;
 import com.training.placify.model.resumeModel.ResumeVersion;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class JobApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,7 @@ public class JobApplication {
     private PlacementDrive placementDrive;
 
     @Enumerated(EnumType.STRING)
-    private ApplicationStatus status; // Define the possible statuses below
+    private ApplicationStatus status;
 
     private Date applicationDate;
 
@@ -36,7 +38,5 @@ public class JobApplication {
     @JoinColumn(name = "resume_version_id")
     private ResumeVersion resumeVersion;
 
-
     // ... other fields, e.g., resume, cover letter (could be URLs)
 }
-

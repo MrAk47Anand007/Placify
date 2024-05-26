@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "abstract-hydra-423208-u4",
+  "private_key_id": "5b3e86473cc80a798e2daabbac421e86d92fd237",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDsJhZKQKINtLWz\nHxEcQixNSbvMyplY+5Pf3q40Yo9+8YHm5uv9T4/DyvdCvFhGFVHoQlOCU/GEmoCU\nS5hU3G7CPFK/4TH7Bp5h7FlHwASr1AIgQf740EZSqeVOVbEOnCMLv606jd1sAQV4\nBGhQJgebSCA6HV2YCAlrlt/rfttOFEJ3B0RhMi2ZD5USsOeTcNpYiCc2djh1arxt\nRKA/hdvEGeEPmxXwNWS0H7khaxM0KHLEnlvLGBIA0Fw8ssYxUK832oI15NvQ8UwU\n5yFnpCIoogISlrZu9GSjdqiacH+EVQuG4IaEJgK8FJpMZPhUkvrQIHPFS8fUCtKD\nNsFeer57AgMBAAECggEASjaeAq/VPeFwyN4Wjn7tVUy6zF1PW/uUOWLN9ICVABv9\n6wbfWzhJwgpjMoHma///QbK2c9rVqAq2JeSr9t9fn4M9rjejcXRfCf8w/6+EyEtU\nb7bN3nv13byu57NedWz0RpjyY9h5oZugkFsyPR32fgJovlrEMyczbrB3ppazbRGu\nVVLnzDxOCCC2Iu0P8jrhuuiLDTjat6fDUcRGtv9jMekFnPklyTBMltXQM72973G4\n1SaMTFVfA19lSsNuwWEt0nN1l7oCdActo3cgAhLqCqLENlFtdRerQYvDLlN3NI6A\nEMiBenaK3kPQGK8yOFryvlchxdV0/HzNmbOnD5vAIQKBgQD4HMUHTXrkwrDRWhGf\n9vUxRfIx/pCR0kPqN92VWP7e+yGNYQ+hg9UfKeJ4eT6JDRP+jr+Nz4vTBxnc3jh4\nqliNuqAkUxk8134eY7kbZfChyDhXHn6nOZ+D4z/H9Kb9iRO1Nj6UJTXIokuUhtsL\nVGdwnAGCSFidmVBqh3zZVvE4VwKBgQDzp/QEghbqHlQMBCeFqyofbgoTYB7T7KeB\nTDpwbzoLu/DsvW0K5FIUbdH45NshO2tCQejt3bIwcswEcDfcNXtMQGgOsdPlmVLw\ntFouEJSTQBX00lCXjfcniOPWukm2YmZR5iDy+vRWR/C321MAJdeTolK/m8jrQwJF\n5SNy86okfQKBgAFyOXvHadX3hIxT2BJ0oA0/eR/tee4/qYGt/a6nLCUklZd7X1nz\nqMRbvCQzoLevydQMBPXQpeH/ApmU+gNKCuYYlmJf0Z/XKbcHocaVG4f14M4xMU/M\nOC/OnUqPFIIZ0HGX9VlrthqLR6F//7rbLRcs8Z1OyqVwhVV5oLKrnRBVAoGAUCrz\nm8Qdu/wslSOMyWsu2dZ/1C4tFndoCZ/GHpZKF/BHbe1JgmrrIrObgXPzMXT2bn93\nH0RxS4WJ4O/3QSoLnmQWmLcjzAhthKsifMORzv0n/DxyrdrU9hoRNOZoOG0Z01qP\nfsLZP8Y9ypCMN6E70+R1q3ubWOTcS5j/1+OaGJUCgYAe34OXRJryIHBgwqbL3Mlh\n9t0wBEeYQ1CFR/Vv652oXA+ehZ9gSN/BzH9WTfDkZqQv62/6pYPTIVaNomXNv1jN\n1PuZgFefWJzdlwg8NHHOibYHEv9jDqD9ZwfVwGlEpSkgWIsMyAgB1ChhxUEashzj\n/PkbTGs/Ehu7S7Yh/AeUBA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "placify-service-1@abstract-hydra-423208-u4.iam.gserviceaccount.com",
+  "client_id": "110016992636890133295",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/placify-service-1%40abstract-hydra-423208-u4.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

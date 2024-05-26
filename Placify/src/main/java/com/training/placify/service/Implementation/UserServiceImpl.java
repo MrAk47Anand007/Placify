@@ -45,7 +45,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    private final String bucketName ="placify-bucket-normal";
+
+
+    @Value("${gcp.bucket.name}")
+    private String bucketName;
 
     @Value("${spring.cloud.gcp.credentials.location}")
     private String credentialsPath;

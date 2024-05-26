@@ -1,5 +1,6 @@
 package com.training.placify.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +29,11 @@ public class Department {
 
     @OneToMany(mappedBy = "department",fetch = FetchType.EAGER) // Assuming bidirectional
     @Fetch(FetchMode.SELECT)
+    @JsonManagedReference
     private List<Student> students;
 
     @OneToMany(mappedBy = "department",fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
+    @JsonManagedReference
     private List<Admin> admins;
 }
