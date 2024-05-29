@@ -1,5 +1,6 @@
 package com.training.placify.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.training.placify.model.resumeModel.ResumeVersion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Student extends User{
     private String erpId;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<ResumeVersion> resumeVersions;
 
 }

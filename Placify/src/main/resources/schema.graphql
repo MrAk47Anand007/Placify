@@ -1,0 +1,49 @@
+type Student {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    gender: String
+    resumeVersions: [ResumeVersion]
+}
+
+type ResumeVersion {
+    id: ID!
+    version: Int
+    dateCreated: String
+    resumeData: ResumeData
+}
+
+type ResumeData {
+    id: ID!
+    education: [Education]
+}
+
+type Education {
+    degree: String
+    institution: String
+    startDate: String
+    endDate: String
+    passingYear: String
+    percentage: Float
+    branch: String
+}
+
+type EligibilityCriteria {
+    minimumTenthMarks: Float
+    minimumTwelfthMarks: Float
+    minimumCgpa: Float
+    gender: String
+    eligibleDepartments: [Department]
+}
+
+
+type PlacementDrive {
+    id: ID!
+    title: String
+    description: String
+    eligibilityCriteria: EligibilityCriteria
+}
+
+type Query {
+    eligiblePlacementDrives(studentId: ID!): [PlacementDrive]
+}

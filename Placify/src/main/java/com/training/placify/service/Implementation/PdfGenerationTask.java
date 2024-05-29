@@ -80,9 +80,8 @@ public class PdfGenerationTask implements Runnable {
                 .replace("%EMAIL%", resumeData.getEmail())
                 .replace("%LINKEDIN%", resumeData.getLinkedin())
                 .replace("%OBJECTIVE%", resumeData.getBriefSummary())
-                .replace("%GITHUB%", resumeData.getGithub());
-
-        template = template.replace("%EDUCATION%", generateEducationSection(resumeData.getEducation()))
+                .replace("%GITHUB%", resumeData.getGithub())
+                .replace("%EDUCATION%", generateEducationSection(resumeData.getEducation()))
                 .replace("%TECHNICAL_SKILLS%", generateSimpleList(resumeData.getSkills().getTechnicalSkills()))
                 .replace("%SOFT_SKILLS%", generateSimpleList(resumeData.getSkills().getSoftSkills()))
                 .replace("%EXPERIENCE%", generateExperienceSection(resumeData.getExperience()))
