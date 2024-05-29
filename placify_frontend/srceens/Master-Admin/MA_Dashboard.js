@@ -7,11 +7,11 @@ import Colors from '../../constants/Colors';
 import Spacing from '../../constants/Spacing';
 
 const data = {
-  registeredStudents: 500,
+  registeredStudents: 50,
   studentsByYear: { secondYear: 150, thirdYear: 200, fourthYear: 150 },
-  companiesRegistered: 50,
-  companiesVisited: 30,
-  studentsPlaced: 300,
+  companiesRegistered: 10,
+  companiesVisited: 20,
+  studentsPlaced: 3,
   packageDistribution: [
     { name: '3-5 LPA', count: 100 },
     { name: '5-7 LPA', count: 150 },

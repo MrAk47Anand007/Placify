@@ -2020,7 +2020,7 @@ const JobPlacementDriveForm = ({ companyData, updateCompanyData }) => {
       const companyId = await AsyncStorage.getItem('CompanyId');
       if (companyId) {
         const response = await axios.post(
-          `http://192.168.29.209:8080/api/companies/${companyId}/addDrive`,
+          `http://192.168.137.247:8080/api/companies/${companyId}/addDrive`,
           { ...driveData, fileUrl: uploadedFileUrl }
         );
 

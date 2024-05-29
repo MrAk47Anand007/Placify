@@ -433,6 +433,7 @@ const DriveList = () => {
   const [companyName, setCompanyName] = useState('');
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const [logo, setLogo] = useState();
 
   useEffect(() => {
     const fetchDriveData = async () => {
@@ -441,7 +442,7 @@ const DriveList = () => {
         const id = await AsyncStorage.getItem('CompanyId');
         setCompanyName(name);
 
-        const response = await axios.get(`http://192.168.29.209:8080/api/companies/${id}/getAllDrive`);
+        const response = await axios.get(`http://192.168.137.247:8080/api/companies/${id}/getAllDrive`);
         
         const drivesWithLogos = await Promise.all(response.data.map(async (drive) => {
           let logo = 'https://example.com/default-logo.png'; // Default logo
@@ -465,21 +466,24 @@ const DriveList = () => {
     fetchDriveData();
   }, []);
 
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      const newLogo = await getCompanyLogo(companyName);
+      setLogo(newLogo);
+    };
+    fetchLogo();
+  }, [companyName]);
+
   const renderDrive = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.listingHeader}>
-        {item.company.logo ? (
-          <Image source={{ uri: item.company.logo }} style={styles.logo} />
-        ) : (
-          <View style={styles.logoPlaceholder}>
-            <Text>No Logo</Text>
-          </View>
-        )}
+      <Image source={{ uri: logo }} style={styles.companyLogo} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{item.title}</Text>
         </View>
       </View>
-      <Text style={styles.textbelowlogo}>Company: {item.company.name}</Text>
+      <Text style={styles.textbelowlogo}>Company: {companyName}</Text>
       <View style={styles.detailsRow}>
         <Text style={styles.textbelowlogo}>CTC: {item.costToCompany}</Text>
       </View>
@@ -661,6 +665,12 @@ const styles = StyleSheet.create({
     height: 20,
     marginBottom: 10,
     borderRadius: 5,
+  },
+  companyLogo: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    borderRadius: 40
   },
 });
 

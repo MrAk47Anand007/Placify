@@ -599,7 +599,7 @@ const DynamicEducationInputs = ({ educationType, educationIndex }) => {
       });
 
       const uploadResponse = await axios.post(
-        'http://192.168.29.209:8080/student/extract/image-data',
+        'http://192.168.137.247:8080/student/extract/image-data',
         formData,
         {
           headers: {

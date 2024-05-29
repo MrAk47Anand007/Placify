@@ -79,7 +79,7 @@ const Register = ({ navigation: { navigate } }) => {
 
         if (isPersonalEmailValid && isCollegeEmailValid && passwordMatch && selectedBranch) {
           try{
-            const response = await axios.post('http://192.168.29.209:8080/user/register',{
+            const response = await axios.post('http://192.168.137.247:8080/user/register',{
               firstName,
               lastName,
               personalEmail,
@@ -89,7 +89,7 @@ const Register = ({ navigation: { navigate } }) => {
               passoutYear,
               isEnabled: true,
               department: {
-                deptName:selectedBranch // Assuming you always send the department info
+                deptName: data[selectedBranch].value // Assuming you always send the department info
               },
             });
             ToastAndroid.show("Sign Up Successful", ToastAndroid.SHORT);

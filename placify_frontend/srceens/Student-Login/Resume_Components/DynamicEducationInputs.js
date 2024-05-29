@@ -70,7 +70,7 @@ const DynamicEducationInputs = ({ educationType, educationIndex }) => {
       });
 
       const uploadResponse = await axios.post(
-        'http://192.168.29.209:8080/student/extract/image-data',
+        'http://192.168.137.247:8080/student/extract/image-data',
         formData,
         {
           headers: {
@@ -375,16 +375,16 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: Colors.secondary,
     borderRadius: 5,
-    marginLeft: 10,
+    marginLeft: 3,
   },
   uploadButtonText: {
-    marginLeft: 5,
+    marginLeft: 3,
     color: Colors.primary,
   },
   uploadedImage: {
-    width: 50,
-    height: 50,
-    marginLeft: 10,
+    width: 35,
+    height: 35,
+    marginLeft: 2,
   },
   dateRow: {
     flexDirection: 'row',

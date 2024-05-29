@@ -4,7 +4,7 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 
-const apiUrl = 'http://192.168.29.209:8080/student/resume/generate';
+const apiUrl = 'http://192.168.137.247:8080/student/resume/generate';
 
 export const handleGenerateResume = async (resumeData) => {
   const token = await SecureStore.getItemAsync('jwtToken');

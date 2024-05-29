@@ -186,8 +186,10 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
 import notificationsData from './notifications.json';
+import Colors from '../../constants/Colors';
+import Spacing from '../../constants/Spacing';
 
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
@@ -199,8 +201,12 @@ const NotificationPage = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Notifications</Text>
+      </View>
+
+      <View style={styles.container}>
         <FlatList
           data={notifications}
           keyExtractor={(item) => item.id.toString()}
@@ -214,41 +220,46 @@ const NotificationPage = () => {
             </View>
           )}
         />
-      
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    padding: 20,
-    paddingTop: 40,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: '#f0f0f0',
+  },
+  container: {
+    paddingTop: 14,
+    flex: 1,
+    backgroundColor: Colors.lightPrimary,
   },
   notificationContainer: {
-    marginBottom: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
+    marginVertical: Spacing * 0.5,
+    backgroundColor: '#fff',
+    borderRadius: Spacing * 1.2,
+    paddingVertical: Spacing * 1.2,
+    paddingHorizontal: Spacing * 1.5,
+    marginHorizontal: Spacing * 2.2,
+    shadowColor: Colors.primary,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: Spacing * 0.2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.23,
+    shadowRadius: Spacing * 0.2,
+    elevation: 4,
   },
   notificationContent: {
-    flex: 1,
+    alignItems: 'left',
+    marginBottom: Spacing * 0.3,
   },
   heading: {
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 5,
+    color:Colors.darkText
   },
   description: {
     fontSize: 14,
@@ -256,7 +267,21 @@ const styles = StyleSheet.create({
   },
   dateTime: {
     fontSize: 12,
-    color: 'gray',
+    color: 'green',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 14,
+    backgroundColor: Colors.primary,
+  },
+  headerTitle: {
+    marginLeft: 8,
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    // fontStyle: 'italic'
   },
 });
 

@@ -31,7 +31,7 @@ const UploadFile = () => {
   const uploadFileToGCS = async () => {
     if (fileUri) {
       try {
-        const response = await axios.get('http://192.168.29.209:8080/api/companies/drive/getSignedUrl', {
+        const response = await axios.get('http://192.168.137.247:8080/api/companies/drive/getSignedUrl', {
           params: {
             fileName: fileUri.split('/').pop(),
             fileType: fileType,

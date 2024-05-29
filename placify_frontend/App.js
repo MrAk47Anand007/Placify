@@ -24,7 +24,8 @@ import StudentInfo from './srceens/Master-Admin/StudentInfo'
 import SplashScreen from './SplashScreen'
 import ContextWrapper from './srceens/Master-Admin/company/contextWrap';
 import UploadFile from './srceens/Master-Admin/company/sample';
-
+import ProfileDetailsForm from './srceens/Student-Login/ProfileDetailsFrom';
+import CompanyWrapper from './srceens/Student-Login/CompanyWrapper';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,7 @@ function App() {
         <Stack.Screen name="JobDetails" component={JobDetails} /> 
         <Stack.Screen name="AddJob" component={AddJob} /> 
         <Stack.Screen name='contextWrap' component={ContextWrapper}/>
+        <Stack.Screen name='CompanyWrapper' component={CompanyWrapper}/>
         <Stack.Screen name="studentProfile" component={studentProfile} /> 
         <Stack.Screen name="Student_Offer" component={Student_Offer} /> 
         <Stack.Screen name="ChatPage" component={ChatPage} /> 
@@ -55,6 +57,7 @@ function App() {
         <Stack.Screen name="StudentInfo" component={StudentInfo} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Sample" component={UploadFile} />
+        <Stack.Screen name="ProfileDetailsForm" component={ProfileDetailsForm} />
       </Stack.Navigator>
     </NavigationContainer>
   );

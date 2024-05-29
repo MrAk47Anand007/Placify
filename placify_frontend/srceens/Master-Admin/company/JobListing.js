@@ -635,6 +635,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import { CompanyContext } from './CompanyContext';
+import getCompanyLogo from './CompanyLogoGenerator';
 
 const Icon = {
   AntDesign: AntDesignIcon,
@@ -649,6 +650,7 @@ const JobListingsScreen = () => {
   const [logoUri, setLogoUri] = useState(null);
   const [fadeAnim] = useState(new Animated.Value(0));
   const navigation = useNavigation();
+  const [logos, setLogos] = useState({});
 
   useEffect(() => {
     if (modalVisible) {
@@ -662,6 +664,19 @@ const JobListingsScreen = () => {
       ).start();
     }
   }, [fadeAnim, modalVisible]);
+
+  useEffect(() => {
+    const fetchLogos = async () => {
+      const logoMap = {};
+      for (const company of companies) {
+        logoMap[company.id] = await getCompanyLogo(company.name);
+      }
+      setLogos(logoMap);
+    };
+    if (companies.length > 0) {
+      fetchLogos();
+    }
+  }, [companies]);
 
   const handleJobItemClick = async (company) => {
     await AsyncStorage.setItem('CompanyName', company.name);
@@ -736,7 +751,7 @@ const JobListingsScreen = () => {
               <View style={styles.card}>
                 <View style={styles.listingHeader}>
                   <Image
-                    source={item.logo ? { uri: `data:image/png;base64,${item.logo}` } : require('../../../assets/images/logo.png')}
+                    source={{ uri: logos[item.id] }}
                     style={styles.logo}
                   />
                   <View style={styles.titleContainer}>

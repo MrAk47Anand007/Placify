@@ -158,32 +158,44 @@ import Colors from '../../../constants/Colors';
 import Spacing from '../../../constants/Spacing';
 import FontSize from '../../../constants/FontSize';
 import RenderPdf from '../../../RenderPdf'; // Adjust the import path as needed
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import getCompanyLogo from './CompanyLogoGenerator';
 
 const JobDetailsEdit = ({ route }) => {
   const { placementDriveId } = route.params; // Assuming you are passing the placementDriveId as a route parameter
   const [jobDetails, setJobDetails] = useState(null);
   const [showPdf, setShowPdf] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [logo, setLogo] = useState();
+  const [companyName,setCompanyName] = useState("");
 
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await axios.get(`http://192.168.29.209:8080/api/companies/placementDrive/${placementDriveId}`);
+        const response = await axios.get(`http://192.168.137.247:8080/api/companies/placementDrive/${placementDriveId}`);
         setJobDetails(response.data);
         console.log(jobDetails);
       } catch (error) {
         console.error('Error fetching job details:', error);
       }
     };
-
     fetchJobDetails();
-
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: true,
     }).start();
   }, [fadeAnim, placementDriveId]);
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      const companyNameNew = await AsyncStorage.getItem('CompanyName');
+      setCompanyName(companyNameNew)
+      const newLogo = await getCompanyLogo(companyName);
+      setLogo(newLogo);
+    };
+    fetchLogo();
+  }, [companyName]);
 
   if (!jobDetails) {
     return <View style={styles.loaderContainer}><Text>Loading...</Text></View>;
@@ -196,9 +208,9 @@ const JobDetailsEdit = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        {jobDetails.fileUrl && (
-          <Image source={{ uri: jobDetails.fileUrl }} style={styles.companyLogo} />
-        )}
+        
+          <Image source={{ uri: logo }} style={styles.companyLogo} />
+      
         <View>
           <Text style={styles.jobRoleText}>{jobDetails.title}</Text>
           <Text style={styles.companyNameText}>{jobDetails.title}</Text>
@@ -257,12 +269,7 @@ const JobDetailsEdit = ({ route }) => {
               <FontAwesome name="check-square-o" size={20} color={Colors.text} style={styles.sectionIcon} />
               <Text style={styles.heading}>Eligibility Criteria</Text>
             </View>
-            <View style={styles.criteriaContainer}>
-              <Text style={styles.criteriaTitle}>Eligible Branches:</Text>
-              {jobDetails.eligibilityCriteria.eligibleDepartments.map((department, index) => (
-                <Text key={index} style={styles.criteriaValue}>{department.name}</Text>
-              ))}
-            </View>
+      
             <View style={styles.criteriaContainer}>
               <Text style={styles.criteriaTitle}>10th Percentile:</Text>
               <Text style={styles.criteriaValue}>{jobDetails.eligibilityCriteria.minimumTenthMarks}%</Text>
@@ -334,6 +341,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 10,
+    borderRadius: 40
   },
   jobRoleText: {
     fontSize: 18,
@@ -365,16 +373,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.text,
   },
-  // rectangleContainer: {
-  //   justifyContent: 'center',
-  // },
-  // rectangle: {
-  //   backgroundColor: '#2196F3',
-  //   borderRadius: 10,
-  //   paddingHorizontal: 20,
-  //   paddingVertical: 10,
-  //   alignSelf: 'flex-start',
-  // },
   rectangleText: {
     color: '#fff',
     fontSize: 14,
@@ -390,7 +388,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 7,
     marginRight: 10,
-    // marginBottom: 10,
   },
   locationText: {
     color: '#fff',

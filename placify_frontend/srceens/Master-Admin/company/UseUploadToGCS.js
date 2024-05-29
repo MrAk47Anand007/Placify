@@ -52,7 +52,7 @@ export const useUploadToGCS = () => {
         if (fileBody == null) {
           return null;
         } else {
-          const response = await axios.get('http://192.168.29.209:8080/api/companies/drive/getSignedUrl', {
+          const response = await axios.get('http://192.168.137.247:8080/api/companies/drive/getSignedUrl', {
             params: {
               fileName: file.name,
               fileType: 'application/octet-stream',

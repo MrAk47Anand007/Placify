@@ -18,7 +18,7 @@ const S_Resume = ({ navigation }) => {
         const studentId = await SecureStore.getItemAsync('studentId');
 
         const response = await axios.get(
-          `http://192.168.29.209:8080/student/resume/versions/${studentId}`,
+          `http://192.168.137.247:8080/student/resume/versions/${studentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ const S_Resume = ({ navigation }) => {
       }
 
       const response = await axios.delete(
-        `http://192.168.29.209:8080/student/resume/delete/${resumeToDelete.version}`,
+        `http://192.168.137.247:8080/student/resume/delete/${resumeToDelete.version}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
