@@ -77,3 +77,15 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# Troubleshooting and Common Issues
+
+- **Metro Server not starting**: Ensure that you have the correct version of Node.js and npm installed. Check the terminal for any specific error messages.
+- **App not running on Android/iOS**: Ensure that you have set up your Android Emulator or iOS Simulator correctly. Check the logs for any specific error messages.
+
+# Additional Resources and Documentation
+
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
+- [Metro Bundler Documentation](https://facebook.github.io/metro/docs/getting-started)
+- [Android Emulator Documentation](https://developer.android.com/studio/run/emulator)
+- [iOS Simulator Documentation](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator)
