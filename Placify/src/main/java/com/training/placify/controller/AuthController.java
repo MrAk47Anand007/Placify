@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.29.209")
+@CrossOrigin(origins = "http://192.168.29.79")
 @RequestMapping("/auth")
 public class AuthController {
 

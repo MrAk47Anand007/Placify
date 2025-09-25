@@ -1,5 +1,10 @@
 package com.training.placify.service.Implementation;
 
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.training.placify.dto.UserDTO;
 import com.training.placify.model.*;
 import com.training.placify.repository.*;
@@ -8,10 +13,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.util.Optional;
 
 @Service
@@ -37,6 +44,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+
+
+    @Value("${gcp.bucket.name}")
+    private String bucketName;
+
+    @Value("${spring.cloud.gcp.credentials.location}")
+    private String credentialsPath;
 
     @PostConstruct
     public void setupRoles() {
@@ -78,7 +93,30 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setIsEnabled(true);
 
-        return userRepository.save(user);
+        user = userRepository.save(user); // Save user first to get the generated ID
+
+        // Create the user's folder in GCS
+        createGCSFolder(user.getId(), user.getCollegeEmail());
+
+        return user;
+    }
+
+    public void createGCSFolder(Long userId, String userName) {
+        try {
+            Storage storage = StorageOptions.newBuilder()
+                    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(credentialsPath)))
+                    .build()
+                    .getService();
+
+            String folderName = "user_data/" + userName + "_" + userId + "/";
+            BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, folderName).build();
+
+            storage.create(blobInfo);
+            System.out.println("Created folder: " + folderName + " in bucket: " + bucketName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Consider throwing a custom exception here
+        }
     }
 
     @Override

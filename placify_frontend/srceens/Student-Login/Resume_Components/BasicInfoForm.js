@@ -1,21 +1,53 @@
 // BasicInfoForm.js
-import React, { useState,useContext } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import Colors from "../../../constants/Colors";
 import { ResumeContext } from './ResumeContext';
 
 const BasicInfoForm = ({ onSubmit, onCancel }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [branch, setBranch] = useState('');
-  const [address, setAddress] = useState('');
+  const { resumeData, updateResumeData } = useContext(ResumeContext);
   const [errors, setErrors] = useState({});
 
-  const { resumeData, updateResumeData } = useContext(ResumeContext);
+  //  State to track if the data is loaded from context
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [branch, setBranch] = useState('');
+    const [address, setAddress] = useState('');
+
+    useEffect(() => {
+        if (resumeData && !isDataLoaded) {
+            setName(resumeData.name);
+            setEmail(resumeData.email);
+            setPhone(resumeData.phoneNumber);
+            setBranch(resumeData.branch);
+            setAddress(resumeData.address);
+            setIsDataLoaded(true);
+        }
+    }, [resumeData, isDataLoaded]);
 
   const handleChange = (text, field) => {
-    updateResumeData({ [field]: text });
+    // Update both local state and context
+    switch(field) {
+      case 'name':
+        setName(text);
+        break;
+      case 'email':
+        setEmail(text);
+        break;
+      case 'phoneNumber':
+        setPhone(text);
+        break;
+      case 'branch':
+        setBranch(text);
+        break;
+      case 'address':
+        setAddress(text);
+        break;
+    }
+    updateResumeData({ [field]: text }); 
   };
 
   const validateForm = () => {
@@ -55,7 +87,7 @@ const BasicInfoForm = ({ onSubmit, onCancel }) => {
       <TextInput
         style={styles.input}
         placeholder="Name"
-        value={resumeData.name} // Access the name field from the resumeData object
+        value={name} // Access the name field from the resumeData object
         onChangeText={(text) => handleChange(text, 'name')}
       />
       {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
@@ -63,7 +95,7 @@ const BasicInfoForm = ({ onSubmit, onCancel }) => {
       <TextInput
         style={styles.input}
         placeholder="Email"
-        value={resumeData.email} // Access the email field from the resumeData object
+        value={email} // Access the email field from the resumeData object
         onChangeText={(text) => handleChange(text, 'email')}
       />
       {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
@@ -71,7 +103,7 @@ const BasicInfoForm = ({ onSubmit, onCancel }) => {
       <TextInput
         style={styles.input}
         placeholder="Phone No."
-        value={resumeData.phoneNumber} // Access the phoneNumber field from the resumeData object
+        value={phone} // Access the phoneNumber field from the resumeData object
         onChangeText={(text) => handleChange(text, 'phoneNumber')}
       />
       {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
@@ -80,7 +112,7 @@ const BasicInfoForm = ({ onSubmit, onCancel }) => {
       <TextInput
         style={styles.input}
         placeholder="Address"
-        value={resumeData.address} // Access the address field from the resumeData object
+        value={address} // Access the address field from the resumeData object
         onChangeText={(text) => handleChange(text, 'address')}
       />
       {errors.address && <Text style={styles.errorText}>{errors.address}</Text>}

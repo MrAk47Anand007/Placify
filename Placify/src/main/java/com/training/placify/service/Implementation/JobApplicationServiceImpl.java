@@ -65,5 +65,4 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         // 4. Save and return
         return jobApplicationRepository.save(jobApplication);
     }
-
 }

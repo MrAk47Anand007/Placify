@@ -54,7 +54,7 @@ const MA_studentProfile = () => {
     <ScrollView style={styles.container}>
       <Animatable.View animation="fadeInDown" duration={1500} style={styles.profilePhotoContainer}>
         <Image
-          source={{ uri: 'https://via.placeholder.com/120' }} // Using a placeholder image
+          source={require('../../assets/images/boy.png')} // Using a placeholder image
           style={styles.profilePhoto}
         />
         <Button

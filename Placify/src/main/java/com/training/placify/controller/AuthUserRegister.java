@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.29.209")
+@CrossOrigin(origins = "http://192.168.29.79")
 @RequestMapping("/user")
 public class AuthUserRegister {
 

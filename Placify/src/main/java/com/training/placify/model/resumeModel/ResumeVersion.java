@@ -1,5 +1,7 @@
 package com.training.placify.model.resumeModel;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.training.placify.model.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,10 +23,12 @@ public class ResumeVersion {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
+    @JsonBackReference
     private Student student;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_data_id", referencedColumnName = "id")
+    @JsonManagedReference
     private ResumeData resumeData;
 
     private Integer version;
